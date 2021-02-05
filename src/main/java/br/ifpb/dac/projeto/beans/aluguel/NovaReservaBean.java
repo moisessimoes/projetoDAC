@@ -246,7 +246,7 @@ public class NovaReservaBean extends AbstractBean implements Serializable {
 	
 	
 	
-	public List<Reserva> listarTodasAsReservas() {
+	public List<Reserva> listarTodasAsReservas() { //Esse metodo busca por todas as reservas
 		
 		try {
 			return aluguelService.getTodasAsReservas();
@@ -273,7 +273,7 @@ public class NovaReservaBean extends AbstractBean implements Serializable {
 	
 	//-----------------------------------------------------------------------------------------------------------------------
 	
-	public Agencia buscarAgencia(int id) {
+	public Agencia buscarAgencia(int id) { //Esse metodo busca uma agencia pelo ID
 		
 		try {
 			return agencyService.getAgenciaPeloID(id);
@@ -478,216 +478,165 @@ public class NovaReservaBean extends AbstractBean implements Serializable {
 	
 	
 	
-	
-//	public String mensagemDoEmail() {
-//		
-//		NumberFormat numberFormat = NumberFormat.getCurrencyInstance();
-//		
-//		SimpleDateFormat dataFormat = new SimpleDateFormat("dd/MM/yyyy");
-//		
-//		String mensagem = null;
-//		
-//		try {
-//			
-//			 StringBuffer texto = new StringBuffer();
-//			 
-//			    texto.append("<h2 align='center'>"+"Olá, " +aluguel.getCliente().getNome()+"</h2>");
-//			    texto.append("Informações da sua Reserva:<br/>");
-//			    texto.append("<b>CÓDIGO DA RESERVA: </b>");
-//			    texto.append(aluguel.getCodigoDaReserva());
-//			    texto.append("<br/>");
-//			    texto.append("<b>RETIRADA: </b>");
-//			    texto.append(String.valueOf(dataFormat.format(aluguel.getEnderecoReserva().getDataRetirada())) + " na agência " + agencyService.getAgenciaPeloID(aluguel.getEnderecoReserva().getIdAgenciaRetirada()).getNome() + " às " + aluguel.getEnderecoReserva().getHoraRetirada() + " em " + agencyService.getAgenciaPeloID(aluguel.getEnderecoReserva().getIdAgenciaRetirada()).getEndereco().getCidade());
-//			    texto.append("<br/>");
-//			    texto.append("<b>DEVOLUÇÃO: </b>");
-//			    texto.append(String.valueOf(dataFormat.format(aluguel.getEnderecoReserva().getDataDevolucao())) + " na agência " + agencyService.getAgenciaPeloID(aluguel.getEnderecoReserva().getIdAgenciaDevolucao()).getNome() + " às " + aluguel.getEnderecoReserva().getHoraDevolucao() + " em " + agencyService.getAgenciaPeloID(aluguel.getEnderecoReserva().getIdAgenciaDevolucao()).getEndereco().getCidade());
-//			    texto.append("<br/>");
-//			    texto.append("<b>Carro: </b>");
-//			    texto.append(aluguel.getCarro().getNome());
-//			    texto.append("<br/>");
-//			    texto.append("<b>Valor da Diária:</b>");
-//			    texto.append(String.valueOf(numberFormat.format(aluguel.getCarro().getValorDaDiaria())));
-//			    texto.append("<br/>");
-//			    texto.append("<b>Número de Diárias:</b>");
-//			    texto.append(aluguel.getQuantidadeDeDiarias());
-//			    texto.append("<br/>");
-//			    texto.append("<b>Tarifa de Cobertura de Carro:</b>");
-//			    texto.append(String.valueOf(numberFormat.format(aluguel.getTarifaCoberturaCarro())));
-//			    texto.append("<br/>");
-//			    texto.append("<b>Tarifa Cobertura para Terceiros:</b>");
-//			    texto.append(String.valueOf(numberFormat.format(aluguel.getTarifaCoberturaTerceiros())));
-//			    texto.append("<br/>");
-//			    texto.append("<b>Tarifa GPS:</b>");
-//			    texto.append(String.valueOf(numberFormat.format(aluguel.getTarifaGPS())));
-//			    texto.append("<br/>");
-//			    texto.append("<b>Taxa (12%):</b>");
-//			    texto.append(String.valueOf(numberFormat.format(aluguel.getTaxa())));
-//			    texto.append("<br/>");
-//			    texto.append("<b>Total:</b>");
-//			    texto.append(String.valueOf(numberFormat.format(aluguel.getValorTotalPrevisto())));
-//			    texto.append("<br/>");
-//			    
-//			    
-//			mensagem = texto.toString();
-//			
-//			return mensagem;
-			
-//			String mensagem = "Olá, " + aluguel.getCliente().getNome() +"\n"
-//					+ "\n"
-//					+ "Sua reserva foi realizada com sucesso!\n"
-//					+ "\n"
-//					+ "\n"
-//					+ "CÓDIGO DA RESERVA: " + aluguel.getCodigoDaReserva()+"\n"
-//					+ "\n"
-//					+ "RETIRADA: " + String.valueOf(dataFormat.format(aluguel.getEnderecoReserva().getDataRetirada())) + " na agência " + agencyService.getAgenciaPeloID(aluguel.getEnderecoReserva().getIdAgenciaRetirada()).getNome() + " às " + aluguel.getEnderecoReserva().getHoraRetirada() + " em " + agencyService.getAgenciaPeloID(aluguel.getEnderecoReserva().getIdAgenciaRetirada()).getEndereco().getCidade()+".\n"
-//					+ "\n"
-//					+ "DEVOLUÇÃO: " + String.valueOf(dataFormat.format(aluguel.getEnderecoReserva().getDataDevolucao())) + " na agência " + agencyService.getAgenciaPeloID(aluguel.getEnderecoReserva().getIdAgenciaDevolucao()).getNome() + " às " + aluguel.getEnderecoReserva().getHoraDevolucao() + " em " + agencyService.getAgenciaPeloID(aluguel.getEnderecoReserva().getIdAgenciaDevolucao()).getEndereco().getCidade()+".\n"
-//					+ "\n"
-//					+ "Carro: " + aluguel.getCarro().getNome()+"\n"
-//					+ "Diária: " + String.valueOf(numberFormat.format(aluguel.getCarro().getValorDaDiaria()))+"\n"
-//					+ "\n"
-//					+ "Número de Diárias: " + aluguel.getQuantidadeDeDiarias()+"\n"
-//					+ "Tarifa de Cobertura de Carro: " + String.valueOf(numberFormat.format(aluguel.getTarifaCoberturaCarro()))+"\n"
-//					+ "Tarifa Cobertura para Terceiros: " + String.valueOf(numberFormat.format(aluguel.getTarifaCoberturaTerceiros()))+"\n"
-//					+ "Tarifa GPS: " + String.valueOf(numberFormat.format(aluguel.getTarifaGPS()))+"\n"
-//					+ "Taxa (12%): " + String.valueOf(numberFormat.format(aluguel.getTaxa()))+"\n"
-//					+ "Total: " + String.valueOf(numberFormat.format(aluguel.getValorTotalPrevisto()));
-			
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			reportarMensagemDeErro("Houve um erro ao criar a mensagem do email!");
-//			return null;
-//		}
-//	}
-	
-	
 	//----------------------------------------------------------------------------------------------
 	
 
 	public Reserva getAluguel() {
 		return aluguel;
 	}
+	
 	public void setAluguel(Reserva aluguel) {
 		this.aluguel = aluguel;
 	}
+	
 	public Reserva getSelectedRent() {
 		return selectedRent;
 	}
+	
 	public void setSelectedRent(Reserva selectedRent) {
 		this.selectedRent = selectedRent;
 	}
+	
 	public AluguelService getAluguelService() {
 		return aluguelService;
 	}
+	
 	public void setAluguelService(AluguelService aluguelService) {
 		this.aluguelService = aluguelService;
 	}
+	
 	public Cliente getCliente() {
 		return cliente;
 	}
+	
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
 
-	/*
-	 * public Date getDataRetirada() { return dataRetirada; } public void
-	 * setDataRetirada(Date dataRetirada) { this.dataRetirada = dataRetirada; }
-	 * public Date getDataDevolucao() { return dataDevolucao; } public void
-	 * setDataDevolucao(Date dataDevolucao) { this.dataDevolucao = dataDevolucao; }
-	 */
 	public ClienteService getClientService() {
 		return clientService;
 	}
+	
 	public void setClientService(ClienteService clientService) {
 		this.clientService = clientService;
 	}
+	
 	public Carro getCarro() {
 		return carro;
 	}
+	
 	public void setCarro(Carro carro) {
 		this.carro = carro;
 	}
+	
 	public List<Agencia> getAgencias() {
 		return agencias;
 	}
+	
 	public void setAgencias(List<Agencia> agencias) {
 		this.agencias = agencias;
 	}
+	
 	public Horarios getHorarios() {
 		return horarios;
 	}
+	
 	public void setHorarios(Horarios horarios) {
 		this.horarios = horarios;
 	}
+	
 	public CarroService getCarService() {
 		return carService;
 	}
+	
 	public void setCarService(CarroService carService) {
 		this.carService = carService;
 	}
+	
 	public AgenciaService getAgencyService() {
 		return agencyService;
 	}
+	
 	public void setAgencyService(AgenciaService agencyService) {
 		this.agencyService = agencyService;
 	}
+	
 	public boolean isAddCoberturaCarro() {
 		return addCoberturaCarro;
 	}
+	
 	public void setAddCoberturaCarro(boolean addCoberturaCarro) {
 		this.addCoberturaCarro = addCoberturaCarro;
 	}
+	
 	public boolean isAddCoberturaTerceiros() {
 		return addCoberturaTerceiros;
 	}
+	
 	public void setAddCoberturaTerceiros(boolean addCoberturaTerceiros) {
 		this.addCoberturaTerceiros = addCoberturaTerceiros;
 	}
+	
 	public boolean isAddGPS() {
 		return addGPS;
 	}
+	
 	public void setAddGPS(boolean addGPS) {
 		this.addGPS = addGPS;
 	}
+	
 	public CalculosService getCalculosService() {
 		return calculosService;
 	}
+	
 	public void setCalculosService(CalculosService calculosService) {
 		this.calculosService = calculosService;
 	}
+	
 	public String getIdCarroEscolhido() {
 		return idCarroEscolhido;
 	}
+	
 	public void setIdCarroEscolhido(String idCarroEscolhido) {
 		this.idCarroEscolhido = idCarroEscolhido;
 	}
+	
 	public String getIdClienteLogado() {
 		return idClienteLogado;
 	}
+	
 	public void setIdClienteLogado(String idClienteLogado) {
 		this.idClienteLogado = idClienteLogado;
 	}
+	
 	public EnderecoReserva getEnderecoReserva() {
 		return enderecoReserva;
 	}
+	
 	public void setEnderecoReserva(EnderecoReserva enderecoReserva) {
 		this.enderecoReserva = enderecoReserva;
 	}
+	
 	public int getCodigoAux() {
 		return codigoAux;
 	}
+	
 	public void setCodigoAux(int codigoAux) {
 		this.codigoAux = codigoAux;
 	}
+	
 	public String getIdReserva() {
 		return idReserva;
 	}
+	
 	public void setIdReserva(String idReserva) {
 		this.idReserva = idReserva;
 	}
+	
 	public boolean isReceberEmail() {
 		return receberEmail;
 	}
+	
 	public void setReceberEmail(boolean receberEmail) {
 		this.receberEmail = receberEmail;
 	}

@@ -32,7 +32,7 @@
 			<!--  jdbc:mysql://localhost/financas?createDatabaseIfNotExist=true&amp;useTimezone=true&amp;serverTimezone=UTC-->
 			
             <!-- <property name="javax.persistence.jdbc.user" value="postgres" />
-            <property name="javax.persistence.jdbc.password" value="007123" />-->
+            <property name="javax.persistence.jdbc.password" value="" />-->
 
             <!-- Configurações específicas do Hibernate -->
             <property name="hibernate.dialect" 
