@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<ui:composition>
+		
+		<p:fieldset legend="Informações Pessoais">   <!-- https://www.primefaces.org/showcase/ui/panel/fieldset.xhtml -->
+			<h:panelGrid columns="2" styleClass="ui-noborder" cellpadding="5">
+
+				<p:outputLabel value="Id:" rendered="#{novoClienteBean.edicaoCliente}" />
+				<p:outputLabel value="#{novoClienteBean.cliente.id}" rendered="#{novoClienteBean.edicaoCliente}" />
+				
+				<h:outputText for="grupo" value="Grupo:" />
+        		<h:outputText for="grupo" value="CLIENTES" style="font-weight: bold;" />
+
+				<h:outputText for="nome" value="Nome:" />
+				<p:inputText id="nome" value="#{novoClienteBean.cliente.nome}" required="true" label="Nome" style="width:350px"/>
+					
+				<h:outputText for="cpf" value="CPF:" />
+				<p:inputText  id="cpf" value="#{novoClienteBean.cliente.cpf}" required="true" label="CPF" placeholder="Somente números..."/>
+					
+				<h:outputText for="rg" value="RG:" />
+				<p:inputText id="rg" value="#{novoClienteBean.cliente.rg}" required="true" label="RG" placeholder="Somente números..."/>
+
+				<h:outputText for="birthDay" value="Data de Nascimento:" />
+				<ui:include src="/WEB-INF/templates/datas.xhtml">
+					<ui:param name="id" value="birthDay" />
+					<ui:param name="value" value="#{novoClienteBean.cliente.dataNascimento}" />
+					<ui:param name="label" value="Data de Nascimento" />
+					<ui:param name="required" value="#{true}" />
+				</ui:include>
+
+				<h:outputText for="sexo" value="Sexo:" />
+				<p:selectOneMenu id="sexo" value="#{novoClienteBean.cliente.sexo}"
+					label="Sexo" required="true">
+					<f:selectItem itemLabel="Selecione" itemValue="#{null}" itemDisabled="true" />
+					<f:selectItems value="#{novoClienteBean.genero}" var="s"
+						itemLabel="#{s.name()}" itemValue="#{s}" />
+				</p:selectOneMenu>
+				
+				<h:outputText value="Email: " />
+				<p:inputText value="#{novoClienteBean.conta.email}" required="true" label="Email" style="width:350px" />
+
+				<h:outputText for="password" value="Senha:" />
+				<p:password id="password" value="#{novoClienteBean.conta.senha}" label="Senha" required="true" match="confirmarSenha" feedback="true" />
+
+				<h:outputText for="confirmarSenha" value="Confirmar Senha:" />
+				<p:password id="confirmarSenha" value="#{novoClienteBean.conta.senha}" label="Confirmar Senha" required="true"  feedback="true" />
+
+				<h:outputText for="telefone" value="Telefone Celular com DDD:" />
+				<p:inputText  id="telefone" value="#{novoClienteBean.cliente.telefone}" required="true" placeholder="99999999999" label="Telefone" />
+				
+		 	</h:panelGrid>
+		 	
+		 	<p:commandButton id="botaoFinalizar" action="#{novoClienteBean.salvarCliente()}" value="Finalizar" update="@form" style="margin:10px 1px 1px 1px; background:navy;" icon="pi pi-check"/>
+
+			<p:button id="botaoCancelar" outcome="/index.xhtml" value="Cancelar" style="margin:10px 1px 1px 10px; background:red;" icon="pi pi-times"/>
+		 	
+		</p:fieldset>
+	</ui:composition>
+</html>

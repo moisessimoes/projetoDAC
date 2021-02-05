@@ -1,0 +1,89 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>br.ifpb.ads.dac</groupId>
+  <artifactId>LocadoraDeVeiculos</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>war</packaging>
+  <name>LocadoraDeVeiculos</name>
+  
+  <properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	
+	<dependencies>
+		<!-- Java EE 8 API -->
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>8.0</version>
+			<scope>provided</scope>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.omnifaces/omnifaces -->
+		<!-- http://omnifaces.org/ - OmniFaces - To make JSF life easier -->
+		<dependency>
+			<groupId>org.omnifaces</groupId>
+			<artifactId>omnifaces</artifactId>
+			<version>3.2</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.primefaces/primefaces -->
+		<!-- https://www.primefaces.org/ - PrimeFaces | Ultimate UI Framework for Java EE -->
+		<dependency>
+     		<groupId>org.primefaces</groupId>
+     		<artifactId>primefaces</artifactId>
+     		<version>8.0</version>
+ 		</dependency>
+ 		
+		
+		<!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+		<!-- <dependency>
+    		<groupId>org.postgresql</groupId>
+    		<artifactId>postgresql</artifactId>
+    		<version>42.2.8</version>
+		</dependency>-->
+		
+		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
+		<!-- <dependency>
+    		<groupId>org.hibernate</groupId>
+    		<artifactId>hibernate-core</artifactId>
+    		<version>5.4.10.Final</version>
+		</dependency>-->
+		
+		
+		<!-- https://mvnrepository.com/artifact/joda-time/joda-time -->
+		<dependency>
+    		<groupId>joda-time</groupId>
+    		<artifactId>joda-time</artifactId>
+    		<version>2.10.5</version>
+		</dependency>
+		
+		
+		
+		<!-- https://mvnrepository.com/artifact/br.com.caelum.stella/caelum-stella-core -->
+		<dependency>
+			<groupId>br.com.caelum.stella</groupId>
+			<artifactId>caelum-stella-core</artifactId>
+			<version>2.1.3</version>
+		</dependency>
+		
+		
+		<!-- https://mvnrepository.com/artifact/javax.mail/javax.mail-api -->
+		 <dependency>
+    		<groupId>javax.mail</groupId>
+    		<artifactId>javax.mail-api</artifactId>
+    		<version>1.6.2</version>
+		</dependency> 
+		
+		
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-email -->
+		<dependency>
+    		<groupId>org.apache.commons</groupId>
+    		<artifactId>commons-email</artifactId>
+    		<version>1.5</version>
+		</dependency>
+		
+	</dependencies>
+</project>

@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:jsf="http://xmlns.jcp.org/jsf">
+	
+	<f:metadata>
+		<o:viewParam name="aluguel" value="#{novaReservaBean.aluguel}"/>
+		<f:viewAction action="#{novaReservaBean.iniciar()}"/>
+	</f:metadata>
+
+	<h:head>
+		<title>Reservar Carro</title>
+		
+		<!-- Favicons-->
+  		<link rel="shortcut icon" href="../../../imagens/logos/favicon (1).ico" />
+		
+		<!-- Compiled and minified CSS -->
+    	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"/>
+    	
+    	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    	
+    	<!-- Compiled and minified JavaScript -->
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    		
+    	<!-- INCLUDED PLUGIN CSS ON THIS PAGE -->
+  		<link href="js/plugins/prism/prism.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  		
+  		<!-- jQuery Library -->
+    	<script type="text/javascript" src="js/plugins/jquery-1.11.2.min.js"></script>
+    	
+    	<style>
+    		
+    			body {
+    				background-color: #f5f5f5;
+    			}
+    	
+    			/* @media only screen and (min-width: 993px) {
+  					.container {
+    					width: 90%;
+  					}
+				} */
+    	
+    			.brand-logo {
+    	
+    				height: 80px;
+    				padding: 15px;
+    			}
+    	
+    			.brand-logo img {
+    				height: 100%;
+    			}
+    	
+    		</style>
+	</h:head>
+
+
+<h:body>
+
+	<ui:include src="/WEB-INF/templates/growlMessages.xhtml" />
+
+	<!-- HEADER -->
+	<header>
+
+		<nav class="indigo darken-4">
+			<div class="nav-wrapper">
+
+				<div class="brand-logo">
+					<a jsf:outcome="/paginas/protegido/clientes/paginaPrincipalCliente.xhtml"> <img
+						src="../../../imagens/logos/GTAV-LSCustoms-Logo.png" alt="logo" />
+					</a>
+				</div>
+				<ul class="right hide-on-med-and-down">
+					
+					<li><a href="../../publico/mostrarAgencias.xhtml"><i class="waves-effect waves-light material-icons left">place</i>Agências</a></li>
+					
+				</ul>
+			</div>
+		</nav>
+	</header>
+
+	<!-- CONTEUDO -->
+	
+	<div class="row">
+	
+		<div class="col s3">
+
+			<div class="col s12 m6 l12">
+				<div class="card hoverable grey lighten-3" style="border-radius:20px; margin-top:33px;">
+					<div class="card-content black-text">
+						<span class="card-title">Dados da Reserva</span>
+						
+						<div class="divider"></div>
+						
+						<h6>Carro: #{novaReservaBean.aluguel.carro.nome}</h6>
+						<h6>Marca: #{novaReservaBean.aluguel.carro.marca}</h6>
+						<h6>Diária: #{novaReservaBean.formatarValoresMonetarios(novaReservaBean.aluguel.carro.valorDaDiaria)}</h6>
+						
+						<p:panelGrid id="pgMostrarDataRetirada">
+							<h6 jsf:rendered="#{novaReservaBean.dataRetiradaOk}">RETIRADA: #{novaReservaBean.formatarData(novaReservaBean.aluguel.enderecoReserva.dataRetirada)}</h6>
+						</p:panelGrid>
+						
+						<p:panelGrid id="pgMostrarDataDevolucao">
+							<h6 jsf:rendered="#{novaReservaBean.dataDevolucaoOk}">DEVOLUÇÃO: #{novaReservaBean.formatarData(novaReservaBean.aluguel.enderecoReserva.dataDevolucao)}</h6>
+						</p:panelGrid>
+						
+						<div class="divider"></div>
+						
+						<span class="card-title">Sua Estimativa</span>
+
+						<h:panelGrid id="pgEstimativa" >  <!-- columns="1" cellpadding="5" styleClass="ui-noborder" -->
+
+							<h:outputText
+								value="DIÁRIAS: #{novaReservaBean.calcularQuantidadeDeDiarias()}X R$ #{novaReservaBean.formatarValoresMonetarios(novaReservaBean.aluguel.carro.valorDaDiaria)}"
+								style="font-weight:bold; font-size:16px;" rendered="#{novaReservaBean.dataDevolucaoOk}"/>
+
+							<h:outputText
+								value="Tarifa Cobertura do Carro: #{novaReservaBean.calcularQuantidadeDeDiarias()}X  #{novaReservaBean.calculosService.mostrarValorCoberturaCarroFormatado()}"
+								rendered="#{novaReservaBean.coberturaCarroOk}"
+								style="font-weight:bold; font-size:16px;" />
+
+							<h:outputText
+								value="Tarifa Cobertura para Terceiros: #{novaReservaBean.calcularQuantidadeDeDiarias()}X  #{novaReservaBean.calculosService.mostrarValorCoberturaTerceirosFormatado()}"
+								rendered="#{novaReservaBean.coberturaTerceirosOk}"
+								style="font-weight:bold; font-size:16px;" />
+
+							<h:outputText
+								value="Tarifa GPS: #{novaReservaBean.calcularQuantidadeDeDiarias()}X  #{novaReservaBean.calculosService.mostrarValorGPSFormatado()}"
+								rendered="#{novaReservaBean.GPSOk}" style="font-weight:bold; font-size:16px;" />
+
+							<h:outputText
+								value="Taxa de 12%: #{novaReservaBean.calcularTaxa()}"
+								style="font-weight:bold; font-size:16px;" rendered="#{novaReservaBean.dataDevolucaoOk}"/>
+
+							<h:outputText id="totalPrevisto"
+								value="Valor Total Previsto: #{novaReservaBean.calcularValorPrevistoTotalComTaxa()}"
+								style="font-weight:bold; font-size:18px;" rendered="#{novaReservaBean.dataDevolucaoOk}"/>
+
+						</h:panelGrid>
+							
+					</div>
+					<!-- <div class="card-action" style="border-radius:20px;">
+						<button class="indigo darken-1 btn-small waves-effect waves-light" style="border-radius:20px;">Atualizar Dados
+							<p:ajax update="pgResumo"/>
+						</button>
+					</div> -->
+					 
+				</div>
+			</div>
+
+
+		</div>
+	
+		<div class="col s9">
+		
+			<h:form id="formReservas">
+		
+		
+				<p:messages/>
+				
+				<div id="basic-form" class="section">
+					<div class="row">
+						<div class="col s12 m12 l12">
+							<div class="card-panel hoverable" style="border-radius:15px;">
+								
+								<!-- TABS -->
+
+								<div class="row">
+									<div class="col s12">
+										<ul class="tabs grey lighten-3">
+											<li class="tab col s3"><a href="#dh" class="active black-text">Datas e Horários</a>
+												
+											</li>
+											
+											<li class="tab col s3">
+												<a class="black-text" href="#pt">Preço e Tarifas
+												</a>
+											
+											</li>
+											
+											<li class="tab col s3">
+												<a class="black-text" href="#rr">Resumo da Reserva
+												</a>
+											</li>
+										</ul>
+									</div>
+									
+									<!-- TAB DAS DATAS E HORARIOS DA RESERVA -->
+									<div id="dh" class="col s12">
+									
+										<h5 class="header2">Informe o Local e Horário de Retirada</h5>
+											<div class="row">
+											
+												<div class="row">
+										<div class="input-field col s12">
+											<h:outputLabel id="idReserva" rendered="#{novaReservaBean.edicaoReserva}" value="ID da Reserva: #{novaReservaBean.aluguel.id}"
+												styleClass="black-text" />
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="input-field col s5">
+													
+													<p:selectOneMenu id="agenciaR" value="#{novaReservaBean.aluguel.enderecoReserva.idAgenciaRetirada}"
+															hideNoSelectionOption="true" required="true" style="width:450px;">
+															<f:selectItem itemLabel="Local de Retirada" itemValue="#{null}" noSelectionOption="true" />
+															<f:selectItems value="#{novaReservaBean.agencias}" var="r"
+																itemLabel="#{r.nome} - #{r.horarios.diasDaSemanaInicio} às #{r.horarios.horarioDeAbertura} até #{r.horarios.diaDaSemanaFim} às #{r.horarios.horarioDeFechamento}"
+																itemValue="#{r.id}" />
+															<p:ajax update="formReservas:pgHorarioRetirada" />
+													</p:selectOneMenu>
+
+													
+										</div>
+
+												<div class="input-field col s5">
+													<p:panelGrid id="pgHorarioRetirada" columns="1" styleClass="ui-noborder">
+														<p:selectOneMenu id="horaR"
+															value="#{novaReservaBean.aluguel.enderecoReserva.horaRetirada}"
+															rendered="#{novaReservaBean.agenciaRetiradaOk}" hideNoSelectionOption="true" required="true" style="width:350px; margin-top:-6px;">
+															<f:selectItem itemLabel="Horário da Retirada" itemValue="#{null}" noSelectionOption="true" />
+															<f:selectItems value="#{novaReservaBean.listarHorariosAgenciaRetirada()}" var="hr" itemLabel="#{hr.toString()}" itemValue="#{hr}"
+																rendered="#{novaReservaBean.agenciaRetiradaOk}" />
+														</p:selectOneMenu>
+													</p:panelGrid>
+												</div>
+
+											</div>
+											
+									<div class="divider"></div>
+									
+									<h5 class="header2">Informe o Local e Horário de Devolução</h5>		
+
+									<div class="row">
+										<div class="input-field col s5">
+											
+											<p:selectOneMenu id="agenciaD"
+													value="#{novaReservaBean.aluguel.enderecoReserva.idAgenciaDevolucao}"
+													hideNoSelectionOption="true" required="true" style="width:450px;">
+													<f:selectItem itemLabel="Local de Devolução" itemValue="#{null}" noSelectionOption="true" />
+													<f:selectItems value="#{novaReservaBean.agencias}" var="d"
+														itemLabel="#{d.nome} - #{d.horarios.diasDaSemanaInicio} às #{d.horarios.horarioDeAbertura} até #{d.horarios.diaDaSemanaFim} às #{d.horarios.horarioDeFechamento}"
+														itemValue="#{d.id}" />
+													<p:ajax update="formReservas:pgHorarioDevolucao" />
+												</p:selectOneMenu>
+											
+										</div>
+										
+										<div class="input-field col s5">
+										<p:panelGrid id="pgHorarioDevolucao" columns="2" styleClass="ui-noborder">
+												<p:selectOneMenu id="horaD"
+													value="#{novaReservaBean.aluguel.enderecoReserva.horaDevolucao}" rendered="#{novaReservaBean.agenciaDevolucaoOk}"
+													hideNoSelectionOption="true" required="true" style="width:350px; margin-top:-6px;">
+													<f:selectItem itemLabel="Horário da Devolução" itemValue="#{null}" noSelectionOption="true" />
+													<f:selectItems value="#{novaReservaBean.listarHorariosAgenciaDevolucao()}" var="hd" itemLabel="#{hd.toString()}" itemValue="#{hd}"
+														rendered="#{novaReservaBean.agenciaDevolucaoOk}" />
+												</p:selectOneMenu>
+											</p:panelGrid>
+										</div>
+										
+									</div>
+									
+									
+									<div class="divider"></div>
+									
+									<h5 class="header2">Informe as datas de Retirada e Devolução</h5>
+									
+									<div class="row">
+										<div class=" input-field col s5">
+											<p:inputText id="dataR" value="#{novaReservaBean.aluguel.enderecoReserva.dataRetirada}" required="true">
+												<f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR" timeZone="America/Recife"/>
+												<f:validator for="dataR" validatorId="datasValidator"/>
+												<i class="material-icons prefix">date_range</i>
+												<p:ajax update="pgMostrarDataRetirada pgResumo"/>
+											</p:inputText><label>Data de Retirada</label>
+											
+										</div>
+										
+										
+										<div class=" input-field col s5">
+											<p:inputText id="dataD" value="#{novaReservaBean.aluguel.enderecoReserva.dataDevolucao}" required="true">
+												<f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR" timeZone="America/Recife"/>
+												<f:validator for="dataD" validatorId="datasValidator"/>
+												<i class="material-icons prefix">date_range</i>
+												<p:ajax update="pgMostrarDataDevolucao pgEstimativa pgResumo"/>
+											</p:inputText><label>Data de Devolução</label>
+											
+										</div>
+										
+									</div>
+									
+									
+									<div class="row">
+										<div class="input-field col s6">
+											<p:commandButton id="check" value="Verificar Disponibilidade"
+												process="@this formReservas:dataR formReservas:dataD"
+												action="#{novaReservaBean.verificarDisponibilidadePrimeiraEtapa()}"
+												style="border-radius:20px;" styleClass="blue darken-1"/>
+											<p:tooltip id="searchTooltip"
+												value="Clique e veja se o carro está disponível nas datas de retirada e devolução escolhidas."
+												for="check" position="bottom" />
+										</div>
+									<!-- </div>
+									
+									
+									<div class="row"> -->
+										<div class="input-field col s6">
+											<p:commandButton id="addressBtn" type="button"
+												value="Ver Endereços"
+												style="border-radius:20px;" styleClass="blue darken-1"/>
+											<p:overlayPanel id="addressPanel" for="addressBtn"
+												hideEffect="fade" dynamic="true" style="width:1000px;"
+												modal="true">
+												<p:dataTable var="agency"
+													value="#{novaAgenciaBean.listarAgencias()}">
+
+													<p:column headerText="Nome">
+														<h:outputText value="#{agency.nome}" />
+													</p:column>
+
+													<p:column headerText="Telefone">
+														<h:outputText
+															value="#{novaAgenciaBean.formatarTelefone(agency.telefone)}" />
+													</p:column>
+
+													<p:column headerText="Cidade">
+														<h:outputText value="#{agency.endereco.cidade}" />
+													</p:column>
+
+													<p:column headerText="Bairro">
+														<h:outputText value="#{agency.endereco.bairro}" />
+													</p:column>
+
+													<p:column headerText="Rua">
+														<h:outputText value="#{agency.endereco.rua}" />
+													</p:column>
+
+													<p:column headerText="Número">
+														<h:outputText value="#{agency.endereco.numero}" />
+													</p:column>
+
+													<p:column headerText="CEP">
+														<h:outputText value="#{agency.endereco.cep}" />
+													</p:column>
+
+												</p:dataTable>
+											</p:overlayPanel>
+											<p:tooltip id="enderecos"
+												value="Clique para ver os endereços das nossas agências."
+												for="addressBtn" position="right" />
+										</div>
+									</div>
+									
+									
+									<div class="row">
+										<div class="input-field col s12">
+									
+											<!-- <a class="waves-effect waves-light right btn indigo darken-4" href="#pt" style="border-radius:20px;"><i class="material-icons right">chevron_right</i>Continuar</a> -->
+											
+											<p><b>Na barra de opções, clique em "PREÇO E TARIFAS" para continuar.</b></p>
+											
+										</div>
+									</div>
+									
+									<!-- .... -->
+								
+									</div>
+									
+									
+									</div><!-- FIM DA TAB DAS DATAS E HORARIOS DA RESERVA -->
+									
+									
+    								<div id="pt" class="col s12"> <!-- INICIO TAB PREÇO E TARIFAS -->
+    								
+    									<h5 class="header2">Tarifas Opcionais</h5>
+    									
+    									<div class="row">
+										<div class="input-field col s12">
+											<h:panelGrid id="pgTarifas" columns="1" cellpadding="10"
+												style="margin:1px 1px 1px 1px;">
+												<!-- https://www.primefaces.org/showcase/ui/input/booleanCheckbox.xhtml -->
+												<p:growl id="msg" />
+
+												<p:selectBooleanCheckbox id="coberturaCarroCheckBox"
+													value="#{novaReservaBean.addCoberturaCarro}" style="font-weight:bold;"
+													itemLabel="Cobertura do Carro: #{novaReservaBean.calculosService.mostrarValorCoberturaCarroFormatado()} por dia">
+													<p:ajax update="pgEstimativa pgResumo msg"
+														listener="#{novaReservaBean.addCheckMessage(novaReservaBean.addCoberturaCarro)}" />
+												</p:selectBooleanCheckbox>
+
+												<p:selectBooleanCheckbox id="coberturaTerceirosCheckBox"
+													value="#{novaReservaBean.addCoberturaTerceiros}" style="font-weight:bold;"
+													itemLabel="Cobertura para Terceiros: #{novaReservaBean.calculosService.mostrarValorCoberturaTerceirosFormatado()} por dia">
+													<p:ajax update="pgEstimativa pgResumo msg"
+														listener="#{novaReservaBean.addCheckMessage(novaReservaBean.addCoberturaTerceiros)}" />
+												</p:selectBooleanCheckbox>
+
+												<p:selectBooleanCheckbox id="gpsCheckBox"
+													value="#{novaReservaBean.addGPS}" style="font-weight:bold;"
+													itemLabel="Adicionar GPS: #{novaReservaBean.calculosService.mostrarValorGPSFormatado()} por dia">
+													<p:ajax update="pgEstimativa pgResumo msg"
+														listener="#{novaReservaBean.addCheckMessage(novaReservaBean.addGPS)}" />
+												</p:selectBooleanCheckbox>
+
+											</h:panelGrid>
+										</div>
+									</div>
+    								
+    								<div class="row">
+										<div class="input-field col s12">
+									
+											<!-- <a class="waves-effect waves-light right btn indigo darken-4" href="#pt" style="border-radius:20px;"><i class="material-icons right">chevron_right</i>Continuar</a> -->
+											
+											<p><b>Na barra de opções, clique em "RESUMO DA RESERVA" para continuar.</b></p>
+											
+										</div>
+									</div>
+    								
+    								
+    								</div><!-- FIM DA TAB DOS PREÇOS E TARIFA -->
+    								
+    								
+    								
+    								<div id="rr" class="col s12"> <!-- INICIO DA TAB RESUMO DA RESERVA -->
+    								
+    								<p:messages />
+    								
+    									<h5 class="header2">Finalizar Reserva</h5>
+    								
+    								
+    									<div class="row">
+										<div class="input-field col s12">
+											<h:panelGrid id="pgResumo" columns="2" cellpadding="5" styleClass="ui-noborder">
+
+												<h:outputText value="Cliente:" />
+												<h:outputText value="#{novaReservaBean.aluguel.cliente.nome}" style="font-weight:bold;" />
+
+												<h:outputText value="RETIRADA:" />
+												<h:outputText id="dataRetirada" value="#{novaReservaBean.aluguel.enderecoReserva.dataRetirada}" 
+												style="font-weight:bold;">
+													<f:convertDateTime for="dataRetirada" pattern="dd/MM/yyyy" locale="pt_BR"/>
+												</h:outputText>
+												
+												<h:outputText value="Local e Hora da Retirada:" />
+												<h:outputText value="#{novaReservaBean.buscarAgencia(novaReservaBean.aluguel.enderecoReserva.idAgenciaRetirada).nome} às #{novaReservaBean.aluguel.enderecoReserva.horaRetirada} em #{novaReservaBean.buscarAgencia(novaReservaBean.enderecoReserva.idAgenciaRetirada).endereco.cidade}" 
+												style="font-weight:bold;"/>
+
+												<h:outputText value="DEVOLUÇÃO:" />
+												<h:outputText id="dataDevolucao" value="#{novaReservaBean.aluguel.enderecoReserva.dataDevolucao}" 
+												style="font-weight:bold;">
+													<f:convertDateTime for="dataDevolucao" pattern="dd/MM/yyyy" locale="pt_BR"/>
+												</h:outputText>
+												
+												<h:outputText value="Local e Hora da Devolução:"/>
+												<h:outputText value="#{novaReservaBean.buscarAgencia(novaReservaBean.aluguel.enderecoReserva.idAgenciaDevolucao).nome} às #{novaReservaBean.aluguel.enderecoReserva.horaDevolucao} em #{novaReservaBean.buscarAgencia(novaReservaBean.enderecoReserva.idAgenciaDevolucao).endereco.cidade}" 
+												style="font-weight:bold;"/>
+
+												<h:outputText value="Diárias:" />
+												<h:outputText value="#{novaReservaBean.calcularQuantidadeDeDiarias()}" style="font-weight:bold;" />
+
+												<h:outputText value="Carro:" />
+												<h:outputText value="#{novaReservaBean.aluguel.carro.nome}" style="font-weight:bold;" />
+
+												<h:outputText value="Valor da Diária:" />
+												<h:outputText value="#{novaReservaBean.formatarValoresMonetarios(novaReservaBean.aluguel.carro.valorDaDiaria)}" style="font-weight:bold;" />
+
+												<h:outputText value="Tarifa Cobertura de Carro:" rendered="#{novaReservaBean.coberturaCarroOk}" />
+												<h:outputText
+													value="#{novaReservaBean.calcularQuantidadeDeDiarias()}X  #{novaReservaBean.calculosService.mostrarValorCoberturaCarroFormatado()} = #{novaReservaBean.valorCoberturaCarroAtualFormatado()}"
+													rendered="#{novaReservaBean.coberturaCarroOk}" style="font-weight:bold;" />
+
+												<h:outputText value="Tarifa Cobertura para Terceiros:" rendered="#{novaReservaBean.coberturaTerceirosOk}" />
+												<h:outputText value="#{novaReservaBean.calcularQuantidadeDeDiarias()}X  #{novaReservaBean.calculosService.mostrarValorCoberturaTerceirosFormatado()} = #{novaReservaBean.valorCoberturaTerceirosAtualFormatado()}"
+													rendered="#{novaReservaBean.coberturaTerceirosOk}" style="font-weight:bold;" />
+
+												<h:outputText value="Tarifa GPS:" rendered="#{novaReservaBean.GPSOk}" />
+												<h:outputText value="#{novaReservaBean.calcularQuantidadeDeDiarias()}X  #{novaReservaBean.calculosService.mostrarValorGPSFormatado()} = #{novaReservaBean.valorGPSAtualFormatado()}"
+													rendered="#{novaReservaBean.GPSOk}" style="font-weight:bold;" />
+
+												<h:outputText value="Taxa de 12%:" />
+												<h:outputText value="#{novaReservaBean.calcularTaxa()}" style="font-weight:bold;" />
+
+												<h:outputText value="Cógido da Reserva:"
+													style="font-weight:bold; font-size:18px;" />
+												<h:outputText
+													value="#{novaReservaBean.aluguel.codigoDaReserva}"
+													style="font-weight:bold; font-size:18px;" />
+
+												<h:outputText value="Total Previsto:" style="font-weight:bold; font-size:20px;" />
+												<h:outputText
+													value="#{novaReservaBean.calcularValorPrevistoTotalComTaxa()}" style="font-weight:bold; font-size:20px;" />
+
+											</h:panelGrid>
+										</div>
+									</div>
+    								
+    								<!-- BOTOES DE FNALIZAR E CANCELAR -->
+    								<button class="blue black-text text-darken-4 waves-effect waves-light left btn tooltipped" jsf:outcome="/paginas/protegido/clientes/paginaPrincipalCliente.xhtml" 
+    								data-position="right" data-tooltip="Cancelar reserva." style="border-radius:20px">Cancelar
+									</button>
+    								
+    								
+    								<button class="indigo darken-4 white-text waves-effect waves-light right btn tooltipped" jsf:action="#{novaReservaBean.salvarReserva()}" 
+    								data-position="left" data-tooltip="Clique para concluir a reserva." style="border-radius:20px">Finalizar
+										<p:ajax update="@form" process="@this"/>
+									</button>
+    								
+    								</div> <!-- FIM DA TAB RESUMO DA RESERVA -->
+									
+									
+								</div>
+								<script>
+								/* INICIALIZAR TABS */
+								$(document).ready(function(){
+								    $('.tabs').tabs();
+								  });
+
+								/* INICIALIZAR TOOLTIP */
+								$(document).ready(function(){
+    								$('.tooltipped').tooltip();
+  								});
+								</script>
+								
+								
+							</div>
+							
+						</div>
+						
+					</div>
+					
+				</div>
+				
+			</h:form>
+		
+		
+		</div>	
+	
+	
+	</div>
+	
+	
+	
+	<!-- RODAPÉ -->
+
+		<footer class="page-footer indigo darken-4">
+			<div class="container">
+				<div class="row">
+					<div class="col l6 s12">
+						<h5 class="white-text">LS Customs - Locadora de Veículos</h5>
+						<p class="grey-text text-lighten-4">Este é um projeto da
+							disciplina de Desenvolvimento de Aplicações Corporativas (DAC),
+							do curso de ADS.</p>
+					</div>
+					<div class="col l4 offset-l2 s12">
+						<h5 class="white-text">Sobre</h5>
+						<ul>
+							<li><a class="grey-text text-lighten-3"
+								href="../../publico/sobre.xhtml">Sobre o Sistema</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="footer-copyright">
+				<div class="container">© 2020 ADS</div>
+			</div>
+		</footer>
+	
+	</h:body>
+</html>

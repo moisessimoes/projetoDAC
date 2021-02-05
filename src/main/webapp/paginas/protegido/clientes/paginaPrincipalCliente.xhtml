@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:jsf="http://xmlns.jcp.org/jsf">
+	
+		<f:metadata>
+			<f:viewParam name="cliente" value="#{novoClienteBean.cliente}"/>
+			<f:viewAction action="#{novoClienteBean.iniciar()}"/>
+		</f:metadata>
+
+		<h:head>
+			<title>LS Customs - Aluguel de Carros</title>
+			<h:outputScript name="locale-primefaces.js" library="js" />
+			
+			<!-- Favicons-->
+  			<link rel="shortcut icon" href="../../../imagens/logos/favicon (1).ico" />
+			
+			<!-- Compiled and minified CSS -->
+    		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"/>
+    	
+    		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    	
+    		<!-- Compiled and minified JavaScript -->
+    		<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    		
+    		 <!-- INCLUDED PLUGIN CSS ON THIS PAGE -->
+  			<link href="js/plugins/prism/prism.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  			
+  			<!-- jQuery Library -->
+    		<script type="text/javascript" src="js/plugins/jquery-1.11.2.min.js"></script>
+    		
+    		
+    		<style>
+    		
+    			body {
+    				background-color: #f5f5f5;
+    			}
+    	
+    			/* @media only screen and (min-width: 993px) {
+  					.container {
+    					width: 90%;
+  					}
+				} */
+    	
+    			.brand-logo {
+    	
+    				height: 80px;
+    				padding: 15px;
+    			}
+    	
+    			.brand-logo img {
+    				height: 100%;
+    			}
+    	
+    		</style>
+				
+		</h:head>
+	
+	
+		<h:body>
+		
+			<ui:include src="/WEB-INF/templates/growlMessages.xhtml"/> 
+			
+				
+			<ui:debug hotkey="z" />
+			
+			<!-- HEADER -->
+			<header>
+			
+			<h:form id="formNavBar">
+				
+				<div class="col s12 m4 l9">
+				
+					<!-- Dropdown Structure EDIÇÃO -->
+				<div class="col col s8 m8 l8">
+					<ul id="dropdownEdicao" class="dropdown-content">
+						<li>
+							<p:commandLink value="Informações" action="#{novoClienteBean.iniciar()}" oncomplete="if (!args.validationFailed) { PF('clientEditDialog').show() }" update=":clientEditDialogId">
+								<i class="small material-icons left">info</i>
+								<f:setPropertyActionListener value="#{detalhesDoCliente.contaCliente.cliente}" target="#{novoClienteBean.cliente}" />
+								<p:resetInput target="clientEditDialogId"/>
+							</p:commandLink>
+						</li>
+						
+						<li>
+							<p:commandLink value="E-mail de Acesso" oncomplete="if (!args.validationFailed) { PF('clientEditEmailDialog').show() }" update=":clientEditEmailDialogId">
+								<i class="small material-icons left">email</i>
+								<f:setPropertyActionListener value="#{detalhesDoCliente.contaCliente.cliente}" target="#{editarEmailSenhaClienteBean.cliente}" />
+								<p:resetInput target=":clientEditEmailDialogId" />
+							</p:commandLink>
+						</li>
+						
+						<li>
+							<p:commandLink value="Senha de Acesso" oncomplete="if (!args.validationFailed) { PF('clientPasswordEditDialog').show() }" update=":clientPasswordEditDialogId">
+								<i class="small material-icons left">vpn_key</i>
+								<f:setPropertyActionListener value="#{detalhesDoCliente.contaCliente.cliente}" target="#{editarEmailSenhaClienteBean.cliente}" />
+								<p:resetInput target=":clientPasswordEditDialogId" />
+							</p:commandLink>
+						</li>
+					</ul>
+				</div>
+					
+					
+					<!-- Dropdown CLIENTE -->
+				<div class="col col s8 m8 l8">
+					<ul id="dropdownCliente" class="dropdown-content">
+
+						<li>
+							<p:commandLink value="Perfil" oncomplete="if (!args.validationFailed) { PF('clientDetailsDialog').show() }" update="clientDetailsDialogId">
+								<i class="material-icons left">person</i>
+							</p:commandLink>
+						</li>
+
+						<li>
+							<p:commandLink value="Sair" action="#{logout.efetuarLogout()}">
+								<i class="material-icons left">close</i>
+							</p:commandLink>
+						</li>
+					</ul>
+				</div>
+
+					<nav class="indigo darken-4">
+					
+						<div class="nav-wrapper">
+							<div class="col s12">
+								
+								<!-- LOGO -->
+								<div class="brand-logo">
+									<a href="../../protegido/clientes/paginaPrincipalCliente.xhtml">
+										<img src="../../../imagens/logos/GTAV-LSCustoms-Logo.png" />
+									</a>
+								</div>
+								
+								
+								<ul class="right hide-on-med-and-down">
+								
+									<li>
+										<a class="btn-flat dropdown-trigger waves-effect waves-light white-text profile-btn" data-target="dropdownCliente">Olá, #{menu.usuarioLogado.cliente.nome}<i class="material-icons right">arrow_drop_down</i></a>
+									</li>
+									
+									<!-- Dropdown Trigger -->
+									<li>
+										<a class="dropdown-trigger waves-effect waves-light white-text" data-target="dropdownEdicao">Editar Informações<i class="material-icons left">edit</i></a>
+									</li>
+									<li><a href="../../publico/mostrarAgencias.xhtml"><i class="waves-effect waves-light material-icons left">place</i>Agências</a></li>
+									<li><a href="../../protegido/clientes/reservasDoCliente.xhtml"><i class="waves-effect waves-light material-icons left">search</i>Buscar Reserva</a></li>
+									
+								</ul>
+									<script type="text/javascript">$(".dropdown-trigger").dropdown();</script>
+							</div>
+						</div>
+				
+					</nav>
+			</div>
+				
+			
+			<ui:include src="/WEB-INF/templates/informacoesDoCliente.xhtml"/>
+			
+			
+		</h:form>
+		
+			<!-- DIÁLOGOS DE EDIÇÃO DAS INFORMAÇÕES, EMAIL E SENHA DO CLIENTE -->
+			
+			<p:dialog id="clientEditDialogId" widgetVar="clientEditDialog" header="Editar Cliente" modal="true" dynamic="true" closeOnEscape="true">
+		
+					<h:form id="formEditClient">
+				
+						<ui:include src="/WEB-INF/templates/camposEdicaoCliente.xhtml" />
+				
+						<p:panelGrid columns="2" styleClass="ui-noborder">
+						
+						<p:commandButton id="btSalvar" action="#{novoClienteBean.salvarCliente()}" value="Salvar" update="@form" oncomplete="if (!args.validationFailed) { PF('clientEditDialog').hide(); }" 
+						styleClass="blue darken-1 btn waves-effect waves-light" style="border-radius:5px;"/>
+						
+					</p:panelGrid>
+			
+				</h:form>	
+			</p:dialog>
+			
+			
+			<p:dialog id="clientEditEmailDialogId" widgetVar="clientEditEmailDialog" header="Editar Email" modal="true" dynamic="true" closeOnEscape="true">
+				
+				<h:form id="formEditEmail">
+				
+					<p:panelGrid columns="2" styleClass="ui-noborder">
+					
+						<h:outputText value="Email Atual: " />
+						<p:inputText id="campEmailAtual" value="#{editarEmailSenhaClienteBean.emailAtual}" required="true" label="Email Atual" style="width:350px">
+							<f:validator for="campEmailAtual" validatorId="emailValidator"/>
+						</p:inputText>
+					
+						<h:outputText value="Novo Email: " />
+						<p:inputText id="campEmailNovo" value="#{editarEmailSenhaClienteBean.newEmail}" required="true" label="Novo Email" style="width:350px">
+							<f:validator for="campEmailNovo" validatorId="emailValidator"/>
+						</p:inputText>
+						
+						<p:commandButton id="botaoSubmeterEditEmail" action="#{editarEmailSenhaClienteBean.changeEmail()}" value="Salvar" update="@form"
+						oncomplete="if (!args.validationFailed) { PF('clientEditEmailDialog').hide(); }" styleClass="blue darken-1 btn waves-effect waves-light" style="border-radius:5px;"/>
+					
+					</p:panelGrid>
+				</h:form>
+			
+			</p:dialog>
+			
+			
+			<p:dialog id="clientPasswordEditDialogId" widgetVar="clientPasswordEditDialog" header="Editar Senha" modal="true" dynamic="true" closeOnEscape="true">
+	    
+			<!-- Observação quanto a diálogos e h:form: Todo diálogo deve ter seu próprio h:form. Lembrando que não deve haver nunca h:forms aninhados:
+				 Referência: https://stackoverflow.com/questions/18958729/pcommandbutton-action-doesnt-work-inside-pdialog -->
+				<h:form id="formEditPassword">
+		
+					<p:panelGrid columns="2" styleClass="ui-noborder">
+		
+						<p:outputLabel for="currentPassword" value="Senha Atual:" />
+						<p:password id="currentPassword" value="#{editarEmailSenhaClienteBean.confirmacaoPasswordAtual}" label="Senha Atual" required="true" />
+		
+						<p:outputLabel for="password" value="Nova Senha:" />
+						<p:password id="password" value="#{editarEmailSenhaClienteBean.newPassword}" label="Nova Senha" required="true" match="confirmPassword" feedback="true" />
+		
+						<p:outputLabel for="confirmPassword" value="Confirmar Senha:" />
+						<p:password id="confirmPassword" value="#{editarEmailSenhaClienteBean.newPassword}" label="Confirmar Senha" required="true" feedback="true" />
+						
+						<p:commandButton id="botaoSubmeterEditPassword" action="#{editarEmailSenhaClienteBean.changePassword()}" value="Salvar" update="@form"
+						oncomplete="if (!args.validationFailed) { PF('clientPasswordEditDialog').hide(); }" styleClass="blue darken-1 btn waves-effect waves-light" style="border-radius:5px;"/>
+							
+					</p:panelGrid>
+				</h:form>
+	    	</p:dialog>
+
+		</header>
+
+		<!-- FIM DO CABEÇALHO -->
+
+	 	<!-- CONTEUDO -->
+	 		 <h:form id="formCarrosCliente">
+	 		 
+	 		 <!-- Page Layout here -->
+	<div class="row">
+
+		 <div class="col s3 ">
+			<!-- painel esquerdo -->
+			<ul class="collection with-header" style="border-radius:20px;">
+				<li class="collection-header blue lighten-5"><h5>Como alugar um carro?</h5></li>
+				<li class="collection-item blue lighten-5"><b>1º</b> Após o cadastro, faça login.</li>
+				<li class="collection-item blue lighten-5"><b>2º</b> Escolha o carro que desejar e clique em "Reservar".</li>
+				<li class="collection-item blue lighten-5"><b>3º</b> Escolha o local, data e horários que desejar.</li>
+				<li class="collection-item blue lighten-5"><b>4º</b> Escolha entre nossas tarifas opcionais.</li>
+				<li class="collection-item blue lighten-5"><b>5º</b> Veja o resumo da reserva e clique em "Finalizar" para completar a reserva.</li>
+				<li class="collection-item blue lighten-5"><b>6º</b> Está feito! Basta ir na agência, realizar o pagamento e retirar o carro.</li>
+			</ul>
+
+		</div>
+		
+
+		<div class="col s9">
+			<!-- Teal page content  -->
+			
+			<section class="grey lighten-4 col s12 m6 l12">
+			<h5 class="light">Nossos Carros</h5>
+			
+			<ui:repeat var="carro" value="#{novoCarroBean.listarCarros()}">
+			
+			<article class="col s12 l6 xl4">
+
+								<div class="card hoverable indigo darken-1" style="border-radius:20px;">
+									<div class="card-content white-text">
+										<span class="card-title">#{carro.nome}</span>
+										
+										<span style="color:white; font-weight: bold; font-size: 1.1em;">Marca: #{carro.marca}</span><br/>
+										<span style="color:white; font-weight: bold; font-size: 1.4em;">#{novoCarroBean.diariasCarrosFormatados(carro.valorDaDiaria)}</span>
+									</div>
+									<div class="indigo lighten-5 card-action" style="border-radius:20px;">
+										<a>
+											<button class="blue darken-1 btn-small waves-effect waves-light modal-trigger" jsf:value="#{carro}" jsf:target="#{novoCarroBean.selectedCar}" style="border-radius:20px;" data-target="modalInfo">Detalhes 
+												<p:ajax update="formCarrosCliente:carDetail"/>
+												<f:setPropertyActionListener value="#{carro}" target="#{novoCarroBean.selectedCar}"/>
+											</button>
+										</a>
+										
+										<a>
+											<button class="indigo darken-4 white-text btn-small waves-effect waves-light" jsf:outcome="/paginas/protegido/clientes/paginaFinalizarReserva.xhtml" jsf:value="#{carro}" jsf:target="#{novoCarroBean.selectedCar}" style="border-radius:20px;">Reservar 
+												<f:param name="car" value="#{carro.id}" />
+												<f:param name="client" value="#{menu.usuarioLogado.cliente.id}" />
+											</button>
+											
+										</a>
+
+									</div>
+
+								</div>
+							</article>
+					
+			</ui:repeat>
+			
+		</section>
+				
+		</div>
+		
+	</div>
+				
+				
+				<!-- INFORMAÇÕES DO CARRO -->
+				
+				<!-- Modal Structure -->
+		<div id="modalInfo" class="modal">
+		
+			<div class="modal-content">
+			
+				<h4>Informações do Carro</h4>
+				
+				<p:outputPanel id="carDetail" style="text-align:center;">
+
+						<p:panelGrid columns="2"
+							rendered="#{not empty novoCarroBean.selectedCar}"
+							columnClasses="label,value">
+							<f:facet name="header"></f:facet>
+
+							<h:outputText value="Grupo:" style="font-weight:bold" />
+							<h:outputText value="#{novoCarroBean.selectedCar.categoria}" />
+
+							<h:outputText value="Nome:" style="font-weight:bold" />
+							<h:outputText value="#{novoCarroBean.selectedCar.nome}" />
+
+							<h:outputText value="Marca:" style="font-weight:bold" />
+							<h:outputText value="#{novoCarroBean.selectedCar.marca}" />
+
+							<h:outputText value="Diária:" style="font-weight:bold" />
+							<h:outputText value="#{novoCarroBean.diariasCarrosFormatados(novoCarroBean.selectedCar.valorDaDiaria)}" />
+
+							<h:outputText value="Cor:" style="font-weight:bold" />
+							<h:outputText value="#{novoCarroBean.selectedCar.cor}" />
+
+							<h:outputText value="Ano:" style="font-weight:bold" />
+							<h:outputText value="#{novoCarroBean.selectedCar.ano}" />
+
+							<h:outputText value="Placa:" style="font-weight:bold" />
+							<h:outputText value="#{novoCarroBean.selectedCar.placa}" />
+
+							<h:outputText value="Nº Portas:" style="font-weight:bold" />
+							<h:outputText
+								value="#{novoCarroBean.selectedCar.caracteristicas.numeroDePortas}" />
+
+							<h:outputText value="Nº Pessoas:" style="font-weight:bold" />
+							<h:outputText
+								value="#{novoCarroBean.selectedCar.caracteristicas.quantidadeDePessoas}" />
+
+							<h:outputText value="Transmissão:" style="font-weight:bold" />
+							<h:outputText
+								value="#{novoCarroBean.selectedCar.caracteristicas.transmissao}" />
+
+							<h:outputText value="Vidros Elétricos:" style="font-weight:bold" />
+							<h:outputText
+								value="#{novoCarroBean.selectedCar.caracteristicas.vidroEletrico}" />
+
+							<h:outputText value="Travas Elétricas:" style="font-weight:bold" />
+							<h:outputText
+								value="#{novoCarroBean.selectedCar.caracteristicas.travaEletrica}" />
+
+							<h:outputText value="Ar Condicionado:" style="font-weight:bold" />
+							<h:outputText
+								value="#{novoCarroBean.selectedCar.caracteristicas.arCondicionado}" />
+
+							<h:outputText value="Dir. Hidraúlica:" style="font-weight:bold" />
+							<h:outputText
+								value="#{novoCarroBean.selectedCar.caracteristicas.direcaoHidraulica}" />
+
+							<h:outputText value="ABS:" style="font-weight:bold" />
+							<h:outputText
+								value="#{novoCarroBean.selectedCar.caracteristicas.abs}" />
+
+							<h:outputText value="Air Bag:" style="font-weight:bold" />
+							<h:outputText
+								value="#{novoCarroBean.selectedCar.caracteristicas.airBag}" />
+
+							<h:outputText value="Mala Grande:" style="font-weight:bold" />
+							<h:outputText
+								value="#{novoCarroBean.selectedCar.caracteristicas.malaGrande}" />
+
+							<h:outputText value="Mala Pequena:" style="font-weight:bold" />
+							<h:outputText
+								value="#{novoCarroBean.selectedCar.caracteristicas.malaPequena}" />
+
+						</p:panelGrid>
+					</p:outputPanel>
+				
+			</div>
+			
+			<div class="modal-footer">
+				<a href="#!" class="modal-close waves-effect waves-green btn-flat">Fechar</a>
+			</div>
+			
+			<script>
+				$(document).ready(function(){
+		    	$('.modal').modal();
+		  		});
+
+			</script>
+			
+		</div>
+				
+		</h:form>
+
+
+		<!-- RODAPÉ -->
+
+		<footer class="page-footer indigo darken-4">
+			<div class="container">
+				<div class="row">
+					<div class="col l6 s12">
+						<h5 class="white-text">LS Customs - Locadora de Veículos</h5>
+						<p class="grey-text text-lighten-4">Este é um projeto da
+							disciplina de Desenvolvimento de Aplicações Corporativas (DAC),
+							do curso de ADS.</p>
+					</div>
+					<div class="col l4 offset-l2 s12">
+						<h5 class="white-text">Sobre</h5>
+						<ul>
+							<li><a class="grey-text text-lighten-3"
+								href="../../publico/sobre.xhtml">Sobre o Sistema</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="footer-copyright">
+				<div class="container">© 2020 ADS</div>
+			</div>
+		</footer>
+
+	</h:body>
+</html>
+			
+			

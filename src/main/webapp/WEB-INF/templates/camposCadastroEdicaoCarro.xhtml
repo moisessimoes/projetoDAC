@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<ui:composition>
+		
+		<p:growl id="growl" sticky="true" showDetail="true"/>
+ 
+    	<p:wizard id="info">
+        	<p:tab id="car" title="Informações do Carro">
+            	<p:panel header="Informações Principais">
+                	<p:messages />
+                	<h:panelGrid columns="2" columnClasses="label, value" styleClass="ui-noborder" cellpadding="5">
+                		
+                		<p:outputLabel value="Id:" rendered="#{novoCarroBean.edicaoCarro}" />
+						<p:outputLabel value="#{novoCarroBean.carro.id}" rendered="#{novoCarroBean.edicaoCarro}" />
+                	
+                    	<h:outputText value="Nome:" />
+                    	<p:inputText value="#{novoCarroBean.carro.nome}" required="true" label="Nome" style="width:250px;"/>
+ 
+                    	<h:outputText for="grupo" value="Grupo:" />
+						<p:selectOneMenu id="grupo" value="#{novoCarroBean.carro.categoria}" label="Grupo" hideNoSelectionOption="true" required="true">
+						<f:selectItem itemLabel="Selecione" itemValue="#{null}" noSelectionOption="true" />
+						<f:selectItems value="#{novoCarroBean.gruposDeCarro}" var="g"
+							itemLabel="#{g.name()}" itemValue="#{g}" />
+						</p:selectOneMenu>
+						
+						<h:outputText for="marca" value="Marca:" />
+						<p:selectOneMenu id="marca" value="#{novoCarroBean.carro.marca}" label="Marca" hideNoSelectionOption="true" required="true">
+						<f:selectItem itemLabel="Selecione" itemValue="#{null}" noSelectionOption="true" />
+						<f:selectItems value="#{novoCarroBean.marcas}" var="m"
+							itemLabel="#{m.name()}" itemValue="#{m}" />
+						</p:selectOneMenu>
+						
+						<h:outputText for="cor" value="Cor:" />
+						<p:selectOneMenu id="cor" value="#{novoCarroBean.carro.cor}" label="Cor" hideNoSelectionOption="true" required="true">
+						<f:selectItem itemLabel="Selecione" itemValue="#{null}" noSelectionOption="true" />
+						<f:selectItems value="#{novoCarroBean.cores}" var="c"
+							itemLabel="#{c.name()}" itemValue="#{c}" />
+						</p:selectOneMenu>
+						
+						<h:outputText value="Ano: " />
+                    	<p:inputText value="#{novoCarroBean.carro.ano}" label="Ano"/>
+                    	
+                    	<h:outputText value="Valor da Diária: R$ " />
+                    	<p:inputText value="#{novoCarroBean.carro.valorDaDiaria}" required="true" label="Valor da Diária"/>
+                    	
+                    	<h:outputText value="Placa: " />
+                    	<p:inputText value="#{novoCarroBean.carro.placa}" required="true" label="Placa"/>
+                    	
+                	</h:panelGrid>
+            	</p:panel>
+        	</p:tab>
+        	
+        	
+        	<p:tab id="features" title="Características do Carro">
+            	<p:panel header="Detalhes do Carro">
+                	<p:messages />
+                	<h:panelGrid columns="2" columnClasses="label, value" styleClass="ui-noborder" cellpadding="5">
+                		
+                    	<h:outputText value="Número de Portas:" />
+                    	<p:inputText value="#{novoCarroBean.carro.caracteristicas.numeroDePortas}" required="true" label="Número de Portas"/>
+                    	
+                    	<h:outputText value="Número de Pessoas:" />
+                    	<p:inputText value="#{novoCarroBean.carro.caracteristicas.quantidadeDePessoas}" required="true" label="Número de Pessoas"/>
+ 
+                    	<h:outputText for="transmissao" value="Transmissão:" />
+						<p:selectOneMenu id="transmissao" value="#{novoCarroBean.carro.caracteristicas.transmissao}" label="Transmissão" hideNoSelectionOption="true" required="true">
+						<f:selectItem itemLabel="Selecione" itemValue="#{null}" noSelectionOption="true" />
+						<f:selectItems value="#{novoCarroBean.transmissaoDoCarro}" var="s"
+							itemLabel="#{s.name()}" itemValue="#{s}" />
+						</p:selectOneMenu>
+						
+                    	<h:outputText for="vidros" value="Vidros Elétricos:" />
+						<p:selectOneMenu id="vidros" value="#{novoCarroBean.carro.caracteristicas.vidroEletrico}" label="Vidros Elétricos" hideNoSelectionOption="true" required="true">
+						<f:selectItem itemLabel="Selecione" itemValue="#{null}" noSelectionOption="true" />
+						<f:selectItems value="#{novoCarroBean.booleanos}" var="v"
+							itemLabel="#{v.name()}" itemValue="#{v}" />
+						</p:selectOneMenu>
+						
+						<h:outputText for="travas" value="Travas Elétricas:" />
+						<p:selectOneMenu id="travas" value="#{novoCarroBean.carro.caracteristicas.travaEletrica}" label="Travas Elétricas" hideNoSelectionOption="true" required="true">
+						<f:selectItem itemLabel="Selecione" itemValue="#{null}" noSelectionOption="true" />
+						<f:selectItems value="#{novoCarroBean.booleanos}" var="t"
+							itemLabel="#{t.name()}" itemValue="#{t}" />
+						</p:selectOneMenu>
+						
+						<h:outputText for="ar" value="Ar Condicionado:" />
+						<p:selectOneMenu id="ar" value="#{novoCarroBean.carro.caracteristicas.arCondicionado}" label="Ar Condicionado" hideNoSelectionOption="true" required="true">
+						<f:selectItem itemLabel="Selecione" itemValue="#{null}" noSelectionOption="true" />
+						<f:selectItems value="#{novoCarroBean.booleanos}" var="a"
+							itemLabel="#{a.name()}" itemValue="#{a}" />
+						</p:selectOneMenu>
+						
+						<h:outputText for="direcao" value="Direção Hidraúlica:" />
+						<p:selectOneMenu id="direcao" value="#{novoCarroBean.carro.caracteristicas.direcaoHidraulica}" label="Direção Hidraúlica" hideNoSelectionOption="true" required="true">
+						<f:selectItem itemLabel="Selecione" itemValue="#{null}" noSelectionOption="true" />
+						<f:selectItems value="#{novoCarroBean.booleanos}" var="d"
+							itemLabel="#{d.name()}" itemValue="#{d}" />
+						</p:selectOneMenu>
+						
+						<h:outputText for="abs" value="ABS:" />
+						<p:selectOneMenu id="abs" value="#{novoCarroBean.carro.caracteristicas.abs}" label="ABS" hideNoSelectionOption="true" required="true">
+						<f:selectItem itemLabel="Selecione" itemValue="#{null}" noSelectionOption="true" />
+						<f:selectItems value="#{novoCarroBean.booleanos}" var="b"
+							itemLabel="#{b.name()}" itemValue="#{b}" />
+						</p:selectOneMenu>
+						
+						<h:outputText for="bag" value="Air Bag:" />
+						<p:selectOneMenu id="bag" value="#{novoCarroBean.carro.caracteristicas.airBag}" label="Air Bag" hideNoSelectionOption="true" required="true">
+						<f:selectItem itemLabel="Selecione" itemValue="#{null}" noSelectionOption="true" />
+						<f:selectItems value="#{novoCarroBean.booleanos}" var="i"
+							itemLabel="#{i.name()}" itemValue="#{i}" />
+						</p:selectOneMenu>
+						
+						<h:outputText value="Mala Grande:" />
+                    	<p:inputText value="#{novoCarroBean.carro.caracteristicas.malaGrande}" required="true" label="Mala Grande"/>
+                    	
+                    	<h:outputText value="Mala Pequena:" />
+                    	<p:inputText value="#{novoCarroBean.carro.caracteristicas.malaPequena}" required="true" label="Mala Pequena"/>
+                    	
+                	</h:panelGrid>
+                	
+                	<p:commandButton id="botaoCadastrar" action="#{novoCarroBean.salvarCarro()}" value="Finalizar" update="@form" style="margin:10px 1px 1px 1px; background:navy;" icon="pi pi-check"/>
+					<p:defaultCommand id="defaultCommandId" target="formCar:botaoCadastrar" />
+					<p:button id="botaoCancelar" outcome="/paginas/protegido/admin/paginaPrincipalAdmin.xhtml" value="Cancelar" style="margin:10px 1px 1px 10px; background:red;" icon="pi pi-times"/>
+                	
+            	</p:panel>
+        	</p:tab>
+        </p:wizard>
+	</ui:composition>
+</html>

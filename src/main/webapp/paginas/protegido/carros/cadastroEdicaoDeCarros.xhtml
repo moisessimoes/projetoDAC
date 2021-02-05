@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:jsf="http://xmlns.jcp.org/jsf">
+	
+	<f:metadata>
+		<o:viewParam name="car" value= "#{novoCarroBean.carro}"/>
+		<f:viewAction action="#{novoCarroBean.iniciar()}"/>
+	</f:metadata>
+	
+	 <h:head>
+		<title>Novo Carro</title> 	
+		<h:outputScript name="locale-primefaces.js" library="js" />
+		
+		<!-- Favicons-->
+  		<link rel="shortcut icon" href="../../../imagens/logos/favicon (1).ico" />
+		
+		<!-- Compiled and minified CSS -->
+    	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"/>
+
+    	<!-- Compiled and minified JavaScript -->
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    
+    	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+		
+		<!-- CORE CSS-->
+
+		<link href="css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+	
+		<link href="css/style.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+		<!-- Custome CSS-->
+	
+		<link href="css/custom/custom.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+
+
+		<!-- INCLUDED PLUGIN CSS ON THIS PAGE -->
+	
+		<link href="js/plugins/prism/prism.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+	
+		<link href="js/plugins/perfect-scrollbar/perfect-scrollbar.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+	
+		<link href="js/plugins/chartist-js/chartist.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+		
+		
+		<style>
+    	
+    	body {
+    		background-color: #f5f5f5;
+    	}
+    	
+    	@media only screen and (min-width: 993px) {
+  			.container {
+    			width: 90%;
+  			}
+		}
+    	
+    	.brand-logo {
+    	
+    		height: 80px;
+    		padding: 15px;
+    	}
+    	
+    	.brand-logo img {
+    		height: 100%;
+    	}
+    	
+    	</style>
+		
+	</h:head> 
+	
+	
+	<h:body>
+		
+		<ui:include src="/WEB-INF/templates/growlMessages.xhtml" />
+		
+		<p:growl id="growl" sticky="true" showDetail="true"/>
+		
+		<!-- HEADER -->
+		<header>
+
+		<nav class="indigo darken-4" >
+			<div class="nav-wrapper">
+
+				<div class="brand-logo">
+					<a href="./index.xhtml"> <img
+						src="../../../imagens/logos/GTAV-LSCustoms-Logo.png" alt="logo" />
+					</a>
+				</div>
+				
+				<ul class="right hide-on-med-and-down">
+					
+					<li><a href="../mostrarAgencias.xhtml"><i class=" waves-effect waves-light material-icons left">place</i>Agências</a></li>
+					<li><a jsf:outcome="/paginas/publico/clientes/buscarReserva.xhtml"><i class="waves-effect waves-light material-icons left">search</i>Buscar Reserva</a></li>
+
+				</ul>
+			</div>
+		</nav>
+	</header>
+		
+	
+	<!-- Page Layout here -->
+	<div class="row">
+
+		<div class="col s3 ">
+		
+			<ul class="collection with-header" style="border-radius:20px;">
+			
+        		<li class="collection-header" style="border-radius:20px;"><h5>Carros Registrados: #{novoCarroBean.listarCarros().size()}</h5></li>
+        		
+        		<ui:repeat var="carro" value="#{novoCarroBean.listarCarros()}">
+        		
+        			<li class="collection-item" style="border-radius:20px;"><b>#{carro.nome} - #{carro.marca}</b></li>
+        		
+        		</ui:repeat>
+       			
+      		</ul>
+		
+		</div>
+		
+		
+		<div class="col s9">
+			
+			<div id="basic-form" class="section">
+		<div class="row">
+			<div class="col s12 m12 l12">
+				<div class="card-panel hoverable" style="border-radius:20px;">
+					<!-- <h4 class="header2">Novo Carro</h4> -->
+					<div class="card-panel indigo darken-4" style="border-radius:10px;"><h4 class="white-text">Novo Carro</h4></div>
+					<div class="row">
+						<h:form id="formNovoCliente" styleClass="col s12">
+						
+							<div class="row">
+								<div class="input-field col s12">
+									<p:inputText id="id" disabled="true" rendered="#{novoCarroBean.edicaoCarro}" value="#{novoCarroBean.carro.id}"/>
+								</div> 
+							</div>
+							
+							<div class="row">
+								<div class="input-field col s6">
+									<p:inputText id="nome" value="#{novoCarroBean.carro.nome}" required="true">
+									<i class="material-icons prefix">directions_car</i>
+									<label for="nome">Nome</label>
+									</p:inputText>
+								</div> 
+							<!-- </div>
+							
+							<div class="row"> -->
+								<div class="input-field col s2">
+									<p:inputText id="ano" value="#{novoCarroBean.carro.ano}" required="true">
+										<f:convertNumber for="ano" maxIntegerDigits="4"/>
+										<i class="material-icons prefix">date_range</i>
+									</p:inputText><label for="nome">Ano</label>
+								</div> 
+							<!-- </div>
+							
+							
+							<div class="row"> -->
+								<div class="input-field col s2">
+									<p:inputText id="diaria" value="#{novoCarroBean.carro.valorDaDiaria}" required="true">
+										<f:convertNumber for="diaria" minFractionDigits="2" maxFractionDigits="3"/>
+										<i class="material-icons prefix">monetization_on</i>
+									</p:inputText><label for="diaria">Valor da Diária</label>
+								</div> 
+							</div>
+							
+							
+							<div class="row">
+								<div class="input-field col s6">
+									<p:inputText id="placaCarro" value="#{novoCarroBean.carro.placa}" required="true">
+										<f:validator for="placaCarro" validatorId="placa"/>
+										<i class="material-icons prefix">assignment</i>
+									</p:inputText><label for="placa">Placa</label>
+								</div> 
+							<!-- </div>
+							
+							
+							<div class="row"> -->
+								<div class="input-field col s2">
+									<p:inputText id="nPortas" value="#{novoCarroBean.carro.caracteristicas.numeroDePortas}" required="true">
+									<i class="material-icons prefix">local_parking</i>
+									<label for="nPortas">Nº de Portas</label>
+									</p:inputText>
+								</div> 
+							<!-- </div>
+							
+							<div class="row"> -->
+								<div class="input-field col s2">
+									<p:inputText id="nPessoas" value="#{novoCarroBean.carro.caracteristicas.quantidadeDePessoas}" required="true">
+									<i class="material-icons prefix">people</i>
+									<label for="nPessoas">Nº de Pessoas</label>
+									</p:inputText>
+								</div> 
+							</div>
+							
+							<div class="row">
+								<div class="input-field col s2">
+									<p:inputText id="malaG" value="#{novoCarroBean.carro.caracteristicas.malaGrande}" required="true">
+									<i class="material-icons prefix">luggage</i>
+									<label for="malaG">Mala Grande</label>
+									</p:inputText>
+								</div> 
+							<!-- </div>
+							
+							<div class="row"> -->
+								<div class="input-field col s2">
+									<p:inputText id="malaP" value="#{novoCarroBean.carro.caracteristicas.malaPequena}" required="true">
+									<i class="material-icons prefix">luggage</i>
+									<label for="malaP">Mala Pequena</label>
+									</p:inputText>
+								</div> 
+							</div>
+							
+							<div class="row">
+								<div>
+									<h5>Características do Carro</h5>								
+								</div>
+							</div>
+							
+							<div class="row">
+								<div class="input-field col s6">
+									
+									<p:panelGrid columns="2" styleClass="ui-noborder">
+									
+									<h:outputText value="Grupo: " style="font-weight:bold;"/>
+									<p:selectOneMenu id="grupo" value="#{novoCarroBean.carro.categoria}" hideNoSelectionOption="true" required="true" style="width:200px;">
+									<f:selectItem itemLabel="Selecione" itemValue="#{null}" noSelectionOption="true" />
+									<f:selectItems value="#{novoCarroBean.gruposDeCarro}" var="g"
+										itemLabel="#{g.name()}" itemValue="#{g}" />
+									</p:selectOneMenu>
+									
+									<h:outputText value="Marca: " style="font-weight:bold;"/>
+									<p:selectOneMenu id="marca" value="#{novoCarroBean.carro.marca}" hideNoSelectionOption="true" required="true" style="width:200px;">
+									<f:selectItem itemLabel="Selecione" itemValue="#{null}" noSelectionOption="true" />
+									<f:selectItems value="#{novoCarroBean.marcas}" var="m"
+										itemLabel="#{m.name()}" itemValue="#{m}" />
+									</p:selectOneMenu>
+									
+									<h:outputText value="Cor: " style="font-weight:bold;"/>
+									<p:selectOneMenu id="cor" value="#{novoCarroBean.carro.cor}" hideNoSelectionOption="true" required="true" style="width:200px;">
+									<f:selectItem itemLabel="Selecione" itemValue="#{null}" noSelectionOption="true" />
+									<f:selectItems value="#{novoCarroBean.cores}" var="c"
+										itemLabel="#{c.name()}" itemValue="#{c}" />
+									</p:selectOneMenu>
+									
+                					<h:outputText value="Transmissão: " style="font-weight:bold;"/>
+                					<p:selectOneMenu id="transmissao" value="#{novoCarroBean.carro.caracteristicas.transmissao}" hideNoSelectionOption="true" required="true" style="width:200px;">
+									<f:selectItem itemLabel="Selecione" itemValue="#{null}" noSelectionOption="true" />
+									<f:selectItems value="#{novoCarroBean.transmissaoDoCarro}" var="s"
+										itemLabel="#{s.name()}" itemValue="#{s}" />
+									</p:selectOneMenu>
+									
+                					<h:outputText value="Vidros Elétricos: " style="font-weight:bold;"/>
+                					<p:selectOneMenu id="vidros" value="#{novoCarroBean.carro.caracteristicas.vidroEletrico}" hideNoSelectionOption="true" required="true" style="width:200px;">
+									<f:selectItem itemLabel="Selecione" itemValue="#{null}" noSelectionOption="true" />
+									<f:selectItems value="#{novoCarroBean.booleanos}" var="v"
+										itemLabel="#{v.name()}" itemValue="#{v}" />
+									</p:selectOneMenu>
+								
+                					<h:outputText value="Travas Elétricas: " style="font-weight:bold;"/>
+                					<p:selectOneMenu id="travas" value="#{novoCarroBean.carro.caracteristicas.travaEletrica}" hideNoSelectionOption="true" required="true" style="width:200px;">
+									<f:selectItem itemLabel="Selecione" itemValue="#{null}" noSelectionOption="true" />
+									<f:selectItems value="#{novoCarroBean.booleanos}" var="t"
+									itemLabel="#{t.name()}" itemValue="#{t}" />
+									</p:selectOneMenu>
+								
+                					<h:outputText value="Ar Condicionado: " style="font-weight:bold;"/>
+                					<p:selectOneMenu id="ar" value="#{novoCarroBean.carro.caracteristicas.arCondicionado}" hideNoSelectionOption="true" required="true" style="width:200px;">
+									<f:selectItem itemLabel="Selecione" itemValue="#{null}" noSelectionOption="true" />
+									<f:selectItems value="#{novoCarroBean.booleanos}" var="a"
+										itemLabel="#{a.name()}" itemValue="#{a}" />
+									</p:selectOneMenu>
+									
+									
+                					<h:outputText value="Direção Hidraúlica: " style="font-weight:bold;"/>
+                					<p:selectOneMenu id="direcao" value="#{novoCarroBean.carro.caracteristicas.direcaoHidraulica}" hideNoSelectionOption="true" required="true" style="width:200px;">
+									<f:selectItem itemLabel="Selecione" itemValue="#{null}" noSelectionOption="true" />
+									<f:selectItems value="#{novoCarroBean.booleanos}" var="d"
+										itemLabel="#{d.name()}" itemValue="#{d}" />
+									</p:selectOneMenu>
+									
+                					<h:outputText value="ABS: " style="font-weight:bold;"/>
+                					<p:selectOneMenu id="abs" value="#{novoCarroBean.carro.caracteristicas.abs}" hideNoSelectionOption="true" required="true" style="width:200px;">
+									<f:selectItem itemLabel="Selecione" itemValue="#{null}" noSelectionOption="true" />
+									<f:selectItems value="#{novoCarroBean.booleanos}" var="b"
+										itemLabel="#{b.name()}" itemValue="#{b}" />
+									</p:selectOneMenu>
+									
+                					<h:outputText value="Air Bag: " style="font-weight:bold;"/>
+                					<p:selectOneMenu id="bag" value="#{novoCarroBean.carro.caracteristicas.airBag}" hideNoSelectionOption="true" required="true" style="width:200px;">
+									<f:selectItem itemLabel="Selecione" itemValue="#{null}" noSelectionOption="true" />
+									<f:selectItems value="#{novoCarroBean.booleanos}" var="i"
+										itemLabel="#{i.name()}" itemValue="#{i}" />
+									</p:selectOneMenu>
+								
+									</p:panelGrid>
+                			</div>
+                		</div>
+                		
+                		<div class="row">
+							<div class="input-field col s12">
+								
+								<p:commandButton value="Salvar" action="#{novoCarroBean.salvarCarro()}" update="@form" styleClass="indigo darken-4 waves-effect waves-light right btn" style="border-radius:20px;"/>
+								
+							</div>
+						</div>
+                	
+                	</h:form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>	
+		
+		</div>
+		
+	</div>
+		
+	
+	<!-- RODAPÉ -->
+
+		<footer class="page-footer indigo darken-4">
+			<div class="container">
+				<div class="row">
+					<div class="col l6 s12">
+						<h5 class="white-text">LS Customs - Locadora de Veículos</h5>
+						<p class="grey-text text-lighten-4">Este é um projeto da
+							disciplina de Desenvolvimento de Aplicações Corporativas (DAC),
+							do curso de ADS.</p>
+					</div>
+					<div class="col l4 offset-l2 s12">
+						<h5 class="white-text">Sobre</h5>
+						<ul>
+							<li><a class="grey-text text-lighten-3"
+								href="../../publico/sobre.xhtml">Sobre o Sistema</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="footer-copyright">
+				<div class="container">© 2020 ADS</div>
+			</div>
+		</footer>			
+						
+	
+	</h:body>
+</html>

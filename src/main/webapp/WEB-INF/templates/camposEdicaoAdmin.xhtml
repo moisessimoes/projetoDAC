@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<ui:composition>
+	
+		<p:fieldset legend="Atualizar suas Informações">
+
+			<p:panelGrid columns="2" styleClass="ui-noborder" cellpadding="5">
+
+				<p:outputLabel value="Id:" rendered="#{novoAdministradorBean.edicaoAdmin}" />
+				<p:outputLabel value="#{novoAdministradorBean.admin.id}" rendered="#{novoAdministradorBean.edicaoAdmin}" />
+
+				<h:outputText for="nome" value="Nome:" />
+				<p:inputText id="nome" value="#{novoAdministradorBean.admin.nome}" required="true" label="Nome" style="width:350px"/>
+
+				<p:outputLabel for="cpf" value="CPF:" />
+				<p:inputText id="cpf" value="#{novoAdministradorBean.admin.cpf}" required="true" label="CPF">
+					<f:validator for="cpf" validatorId="cpfValidator"/>
+				</p:inputText>
+				
+				<h:outputText for="birthDay" value="Data de Nascimento:" />
+				<p:inputText id="dataN" value="#{novoAdministradorBean.admin.dataNascimento}" required="true">
+					<f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR" timeZone="America/Recife"/>
+				</p:inputText>
+				<!-- <ui:include src="/WEB-INF/templates/datas.xhtml">
+					<ui:param name="id" value="birthDay" />
+					<ui:param name="value" value="#{novoAdministradorBean.admin.dataNascimento}" />
+					<ui:param name="label" value="Data de Nascimento" />
+					<ui:param name="required" value="#{true}" />
+				</ui:include> -->
+
+				<h:outputText for="sexo" value="Sexo:" />
+				<p:selectOneMenu id="sexo" value="#{novoAdministradorBean.admin.sexo}" label="Sexo" hideNoSelectionOption="true" required="true">
+					<f:selectItem itemLabel="Selecione" itemValue="#{null}" noSelectionOption="true" />
+					<f:selectItems value="#{novoAdministradorBean.genero}" var="s" itemLabel="#{s.name()}" itemValue="#{s}" />
+				</p:selectOneMenu>
+				
+				<p:password id="senha" value="#{novoAdministradorBean.conta.senha}" required="true" label="Senha" rendered="#{!novoAdministradorBean.edicaoAdmin}"
+					match="confirmSenha" feedback="true" />
+
+				<p:password id="confirmSenha" value="#{novoAdministradorBean.conta.senha}" required="true" label="Confirmar Senha"
+					rendered="#{!novoAdministradorBean.edicaoAdmin}" feedback="true" />
+				
+				<h:outputText for="telefone" value="Telefone:" />
+				<p:inputText id="telefone" value="#{novoAdministradorBean.admin.telefone1}" required="true" label="Telefone" />
+				
+				<h:outputText for="grupo" value="Grupo:" />
+        		<h:outputText for="grupo" value="ADMINISTRADOR" style="font-weight: bold;" />
+				
+			</p:panelGrid>
+		</p:fieldset>
+	</ui:composition>
+</html>

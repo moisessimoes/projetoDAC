@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+	
+	 <h:head>
+		<title>Lista de Carros</title> 	
+		<h:outputScript name="locale-primefaces.js" library="js" />
+		
+		<!-- Compiled and minified CSS -->
+    		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"/>
+    	
+    		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    	
+    		<!-- Compiled and minified JavaScript -->
+    		<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    		
+    		 <!-- INCLUDED PLUGIN CSS ON THIS PAGE -->
+  			<link href="js/plugins/prism/prism.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  			<link href="js/plugins/perfect-scrollbar/perfect-scrollbar.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  			<link href="js/plugins/chartist-js/chartist.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  			
+  			<!-- jQuery Library -->
+    		<script type="text/javascript" src="js/plugins/jquery-1.11.2.min.js"></script>
+    		
+    		
+    		<style>
+    		
+    			body {
+    				background-color: #f5f5f5;
+    			}
+    	
+    			/* @media only screen and (min-width: 993px) {
+  					.container {
+    					width: 90%;
+  					}
+				} */
+    	
+    			.brand-logo {
+    	
+    				height: 80px;
+    				padding: 15px;
+    			}
+    	
+    			.brand-logo img {
+    				height: 100%;
+    			}
+    	
+    		</style>
+		
+	</h:head> 
+																			
+	<h:body>
+	
+		<ui:include src="/WEB-INF/templates/growlMessages.xhtml" />
+		
+		<header>
+
+		<nav class="indigo darken-4">
+			<div class="nav-wrapper">
+
+				<div class="brand-logo">
+					<a href="#!"> <img
+						src="../../../imagens/logos/GTAV-LSCustoms-Logo.png" alt="logo" />
+					</a>
+				</div>
+				<ul class="right hide-on-med-and-down">
+
+				</ul>
+			</div>
+		</nav>
+	</header>
+		
+	
+				<h:form id="formListarCarros">
+				
+				<div class="row container">
+				
+				<section class="grey lighten-4 col s12 m12 l12">
+					<h5 class="light" style="margin-left: -150px;">Carros Registrados: #{novoCarroBean.listarCarros().size()}</h5>
+				
+    				<p:dataTable id="cars" var="car" value="#{novoCarroBean.listarCarros()}" rowKey="#{car.id}" widgetVar="carsTable" selection="#{novoCarroBean.selectedCar}" selectionMode="single" emptyMessage="Nenhum carro foi encontrado com os critérios passados."
+    				style="margin: 1px -150px 1px -150px;">
+    				
+        				<f:facet name="header"> Clique com botão direito para ver as opções</f:facet>
+        				
+        				<p:column headerText="ID" filterBy="#{car.id}" sortBy="#{car.id}" filterMatchMode="contains">
+            				<h:outputText value="#{car.id}" />
+        				</p:column>
+        				
+        				<p:column headerText="Nome" filterBy="#{car.nome}" sortBy="#{car.nome}" filterMatchMode="startsWith">
+            				<h:outputText value="#{car.nome}" />
+        				</p:column>
+        				
+        				<p:column headerText="Grupo" filterBy="#{car.categoria}" sortBy="#{car.categoria}" filterMatchMode="exact">
+        					<f:facet name="filter">
+                				<p:selectOneMenu onchange="PF('carsTable').filter()" style="width:100%; box-sizing: border-box;" >
+                    				<f:selectItem itemLabel="Selecione" itemValue="#{null}" noSelectionOption="true" />
+                    				<f:selectItems value="#{novoCarroBean.gruposDeCarro}" />
+                				</p:selectOneMenu>
+            				</f:facet>
+            				
+            				<h:outputText value="#{car.categoria}" />
+        				</p:column>
+        				
+        				<p:column headerText="Marca" filterBy="#{car.marca}" sortBy="#{car.marca}" filterMatchMode="exact">
+        					<f:facet name="filter">
+                				<p:selectOneMenu onchange="PF('carsTable').filter()" style="width:100%; box-sizing: border-box;" >
+                    				<f:selectItem itemLabel="Selecione" itemValue="#{null}" noSelectionOption="true" />
+                    				<f:selectItems value="#{novoCarroBean.marcas}" />
+                				</p:selectOneMenu>
+            				</f:facet>
+        				
+            				<h:outputText value="#{car.marca}" />
+        				</p:column>
+        				
+        				<p:column headerText="Cor" filterBy="#{car.cor}" sortBy="#{car.cor}" filterMatchMode="exact">
+        					<f:facet name="filter">
+                				<p:selectOneMenu onchange="PF('carsTable').filter()" style="width:100%; box-sizing: border-box;" >
+                    				<f:selectItem itemLabel="Selecione" itemValue="#{null}" noSelectionOption="true" />
+                    				<f:selectItems value="#{novoCarroBean.cores}" />
+                				</p:selectOneMenu>
+            				</f:facet>
+            				
+            				<h:outputText value="#{car.cor}" />
+        				</p:column>
+        				
+        				<p:column headerText="Ano" filterBy="#{car.ano}" sortBy="#{car.ano}" filterMatchMode="startsWith">
+            				<h:outputText value="#{car.ano}" />
+        				</p:column>
+        				
+        				<p:column headerText="Diária">
+            				<h:outputText value="#{novoCarroBean.diariasCarrosFormatados(car.valorDaDiaria)}" />
+        				</p:column>
+        				
+        				<p:column headerText="Operações">
+            				<p:link id="editCar" value="Editar" outcome="/paginas/protegido/carros/cadastroEdicaoDeCarros.xhtml" style="font-weight:bold;">
+								<f:param name="car" value="#{car.id}"/>            				
+            				</p:link>
+        					<p:tooltip id="toolTipEditCar" for="editCar" value="Editar Informações do Carro" position="bottom"/>
+        				</p:column>
+        				
+    				</p:dataTable>
+    				
+    				<p:contextMenu for="cars">
+    				
+        				<p:menuitem value="Informações do Carro" update="carDetail" icon="pi pi-search" oncomplete="PF ('carDialog').show()"/>
+        				
+        				<p:menuitem value="Novo Carro" outcome="/paginas/protegido/carros/cadastroEdicaoDeCarros.xhtml" icon="pi pi-plus-circle"/>
+        				
+        				<p:menuitem value="Excluir Carro" update="cars" icon="pi pi-times" action="#{deletarCarroBean.deletar(novoCarroBean.selectedCar)}">
+        					<p:confirm header="Confirmação!" message="Deseja excluir o carro selecionado?" icon="fa fa-remove" />
+        				</p:menuitem>
+        				
+        				<p:menuitem value="Página Principal" outcome="/paginas/protegido/admin/paginaPrincipalAdmin.xhtml" icon="pi pi-home"/>
+        				
+   	 				</p:contextMenu>
+   	 				
+   	 				</section>
+   	 				</div>
+   	 				
+   	 			</h:form>
+				
+			
+   	 				<p:dialog header="Informações do Carro" widgetVar="carDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+				
+						<p:outputPanel id="carDetail" style="text-align:center;">
+					
+						<p:panelGrid columns="2" rendered="#{not empty novoCarroBean.selectedCar}" columnClasses="label,value">
+						
+								<h:outputText value="Placa:" style="font-weight:bold;"/>
+								<h:outputText value="#{novoCarroBean.selectedCar.placa}" />
+								
+								<h:outputText value="Nº de Portas:" style="font-weight:bold;"/>
+								<h:outputText value="#{novoCarroBean.selectedCar.caracteristicas.numeroDePortas}" />
+
+								<h:outputText value="Nº de Pessoas:" style="font-weight:bold;"/>
+								<h:outputText value="#{novoCarroBean.selectedCar.caracteristicas.quantidadeDePessoas}" />
+
+								<h:outputText value="Transmissão:" style="font-weight:bold;"/>
+								<h:outputText value="#{novoCarroBean.selectedCar.caracteristicas.transmissao}" />
+
+								<h:outputText value="Vidros Elétricos:" style="font-weight:bold;"/>
+								<h:outputText value="#{novoCarroBean.selectedCar.caracteristicas.vidroEletrico}" />
+
+								<h:outputText value="Travas Elétricas :" style="font-weight:bold;"/>
+								<h:outputText value="#{novoCarroBean.selectedCar.caracteristicas.travaEletrica}" />
+								
+								<h:outputText value="Ar Condicionado:" style="font-weight:bold;"/>
+								<h:outputText value="#{novoCarroBean.selectedCar.caracteristicas.arCondicionado}" />
+								
+								<h:outputText value="Dir. Hidraúlica:" style="font-weight:bold;"/>
+								<h:outputText value="#{novoCarroBean.selectedCar.caracteristicas.direcaoHidraulica}" />
+								
+								<h:outputText value="ABS:" style="font-weight:bold;"/>
+								<h:outputText value="#{novoCarroBean.selectedCar.caracteristicas.abs}" />
+								
+								<h:outputText value="Air Bag:" style="font-weight:bold;"/>
+								<h:outputText value="#{novoCarroBean.selectedCar.caracteristicas.airBag}" />
+								
+								<h:outputText value="Mala Grande:" style="font-weight:bold;"/>
+								<h:outputText value="#{novoCarroBean.selectedCar.caracteristicas.malaGrande}" />
+								
+								<h:outputText value="Mala Pequena:" style="font-weight:bold;"/>
+								<h:outputText value="#{novoCarroBean.selectedCar.caracteristicas.malaPequena}" />
+								
+							</p:panelGrid>
+					</p:outputPanel>
+			</p:dialog>
+			
+			
+			<!-- START FOOTER -->
+	<footer class="page-footer blue lighten-5">
+		<div class="footer-copyright">
+			<div class="container  center">
+				<a class="indigo darken-4 waves-effect waves-light btn" href="../admin/paginaPrincipalAdmin.xhtml" style="border-radius:5px;">Página Principal</a>
+			</div>
+		</div>
+	</footer>
+	<!-- END FOOTER -->
+	</h:body>
+</html>

@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:jsf="http://xmlns.jcp.org/jsf"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+	
+	<h:head>
+		<title>LS Customs - Aluguel de Carros</title>
+		
+		<!-- Favicons-->
+  		<link rel="shortcut icon" href="./imagens/logos/favicon (1).ico" />
+		
+		<!-- Compiled and minified CSS -->
+    	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"/>
+    	
+    	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    	
+    	<!-- Compiled and minified JavaScript -->
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    	
+    	<!-- INCLUDED PLUGIN CSS ON THIS PAGE -->
+  		<link href="js/plugins/prism/prism.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  		<link href="js/plugins/perfect-scrollbar/perfect-scrollbar.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  		<link href="js/plugins/chartist-js/chartist.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  		
+  		
+  		<!-- CORE CSS-->
+  
+  		<link href="css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  		<link href="css/style.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    	<!-- Custome CSS-->    
+    	<link href="css/custom/custom.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    	
+    	<style>
+    	
+    	body {
+    		background-color: #f5f5f5;
+    	}
+    	
+    	@media only screen and (min-width: 993px) {
+  			.container {
+    			width: 90%;
+  			}
+		}
+    	
+    	.brand-logo {
+    	
+    		height: 80px;
+    		padding: 15px;
+    	}
+    	
+    	.brand-logo img {
+    		height: 100%;
+    	}
+    	
+    	</style>
+		
+	</h:head>
+	
+	
+	<h:body>
+	
+		<ui:include src="/WEB-INF/templates/growlMessages.xhtml" />
+		
+		
+		<!-- HEADER -->
+		<header>
+
+		<nav class="indigo darken-4" >
+			<div class="nav-wrapper">
+
+				<div class="brand-logo">
+					<a href="./index.xhtml"> <img
+						src="./imagens/logos/GTAV-LSCustoms-Logo.png" alt="logo" />
+					</a>
+				</div>
+				
+
+				<ul class="right hide-on-med-and-down">
+					
+					<li><a href="./paginas/publico/mostrarAgencias.xhtml"><i class=" waves-effect waves-light material-icons left">place</i>Agências</a></li>
+					<li><a href="./paginas/publico/clientes/buscarReserva.xhtml"><i class="waves-effect waves-light material-icons left">search</i>Buscar Reserva</a></li>
+					<li><a href="./paginas/publico/clientes/cadastroEdicaoDeCliente.xhtml"><i class="waves-effect waves-light material-icons left">add_circle</i>Cadastre-se</a></li>
+					<li><a href="./paginas/protegido/fakePage.xhtml"><i class="waves-effect waves-light material-icons left">account_circle</i>Login</a></li>
+					<!-- <li><a href="./paginas/publico/admin/cadastroEdicaoAdmin.xhtml"><i class="waves-effect waves-light material-icons left">assignment_ind</i>Administrador</a></li> -->
+
+				</ul>
+			</div>
+		</nav>
+	</header>
+	
+	<!-- CONTEUDO -->
+	
+	<h:form id="formCarros">
+	
+	<!-- Page Layout here -->
+	<div class="row">
+
+		<div class="col s3 ">
+			<!-- Grey navigation panel -->
+			<ul class="collection with-header grey lighten-4" style="border-radius:20px;">
+				<li class="collection-header"><h5>Como alugar um carro?</h5></li>
+				<li class="collection-item"><a class="blue waves-effect waves-light btn" jsf:outcome="/paginas/publico/clientes/cadastroEdicaoDeCliente.xhtml" style="border-radius:20px;">Cadastre-se para começar!</a></li>
+				<li class="collection-item"><b>1º</b> Após o cadastro, faça login.</li>
+				<li class="collection-item"><b>2º</b> Escolha o carro que desejar e clique em "Reservar".</li>
+				<li class="collection-item"><b>3º</b> Escolha o local, data e horários que desejar.</li>
+				<li class="collection-item"><b>4º</b> Escolha entre nossas tarifas opcionais.</li>
+				<li class="collection-item"><b>5º</b> Veja o resumo da reserva e clique em "Finalizar" para completar a reserva.</li>
+				<li class="collection-item"><b>6º</b> Está feito! Basta ir na agência, realizar o pagamento e retirar o carro.</li>
+			</ul>
+
+		</div>
+		
+
+		<div class="col s9">
+			<!-- Teal page content  -->
+			
+			<section class="grey lighten-4 col s12 m6 l12">
+			<h5 class="light">Nossos Carros</h5>
+			
+			<ui:repeat var="carro" value="#{novoCarroBean.listarCarros()}">
+			
+			<article class="col s12 l6 xl4">
+
+						<div class="card hoverable indigo darken-4" style="border-radius:20px;">
+							<div class="card-content white-text">
+								<span class="card-title">#{carro.nome}</span>
+								<span style="color:white; font-weight: bold; font-size: 1.1em;">Marca: #{carro.marca}</span><br/>
+								<span style="color:white; font-weight: bold; font-size: 1.4em;">#{novoCarroBean.diariasCarrosFormatados(carro.valorDaDiaria)}</span>
+								<!-- <p>
+									Marca: #{carro.marca}<br/> 
+									Diária: #{novoCarroBean.diariasCarrosFormatados(carro.valorDaDiaria)}
+								</p> -->
+							</div>
+							<div class="grey lighten-4 card-action" style="border-radius:20px;">
+
+									<button class="blue btn waves-effect waves-light modal-trigger" jsf:value="#{carro}" jsf:target="#{novoCarroBean.selectedCar}" style="border-radius:20px;"
+									data-target="modalInfo">Detalhes 
+										<p:ajax update="formCarros:carDetail"/>
+										<f:setPropertyActionListener value="#{carro}" target="#{novoCarroBean.selectedCar}"/>
+									</button>
+							</div>
+
+						</div>
+					</article>
+					
+			</ui:repeat>
+			
+		</section>
+				
+		</div>
+		
+	</div>
+		
+		
+		<!-- INFORMAÇÃO DOS CARROS -->
+
+		<!-- Modal Structure -->
+		<div id="modalInfo" class="modal">
+		
+			<div class="modal-content">
+			
+				<h4>Informações do Carro</h4>
+				
+				<p:outputPanel id="carDetail" style="text-align:center;">
+						
+							<p:panelGrid columns="2" rendered="#{not empty novoCarroBean.selectedCar}" columnClasses="label,value">
+								<f:facet name="header">
+									
+								</f:facet>
+
+								<h:outputText value="Grupo:" style="font-weight:bold"/>
+								<h:outputText value="#{novoCarroBean.selectedCar.categoria}" />
+								
+								<h:outputText value="Nome:" style="font-weight:bold"/>
+								<h:outputText value="#{novoCarroBean.selectedCar.nome}" />
+								
+								<h:outputText value="Marca:" style="font-weight:bold"/>
+								<h:outputText value="#{novoCarroBean.selectedCar.marca}" />
+								
+								<h:outputText value="Diária:" style="font-weight:bold"/>
+								<h:outputText value="#{novoCarroBean.diariasCarrosFormatados(novoCarroBean.selectedCar.valorDaDiaria)}" />
+
+								<h:outputText value="Cor:" style="font-weight:bold"/>
+								<h:outputText value="#{novoCarroBean.selectedCar.cor}" />
+
+								<h:outputText value="Ano:" style="font-weight:bold"/>
+								<h:outputText value="#{novoCarroBean.selectedCar.ano}" />
+
+								<h:outputText value="Placa:" style="font-weight:bold"/>
+								<h:outputText value="#{novoCarroBean.selectedCar.placa}" />
+								
+								<h:outputText value="Nº Portas:" style="font-weight:bold"/>
+								<h:outputText value="#{novoCarroBean.selectedCar.caracteristicas.numeroDePortas}" />
+								
+								<h:outputText value="Nº Pessoas:" style="font-weight:bold"/>
+								<h:outputText value="#{novoCarroBean.selectedCar.caracteristicas.quantidadeDePessoas}" />
+								
+								<h:outputText value="Transmissão:" style="font-weight:bold"/>
+								<h:outputText value="#{novoCarroBean.selectedCar.caracteristicas.transmissao}" />
+								
+								<h:outputText value="Vidros Elétricos:" style="font-weight:bold"/>
+								<h:outputText value="#{novoCarroBean.selectedCar.caracteristicas.vidroEletrico}" />
+								
+								<h:outputText value="Travas Elétricas:" style="font-weight:bold"/>
+								<h:outputText value="#{novoCarroBean.selectedCar.caracteristicas.travaEletrica}" />
+								
+								<h:outputText value="Ar Condicionado:" style="font-weight:bold"/>
+								<h:outputText value="#{novoCarroBean.selectedCar.caracteristicas.arCondicionado}" />
+								
+								<h:outputText value="Dir. Hidraúlica:" style="font-weight:bold"/>
+								<h:outputText value="#{novoCarroBean.selectedCar.caracteristicas.direcaoHidraulica}" />
+								
+								<h:outputText value="ABS:" style="font-weight:bold"/>
+								<h:outputText value="#{novoCarroBean.selectedCar.caracteristicas.abs}" />
+								
+								<h:outputText value="Air Bag:" style="font-weight:bold"/>
+								<h:outputText value="#{novoCarroBean.selectedCar.caracteristicas.airBag}" />
+								
+								<h:outputText value="Mala Grande:" style="font-weight:bold"/>
+								<h:outputText value="#{novoCarroBean.selectedCar.caracteristicas.malaGrande}" />
+								
+								<h:outputText value="Mala Pequena:" style="font-weight:bold"/>
+								<h:outputText value="#{novoCarroBean.selectedCar.caracteristicas.malaPequena}" />
+								
+							</p:panelGrid>
+						
+						</p:outputPanel>
+				
+
+			</div>
+			<div class="modal-footer">
+				<a href="#!" class="modal-close waves-effect waves-green btn-flat">Fechar</a>
+			</div>
+		</div>
+
+		
+			</h:form>
+	
+	<!-- RODAPÉ --> <!-- Modal Structure -->
+	
+			<h:form id="formPergunta">
+	
+	<div id="modal1" class="modal">
+	
+		<div class="modal-content">
+			
+			<h4>Acesso Restrito</h4>
+			
+			<p>Esta é uma área restrita, para conseguir acesso, responda a questão abaixo. Voçê só poderá responder uma única vez.<br/><br/>
+			
+			<b>- Quem é o professor atual de DAC?</b><br/><br/>
+			
+			</p>
+			
+			<p:panelGrid id="pgPergunta" columns="5" cellpadding="5">
+			
+				<p:growl id="msg" />
+
+					<p:selectOneRadio id="pergunta" value="#{menu.resposta}" layout="responsive" unselectable="true" columns="5">
+						<f:selectItem itemLabel="#{menu.acesso.professor2}" itemValue="#{menu.acesso.professor2}" />
+						<f:selectItem itemLabel="#{menu.acesso.professor4}" itemValue="#{menu.acesso.professor4}" />
+						<f:selectItem itemLabel="#{menu.acesso.professor1}" itemValue="#{menu.acesso.professor1}" />
+						<f:selectItem itemLabel="#{menu.acesso.professor3}" itemValue="#{menu.acesso.professor3}" />
+						<f:selectItem itemLabel="#{menu.acesso.professor5}" itemValue="#{menu.acesso.professor5}" />
+						
+					</p:selectOneRadio>
+			
+			</p:panelGrid>
+			
+		</div>
+		
+		<div class="modal-footer">
+			<a jsf:action="#{menu.verificarResposta()}" class="modal-close waves-effect waves-green btn-flat">Responder
+				
+			</a>
+		</div>
+		
+		<script>
+		$(document).ready(function(){
+		    $('.modal').modal();
+		  });
+
+		</script>
+		
+	</div>
+	
+	</h:form>
+
+
+	<!-- RODAPÉ -->
+	<footer class="page-footer indigo darken-4">
+		<div class="container">
+			<div class="row">
+				<div class="col l6 s12">
+					<h5 class="white-text">LS Customs - Locadora de Veículos</h5>
+					<p class="grey-text text-lighten-4">Este é um projeto da disciplina de 
+						Desenvolvimento de Aplicações Corporativas (DAC), do curso de ADS.</p>
+				</div>
+				<div class="col l4 offset-l2 s12">
+					<h5 class="white-text">Mais</h5>
+					<ul>
+						<li><a class="grey-text text-lighten-3" href="./paginas/publico/sobre.xhtml">Sobre o Sistema</a></li>
+						<li>
+							<a id="admin" href="#" class="grey-text text-lighten-3 modal-trigger" jsf:rendered="#{menu.desativarLink()}" data-target="modal1">Cadastro de Administrador 
+								<!-- <p:ajax update="admin" listener="#{menu.desativarLink()}"/> -->
+							</a> 
+							
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="footer-copyright">
+			<div class="container">
+				© 2020 ADS
+			</div>
+		</div>
+	</footer>
+	
+		</h:body>
+</html>
+	

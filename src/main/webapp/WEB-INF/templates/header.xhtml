@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+      
+    <h:head></h:head>
+
+	<ui:composition>
+	
+		<div id= "menu">
+		
+			<h:form id= "formMenu">
+
+				 <p:menubar>
+					  <!-- 1° submenu -->
+        				<p:submenu label="Agências" icon="pi pi-map-marker">
+        					<p:menuitem value="Ver Agências" outcome="/paginas/publico/mostrarAgencias.xhtml" icon="pi pi-map-marker"/>
+        				</p:submenu>
+ 				
+ 						<!-- 2° submenu -->
+        				<p:submenu label="Minhas Reservas" icon="pi pi-list">
+            				<p:menuitem value="Buscar Reserva" outcome="/paginas/publico/clientes/buscarReserva.xhtml" icon="pi pi-search"/>
+            			</p:submenu>
+            			
+ 						<!-- 3° submenu -->
+        				<p:submenu label="Sobre" icon="pi pi-info-circle">
+            				<p:menuitem value="Sobre o Sistema" outcome="/paginas/publico/sobre.xhtml" icon="pi pi-info"/>
+            			</p:submenu>
+            			
+    				</p:menubar>
+			</h:form> 
+		</div>
+	</ui:composition>
+</html>

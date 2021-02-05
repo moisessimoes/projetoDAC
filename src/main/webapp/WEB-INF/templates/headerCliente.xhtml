@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+      
+    <h:head></h:head>
+
+	<ui:composition>
+	
+		<div id= "menu">
+		
+			<h:form id= "formMenu">
+
+				 <p:menubar>
+					  <!-- 1° submenu -->
+        				<p:submenu label="Agências" icon="pi pi-map-marker">
+        					<p:menuitem value="Ver Agências" outcome="/paginas/publico/mostrarAgencias.xhtml" icon="pi pi-map-marker" />
+        				</p:submenu>
+ 						
+ 						
+ 						 <!-- 2° submenu -->
+        				<p:submenu label="Minhas Reservas" icon="pi pi-list">
+        				
+        					<p:menuitem value="Buscar Reserva" outcome="/paginas/protegido/clientes/reservasDoCliente.xhtml" icon="pi pi-search"/>
+        					
+        				</p:submenu>
+ 						
+            			
+ 						<!-- 3° submenu -->
+        				<p:submenu label="Editar" icon="pi pi-pencil">
+        				
+            				<p:menuitem value="Suas Informações" action="#{novoClienteBean.iniciar()}" oncomplete="if (!args.validationFailed) { PF('clientEditDialog').show() }" update=":clientEditDialogId" icon="fa fa-edit">
+								<f:setPropertyActionListener value="#{detalhesDoCliente.contaCliente.cliente}" target="#{novoClienteBean.cliente}" />
+								<p:resetInput target="clientEditDialogId"/>
+							</p:menuitem>
+							
+							<p:menuitem value="Seu Email" icon="pi pi-envelope"
+								oncomplete="if (!args.validationFailed) { PF('clientEditEmailDialog').show() }" update=":clientEditEmailDialogId">
+								<f:setPropertyActionListener value="#{detalhesDoCliente.contaCliente.cliente}" target="#{editarEmailSenhaClienteBean.cliente}" />
+								<p:resetInput target=":clientEditEmailDialogId" />
+							</p:menuitem>
+							
+							<p:menuitem value="Sua Senha" icon="pi pi-key"
+								oncomplete="if (!args.validationFailed) { PF('clientPasswordEditDialog').show() }" update=":clientPasswordEditDialogId">
+								<f:setPropertyActionListener value="#{detalhesDoCliente.contaCliente.cliente}" target="#{editarEmailSenhaClienteBean.cliente}" />
+								<p:resetInput target=":clientPasswordEditDialogId" />
+							</p:menuitem>
+							
+            			</p:submenu>
+            			
+    				</p:menubar>
+			</h:form>
+			
+			<p:dialog id="clientEditDialogId" widgetVar="clientEditDialog" header="Editar Cliente" modal="true" dynamic="true" closeOnEscape="true">
+		
+					<h:form id="formEditClient">
+				
+						<ui:include src="/WEB-INF/templates/camposEdicaoCliente.xhtml" />
+				
+						<p:panelGrid columns="2" styleClass="ui-noborder">
+				
+						<p:commandButton id="btSalvar" action="#{novoClienteBean.salvarCliente()}" value="Salvar" update="@form" oncomplete="if (!args.validationFailed) { PF('clientEditDialog').hide(); }" 
+							style="background:navy;"/>
+						<p:commandButton id="btCancelar" value="Cancelar" onclick="PF('clientEditDialog').hide();" process="@this" style="background:red;"/>
+					</p:panelGrid>
+				
+					<p:defaultCommand target="formEditClient:btSalvar" />
+			
+				</h:form>	
+			</p:dialog>
+			
+			
+			<p:dialog id="clientEditEmailDialogId" widgetVar="clientEditEmailDialog" header="Editar Email" modal="true" dynamic="true" closeOnEscape="true">
+				
+				<h:form id="formEditEmail">
+				
+					<p:panelGrid columns="2" styleClass="ui-noborder">
+					
+						<h:outputText value="Email Atual: " />
+						<p:inputText value="#{editarEmailSenhaClienteBean.emailAtual}" required="true" label="Email Atual" style="width:350px" />
+					
+						<h:outputText value="Novo Email: " />
+						<p:inputText value="#{editarEmailSenhaClienteBean.newEmail}" required="true" label="Novo Email" style="width:350px" />
+						
+						<p:commandButton id="botaoSubmeterEditEmail" action="#{editarEmailSenhaClienteBean.changeEmail()}" value="Salvar" update="@form"
+							oncomplete="if (!args.validationFailed) { PF('clientEditEmailDialog').hide(); }"  style="background:navy;"/>
+						<p:commandButton id="botaoCancelarEditEmail" onclick="PF('clientEditEmailDialog').hide();" value="Cancelar" process="@this" style="background:red;"/>
+					
+					</p:panelGrid>
+				</h:form>
+			
+			</p:dialog>
+			
+			
+			<p:dialog id="clientPasswordEditDialogId" widgetVar="clientPasswordEditDialog" header="Editar Senha" modal="true" dynamic="true" closeOnEscape="true">
+	    
+			<!-- Observação quanto a diálogos e h:form: Todo diálogo deve ter seu próprio h:form. Lembrando que não deve haver nunca h:forms aninhados:
+				 Referência: https://stackoverflow.com/questions/18958729/pcommandbutton-action-doesnt-work-inside-pdialog -->
+				<h:form id="formEditPassword">
+		
+					<p:panelGrid columns="2" styleClass="ui-noborder">
+		
+						<p:outputLabel for="currentPassword" value="Senha Atual:" />
+						<p:password id="currentPassword" value="#{editarEmailSenhaClienteBean.confirmacaoPasswordAtual}" label="Senha Atual" required="true" />
+		
+						<p:outputLabel for="password" value="Nova Senha:" />
+						<p:password id="password" value="#{editarEmailSenhaClienteBean.newPassword}" label="Nova Senha" required="true" match="confirmPassword" feedback="true" />
+		
+						<p:outputLabel for="confirmPassword" value="Confirmar Senha:" />
+						<p:password id="confirmPassword" value="#{editarEmailSenhaClienteBean.newPassword}" label="Confirmar Senha" required="true" feedback="true" />
+		
+						<p:commandButton id="botaoSubmeterEditPassword" action="#{editarEmailSenhaClienteBean.changePassword()}" value="Salvar" update="@form"
+							oncomplete="if (!args.validationFailed) { PF('clientPasswordEditDialog').hide(); }"  style="background:navy;"/>
+						<p:commandButton id="botaoCancelarEditPassword" onclick="PF('clientPasswordEditDialog').hide();" value="Cancelar"
+							process="@this" style="background:red;"/>
+							
+					</p:panelGrid>
+				</h:form>
+	    	</p:dialog>
+			 
+		</div>
+	</ui:composition>
+</html>

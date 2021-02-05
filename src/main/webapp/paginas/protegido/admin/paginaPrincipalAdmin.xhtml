@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:jsf="http://xmlns.jcp.org/jsf">
+	
+	<f:metadata>
+		<f:viewParam name="admin" value= "#{novoAdministradorBean.admin}"/>
+		<f:viewAction action="#{novoAdministradorBean.iniciar()}"/> 
+	</f:metadata>
+	
+	
+	<h:head>
+		<title>LS Customs - Administrador</title>
+		
+		<!-- Favicons-->
+  			<link rel="shortcut icon" href="../../../imagens/logos/favicon (1).ico" />
+		
+		<!-- Compiled and minified CSS -->
+    		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"/>
+    	
+    		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    	
+    		<!-- Compiled and minified JavaScript -->
+    		<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    		
+    		 <!-- INCLUDED PLUGIN CSS ON THIS PAGE -->
+  			<link href="js/plugins/prism/prism.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  			<link href="js/plugins/perfect-scrollbar/perfect-scrollbar.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  			<link href="js/plugins/chartist-js/chartist.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  			
+  			<!-- jQuery Library -->
+    		<script type="text/javascript" src="js/plugins/jquery-1.11.2.min.js"></script>
+    		
+    		
+    		<style>
+    		
+    			body {
+    				background-color: #f5f5f5;
+    			}
+    	
+    			@media only screen and (min-width: 993px) {
+  					.container {
+    					width: 90%;
+  					}
+				}
+    	
+    			.brand-logo {
+    	
+    				height: 80px;
+    				padding: 15px;
+    			}
+    	
+    			.brand-logo img {
+    				height: 100%;
+    			}
+    			
+    			#header, #main, #footer, #rowContainer {
+      				padding-left: 300px;
+    			}
+    			
+    			#rowContainer {
+      				padding-left: 200px;
+    			}
+
+    			@media only screen and (max-width : 992px) {
+      				#header, #main, #footer, #rowContainer {
+       					 padding-left: 0;
+      			}
+      			
+    			@media only screen and (max-width : 992px) {
+      				#rowContainer {
+       					 padding-left: 0;
+      			}
+   			 }
+    	
+    		</style>
+		
+	</h:head>
+	
+	<h:body>
+	
+	<ui:include src="/WEB-INF/templates/growlMessages.xhtml"/> 
+	
+	<ui:include src="/WEB-INF/templates/informacoesDoAdmin.xhtml" />
+	
+	
+	<ui:debug hotkey="z" />
+			
+			<!-- HEADER -->
+			<header id="header">
+			
+			<h:form id="formNavBar">
+				
+				<div class="col s12 m4 l9">
+				
+					<!-- Dropdown Structure EDIÇÃO -->
+				<div class="col col s8 m8 l8">
+					<ul id="dropdownEdicao" class="dropdown-content">
+						<li>
+							<p:commandLink value="Informações" action="#{novoAdministradorBean.iniciar()}" oncomplete="if (!args.validationFailed) { PF('adminEditDialog').show() }" update=":adminEditDialogId">
+								<f:setPropertyActionListener value="#{detalhesDoAdmin.contaAdmin.administrador}" target="#{novoAdministradorBean.admin}" />
+								<p:resetInput target="adminEditDialogId"/>
+								<i class="waves-effect waves-light material-icons left">info</i>
+							</p:commandLink>
+						</li>
+						
+						<li>
+							<p:commandLink value="E-mail de Acesso" oncomplete="if (!args.validationFailed) { PF('adminEditEmailDialog').show() }" update=":adminEditEmailDialogId">
+								<f:setPropertyActionListener value="#{detalhesDoAdmin.contaAdmin.administrador}" target="#{editarEmailSenhaAdministradorBean.admin}" />
+								<p:resetInput target=":adminEditEmailDialogId" />
+								<i class="waves-effect waves-light material-icons left">email</i>
+							</p:commandLink>
+						</li>
+						
+						<li>
+							<p:commandLink value="Senha de Acesso" oncomplete="if (!args.validationFailed) { PF('adminPasswordEditDialog').show() }" update=":adminPasswordEditDialogId">
+								<f:setPropertyActionListener value="#{detalhesDoAdmin.contaAdmin.administrador}" target="#{editarEmailSenhaAdministradorBean.admin}" />
+								<p:resetInput target=":adminPasswordEditDialogId" />
+								<i class="waves-effect waves-light material-icons left">vpn_key</i>
+							</p:commandLink>
+						</li>
+					</ul>
+				</div>
+					
+					
+					<!-- Dropdown ADMIN -->
+				<!-- <div class="col col s8 m8 l8">
+					<ul id="dropdownAdmin" class="dropdown-content">
+
+						<li>
+							<p:commandLink value="Perfil" oncomplete="if (!args.validationFailed) { PF('adminDetailsDialog').show() }" update="adminDetailsDialogId">
+								<i class="waves-effect waves-light material-icons left">person</i>
+							</p:commandLink>
+						</li>
+
+						<li>
+							<p:commandLink value="Sair" action="#{logout.efetuarLogout()}">
+								<i class="waves-effect waves-light material-icons left">exit_to_app</i>
+							</p:commandLink>
+						</li>
+					</ul>
+				</div> -->
+					
+					
+					<!-- Dropdown CADASTRAR -->
+				<div class="col col s8 m8 l8">
+					<ul id="dropdownCadastro" class="dropdown-content">
+						
+						<li>
+							<a href="../../publico/admin/cadastroEdicaoAdmin.xhtml">Administrador
+								<i class="waves-effect waves-light material-icons left">person_add</i>
+							</a>
+						</li>
+						
+						<li>
+							<a href="../agencias/cadastroEdicaoDeAgencias.xhtml">Agência
+								<i class="waves-effect waves-light material-icons left">home</i>
+							</a>
+						</li>
+						
+						<li>
+							<a href="../carros/cadastroEdicaoDeCarros.xhtml">Carro
+								<i class="waves-effect waves-light material-icons left">directions_car</i>
+							</a>
+						</li>
+					</ul>
+				</div>					
+					
+					<!-- Dropdown LISTAR -->
+				<div class="col col s8 m8 l8">
+					<ul id="dropdownListar" class="dropdown-content">
+					
+						<li>
+							<a href="../admin/listarAdministradores.xhtml">Administradores
+								<i class="waves-effect waves-light material-icons left">people</i>
+							</a>
+						</li>
+						
+						<li>
+							<a href="../agencias/listarAgencias.xhtml">Agências
+								<i class="waves-effect waves-light material-icons left">home</i>
+							</a>
+						</li>
+						
+						<li>
+							<a href="../carros/listarCarros.xhtml">Carros
+								<i class="waves-effect waves-light material-icons left">directions_car</i>
+							</a>
+						</li>
+						
+						<li>
+							<a href="../admin/listarClientes.xhtml">Clientes
+								<i class="waves-effect waves-light material-icons left">people</i>
+							</a>
+						</li>
+						
+						<li>
+							<a href="../alugueis/listarReservas.xhtml">Reservas
+								<i class="waves-effect waves-light material-icons left">folder</i>
+							</a>
+						</li>
+					</ul>
+				</div>
+
+					<!-- NAVBAR -->
+
+					<nav class="row indigo darken-4">
+					
+						<div class="nav-wrapper">
+						
+							<div class="col s12">
+								
+								<!-- LOGO -->
+								<div class="brand-logo">
+									<a href="#">
+										<img src="../../../imagens/logos/GTAV-LSCustoms-Logo.png" />
+									</a>
+								</div>
+								
+								
+								<ul class="right hide-on-med-and-down">
+								
+									<!-- <li>
+										<a class="btn-flat dropdown-trigger waves-effect waves-light white-text profile-btn" data-target="dropdownAdmin">Administrador: #{menu.usuarioLogado.administrador.nome}<i class="mdi-navigation material-icons right">arrow_drop_down</i></a>
+									</li> -->
+									
+									<!-- Dropdown Trigger -->
+									<li>
+										<a class="dropdown-trigger waves-effect waves-light white-text" data-target="dropdownListar"><i class="material-icons left">list</i>Listagem de Entidades</a>
+									</li>
+									
+									<li>
+										<a class="btn-flat dropdown-trigger waves-effect waves-light white-text" data-target="dropdownEdicao">Editar Informações<i class="material-icons left">edit</i></a>
+									</li>
+									
+									<li>
+										<a class="dropdown-trigger waves-effect waves-light white-text" data-target="dropdownCadastro"><i class="material-icons left">add_circle</i>Cadastrar Entidade</a>
+									</li>
+									
+								</ul>
+									<script type="text/javascript">$(".dropdown-trigger").dropdown();</script>
+							</div>
+						</div>
+					</nav>
+				</div>
+			</h:form>
+			
+			<!-- DIÁLOGOS DE EDIÇÃO DAS INFORMAÇÕES, EMAIL E SENHA DO ADMIN -->
+			
+			<p:dialog id="adminEditDialogId" widgetVar="adminEditDialog" header="Editar Administrador" modal="true" dynamic="true" closeOnEscape="true">
+		
+					<h:form id="formEditAdmin">
+				
+						<ui:include src="/WEB-INF/templates/camposEdicaoAdmin.xhtml" />
+				
+						<p:commandButton id="btSalvar" action="#{novoAdministradorBean.salvarAdmin()}" value="Salvar" update="@form" oncomplete="if (!args.validationFailed) { PF('adminEditDialog').hide(); }" 
+						style="border-radius:5px;" styleClass="blue darken-1 btn waves-effect waves-light"/>
+			
+				</h:form>	
+			</p:dialog>
+			
+			
+			<p:dialog id="adminEditEmailDialogId" widgetVar="adminEditEmailDialog" header="Editar Email" modal="true" dynamic="true" closeOnEscape="true">
+				
+				<h:form id="formEditEmail">
+				
+					<p:panelGrid columns="2" styleClass="ui-noborder">
+					
+						<h:outputText value="Email Atual: " />
+						<p:inputText id="campEmailAtual" value="#{editarEmailSenhaAdministradorBean.emailAtual}" required="true" label="Email Atual" style="width:350px">
+							<f:validator for="campEmailAtual" validatorId="emailValidator"/>
+						</p:inputText>
+					
+						<h:outputText value="Novo Email: " />
+						<p:inputText id="campNovoEmail" value="#{editarEmailSenhaAdministradorBean.newEmail}" required="true" label="Novo Email" style="width:350px;">
+							<f:validator for="campNovoEmail" validatorId="emailValidator"/>
+						</p:inputText>
+						
+						<p:commandButton id="botaoSubmeterEditEmail" action="#{editarEmailSenhaAdministradorBean.changeEmail()}" value="Salvar" update="@form"
+						oncomplete="if (!args.validationFailed) { PF('adminEditEmailDialog').hide(); }"  style="border-radius:5px;" styleClass="blue darken-1 btn waves-effect waves-light"/>
+					
+					</p:panelGrid>
+				</h:form>
+			
+			</p:dialog>
+			
+			
+			<p:dialog id="adminPasswordEditDialogId" widgetVar="adminPasswordEditDialog" header="Editar Senha" modal="true" dynamic="true" closeOnEscape="true">
+	    
+			<!-- Observação quanto a diálogos e h:form: Todo diálogo deve ter seu próprio h:form. Lembrando que não deve haver nunca h:forms aninhados:
+				 Referência: https://stackoverflow.com/questions/18958729/pcommandbutton-action-doesnt-work-inside-pdialog -->
+				<h:form id="formEditPassword">
+		
+					<p:panelGrid columns="2" styleClass="ui-noborder">
+		
+						<p:outputLabel for="currentPassword" value="Senha Atual:" />
+						<p:password id="currentPassword" value="#{editarEmailSenhaAdministradorBean.confirmacaoPasswordAtual}" label="Senha Atual" required="true" />
+		
+						<p:outputLabel for="password" value="Nova Senha:" />
+						<p:password id="password" value="#{editarEmailSenhaAdministradorBean.newPassword}" label="Nova Senha" required="true" match="confirmPassword" feedback="true" />
+		
+						<p:outputLabel for="confirmPassword" value="Confirmar Senha:" />
+						<p:password id="confirmPassword" value="#{editarEmailSenhaAdministradorBean.newPassword}" label="Confirmar Senha" required="true" feedback="true" />
+						
+						<p:commandButton id="botaoSubmeterEditPassword" action="#{editarEmailSenhaAdministradorBean.changePassword()}" value="Salvar" update="@form"
+						oncomplete="if (!args.validationFailed) { PF('adminPasswordEditDialog').hide(); }"  style="border-radius:5px;" styleClass="blue darken-1 btn waves-effect waves-light"/>
+						
+					</p:panelGrid>
+				</h:form>
+	    	</p:dialog>
+				
+		</header>
+		<!-- FIM DO CABECALHO -->
+		
+		<!-- //////////////////////////////////////////////////////////////////////////// -->
+		
+	<!-- CONTEUDO -->
+
+	<div id="main">
+
+		<div class="wrapper">
+
+			<aside id="left-sidebar-nav">
+
+				<ul id="slide-out" class="sidenav sidenav-fixed">
+					<li><div class="user-view">
+							<div class="background indigo darken-4">
+								<!-- <img src="../../../imagens/logos/javaee-logo.png"/> -->
+							</div>
+							<a href="#user"><img class="circle"
+								src="../../../imagens/logos/javaee-logo.png" /></a> <a href="#name"><span
+								class="white-text name">#{menu.usuarioLogado.administrador.nome}</span></a> <a href="#email"><span
+								class="white-text email">Administrador</span></a>
+						</div></li>
+
+					<li class="no-padding">
+						<ul class="collapsible collapsible-accordion">
+							<li><a class="collapsible-header waves-effect">Perfil<i
+									class="material-icons">person</i></a>
+								<div class="collapsible-body">
+									<ul>
+										<li>
+											<p:commandLink value="Minhas Informações" oncomplete="if (!args.validationFailed) { PF('adminDetailsDialog').show() }" update="adminDetailsDialogId">
+												<i class="waves-effect waves-light material-icons left">assignment</i>
+											</p:commandLink>
+										</li>
+										
+										<li>
+											<p:commandLink value="Editar Informações" action="#{novoAdministradorBean.iniciar()}" oncomplete="if (!args.validationFailed) { PF('adminEditDialog').show() }" update=":adminEditDialogId">
+												<f:setPropertyActionListener value="#{detalhesDoAdmin.contaAdmin.administrador}" target="#{novoAdministradorBean.admin}" />
+												<p:resetInput target="adminEditDialogId"/>
+												<i class="waves-effect waves-light material-icons left">edit</i>
+											</p:commandLink>
+										</li>
+										
+										
+										<li>
+											<p:commandLink value="E-mail de Acesso" oncomplete="if (!args.validationFailed) { PF('adminEditEmailDialog').show() }" update=":adminEditEmailDialogId">
+												<f:setPropertyActionListener value="#{detalhesDoAdmin.contaAdmin.administrador}" target="#{editarEmailSenhaAdministradorBean.admin}" />
+												<p:resetInput target=":adminEditEmailDialogId" />
+												<i class="waves-effect waves-light material-icons left">email</i>
+											</p:commandLink>
+										</li>
+										
+										
+										<li>
+											<p:commandLink value="Senha de Acesso" oncomplete="if (!args.validationFailed) { PF('adminPasswordEditDialog').show() }" update=":adminPasswordEditDialogId">
+												<f:setPropertyActionListener value="#{detalhesDoAdmin.contaAdmin.administrador}" target="#{editarEmailSenhaAdministradorBean.admin}" />
+												<p:resetInput target=":adminPasswordEditDialogId" />
+												<i class="waves-effect waves-light material-icons left">vpn_key</i>
+											</p:commandLink>
+										</li>
+										
+									</ul>
+										<script>
+										$(document).ready(function(){
+										    $('.collapsible').collapsible();
+										  });
+										</script>
+								</div></li>
+						</ul>
+					</li>
+
+
+					<li class="no-padding">
+						<ul class="collapsible collapsible-accordion">
+							<li><a class="collapsible-header waves-effect">Cadastrar Entidade<i
+									class="material-icons">add_circle</i></a>
+								<div class="collapsible-body">
+									<ul>
+										<li><a class="waves-effect"
+											href="../../publico/admin/cadastroEdicaoAdmin.xhtml">Administrador
+												<i class="waves-effect waves-light material-icons left">person_add</i>
+										</a></li>
+
+										<li><a class="waves-effect" href="../agencias/cadastroEdicaoDeAgencias.xhtml">Agência
+												<i class="waves-effect waves-light material-icons left">home</i>
+										</a></li>
+
+										<li><a class="waves-effect" href="../carros/cadastroEdicaoDeCarros.xhtml">Carro
+												<i class="waves-effect waves-light material-icons left">directions_car</i>
+										</a></li>
+
+									</ul>
+								</div></li>
+						</ul>
+					</li>
+
+
+					<li class="no-padding">
+						<ul class="collapsible collapsible-accordion">
+							<li><a class="collapsible-header waves-effect">Listar Entidades<i
+									class="material-icons">list</i></a>
+								<div class="collapsible-body">
+									<ul>
+										<li><a href="../admin/listarAdministradores.xhtml">Administradores
+												<i class="waves-effect waves-light material-icons left">people</i>
+										</a></li>
+
+										<li><a href="../agencias/listarAgencias.xhtml">Agências
+												<i class="waves-effect waves-light material-icons left">home</i>
+										</a></li>
+
+										<li><a href="../carros/listarCarros.xhtml">Carros <i
+												class="waves-effect waves-light material-icons left">directions_car</i>
+										</a></li>
+
+										<li><a href="../admin/listarClientes.xhtml">Clientes
+												<i class="waves-effect waves-light material-icons left">people</i>
+										</a></li>
+
+										<li><a href="../alugueis/listarReservas.xhtml">Reservas
+												<i class="waves-effect waves-light material-icons left">folder</i>
+										</a></li>
+									</ul>
+								</div></li>
+						</ul>
+					</li>
+
+
+
+					<li><div class="divider"></div></li>
+
+
+					<li>
+						
+						<p:commandLink value="Sair" action="#{logout.efetuarLogout()}" styleClass="collapsible-header waves-effect" style="font-weight:bold;"><i class="material-icons">exit_to_app</i>
+						</p:commandLink>
+						
+					</li>
+
+				</ul>
+
+
+
+			</aside>
+
+		</div>
+
+
+	</div>
+
+
+	<h:form id="formReservasExistentes">
+		
+			<div id="rowContainer" class="row container">
+
+				<section class="grey lighten-4 col s12 m6 l12">
+					<h5 class="light">Reservas Registradas: #{novaReservaBean.listarTodasAsReservas().size()}</h5>
+
+					<ui:repeat var="reserva" value="#{novaReservaBean.listarTodasAsReservas()}">
+
+							<article class="col s12 l5 ">
+
+								<div class="card hoverable indigo darken-4" style="border-radius:20px;">
+									<div class="card-content white-text">
+										<span class="card-title">RESERVA: #{reserva.codigoDaReserva}</span>
+										<p>
+											ID: #{reserva.id}<br/><br /> 
+											Cliente: #{reserva.cliente.nome}<br /><br />
+											RETIRADA: #{novaReservaBean.formatarData(reserva.enderecoReserva.dataRetirada)} às #{reserva.enderecoReserva.horaRetirada}<br /><br />
+											<!-- Hora da Retirada: #{reserva.enderecoReserva.horaRetirada}<br /><br /> -->
+											<!-- Local da Retirada: #{novaReservaBean.buscarAgencia(reserva.enderecoReserva.idAgenciaRetirada).nome} em #{novaReservaBean.buscarAgencia(reserva.enderecoReserva.idAgenciaRetirada).endereco.cidade}<br/><br/> -->
+											DEVOLUÇÃO: #{novaReservaBean.formatarData(reserva.enderecoReserva.dataDevolucao)} às #{reserva.enderecoReserva.horaDevolucao}<br/><br />
+											<!-- Hora da Devolução: #{reserva.enderecoReserva.horaDevolucao}<br /><br /> -->
+											<!-- Local da Devolução: #{novaReservaBean.buscarAgencia(reserva.enderecoReserva.idAgenciaDevolucao).nome} em #{novaReservaBean.buscarAgencia(reserva.enderecoReserva.idAgenciaDevolucao).endereco.cidade}<br/><br/> -->
+											Diárias: #{reserva.quantidadeDeDiarias}<br/><br />
+											Tarifa Cobertura de Carro: #{novaReservaBean.formatarValoresMonetarios(reserva.tarifaCoberturaCarro)}<br/><br />
+											Tarifa Cobertura para Terceiros: #{novaReservaBean.formatarValoresMonetarios(reserva.tarifaCoberturaTerceiros)}<br/><br />
+											Tarifa GPS: #{novaReservaBean.formatarValoresMonetarios(reserva.tarifaGPS)}<br/><br />
+											Taxa (12%): #{novaReservaBean.formatarValoresMonetarios(reserva.taxa)}<br/><br />
+											Total: #{novaReservaBean.formatarValoresMonetarios(reserva.valorTotalPrevisto)}<br/>
+											
+										</p>
+									</div>
+									<div class="grey lighten-4 card-action" style="border-radius:20px;">
+
+										<a>	
+											<button class="light-blue waves-effect waves-light btn modal-trigger" jsf:value="#{reserva}" jsf:target="#{novaReservaBean.selectedRent}" style="border-radius:20px;" data-target="modalReserva">Reserva 
+												<p:ajax update="formReservasExistentes:reservaDialogId"/>
+												<f:setPropertyActionListener value="#{reserva}" target="#{novaReservaBean.selectedRent}"/>
+												<i class="material-icons left">assignment</i>
+											</button>
+											
+										</a>
+										
+										<a>
+											<button class="light-blue waves-effect waves-light btn modal-trigger" jsf:value="#{reserva}" jsf:target="#{novaReservaBean.selectedRent}" style="border-radius:20px;"
+											data-target="modalCliente">Cliente 
+												<p:ajax update="formReservasExistentes:clientDetailsDialogId"/>
+												<f:setPropertyActionListener value="#{reserva}" target="#{novaReservaBean.selectedRent}"/>
+												<i class="material-icons left">person</i>
+											</button>
+											
+										</a>
+
+									</div>
+
+								</div>
+							</article>
+							
+				</ui:repeat>
+				
+				
+				<!-- Modal Cliente -->
+					<div id="modalCliente" class="modal">
+
+						<div class="modal-content">
+
+							<h4>Informações do Cliente</h4>
+							
+							<p:outputPanel id="clientDetailsDialogId" style="text-align:center;">
+
+									<p:panelGrid columns="2" rendered="#{not empty novaReservaBean.selectedRent}" columnClasses="label,value">
+
+										<h:outputText value="ID:" style="font-weight: bold;" />
+										<h:outputText value="#{novaReservaBean.selectedRent.cliente.id}" />
+
+										<h:outputText value="Nome:" style="font-weight: bold;" />
+										<h:outputText value="#{novaReservaBean.selectedRent.cliente.nome}" />
+
+										<h:outputText value="CPF:" style="font-weight: bold;" />
+										<h:outputText value="#{novaReservaBean.formatarCPF(novaReservaBean.selectedRent.cliente.cpf)}" />
+
+										<h:outputText value="RG:" style="font-weight: bold;" />
+										<h:outputText value="#{novaReservaBean.selectedRent.cliente.rg}" />
+
+										<h:outputText value="Sexo:" style="font-weight: bold;" />
+										<h:outputText value="#{novaReservaBean.selectedRent.cliente.sexo}" />
+
+										<h:outputText value="Email:" style="font-weight: bold;" />
+										<h:outputText value="#{novaReservaBean.selectedRent.cliente.conta.email}" />
+
+										<h:outputText value="Telefone:" style="font-weight: bold;" />
+										<h:outputText value="#{novaReservaBean.formatarTelefone(novaReservaBean.selectedRent.cliente.telefone)}" />
+
+										<h:outputText value="Grupo:" style="font-weight: bold;" />
+										<h:outputText value="#{novaReservaBean.selectedRent.cliente.conta.grupo}" />
+
+									</p:panelGrid>
+								
+							</p:outputPanel>
+							
+						</div>
+
+						<div class="modal-footer">
+							<a href="#!"
+								class="modal-close waves-effect waves-green btn-flat">Fechar</a>
+						</div>
+
+						<script>
+						$(document).ready(function(){
+		    			$('.modal').modal();
+		  				});
+
+						</script>
+
+					</div>
+				
+				
+				
+				
+				<!-- Modal Reserva -->
+					<div id="modalReserva" class="modal">
+
+						<div class="modal-content">
+
+							<h4>Informações da Reserva</h4>
+							
+							<p:outputPanel id="reservaDialogId" style="text-align:center;">
+							
+								<p:panelGrid columns="2" rendered="#{not empty novaReservaBean.selectedRent}" columnClasses="label,value">
+
+								<h:outputText value="Carro:" />
+                        		<h:outputText value="#{novaReservaBean.selectedRent.carro.nome}" style="font-weight: bold"/>
+
+								<h:outputText value="Marca:" />
+                        		<h:outputText value="#{novaReservaBean.selectedRent.carro.marca}" style="font-weight: bold"/>
+
+								<h:outputText value="Valor da Diária:" />
+                        		<h:outputText value="#{novaReservaBean.formatarValoresMonetarios(novaReservaBean.selectedRent.carro.valorDaDiaria)}" style="font-weight: bold"/>
+                        		
+                        		<h:outputText value="Agência Retirada:" />
+                        		<h:outputText value="#{novaReservaBean.buscarAgencia(novaReservaBean.selectedRent.enderecoReserva.idAgenciaRetirada).nome}" style="font-weight:bold"/>
+                        		
+                        		<h:outputText value="Telefone:" />
+                        		<h:outputText value="#{novaReservaBean.formatarTelefone(novaReservaBean.buscarAgencia(novaReservaBean.selectedRent.enderecoReserva.idAgenciaRetirada).telefone)}" style="font-weight:bold"/>
+                        		
+                        		<h:outputText value="Cidade:" />
+                        		<h:outputText value="#{novaReservaBean.buscarAgencia(novaReservaBean.selectedRent.enderecoReserva.idAgenciaRetirada).endereco.cidade}" style="font-weight:bold"/>
+                        		
+                        		<h:outputText value="Bairro:" />
+                        		<h:outputText value="#{novaReservaBean.buscarAgencia(novaReservaBean.selectedRent.enderecoReserva.idAgenciaRetirada).endereco.bairro}" style="font-weight:bold"/>
+                        		
+                        		<h:outputText value="Rua:" />
+                        		<h:outputText value="#{novaReservaBean.buscarAgencia(novaReservaBean.selectedRent.enderecoReserva.idAgenciaRetirada).endereco.rua}" style="font-weight:bold"/>
+                        		
+                        		<h:outputText value="Número:" />
+                        		<h:outputText value="#{novaReservaBean.buscarAgencia(novaReservaBean.selectedRent.enderecoReserva.idAgenciaRetirada).endereco.numero}" style="font-weight:bold"/>
+                        		
+                        		<h:outputText value="CEP:" />
+                        		<h:outputText value="#{novaReservaBean.buscarAgencia(novaReservaBean.selectedRent.enderecoReserva.idAgenciaRetirada).endereco.cep}" style="font-weight:bold"/>
+                        		
+                        		<h:outputText value="Agência de Devolução:" />
+                        		<h:outputText value="#{novaReservaBean.buscarAgencia(novaReservaBean.selectedRent.enderecoReserva.idAgenciaDevolucao).nome}" style="font-weight:bold"/>
+                        		
+                        		<h:outputText value="Telefone:" />
+                        		<h:outputText value="#{novaReservaBean.formatarTelefone(novaReservaBean.buscarAgencia(novaReservaBean.selectedRent.enderecoReserva.idAgenciaDevolucao).telefone)}" style="font-weight:bold"/>
+                        		
+                        		<h:outputText value="Cidade:" />
+                        		<h:outputText value="#{novaReservaBean.buscarAgencia(novaReservaBean.selectedRent.enderecoReserva.idAgenciaDevolucao).endereco.cidade}" style="font-weight:bold"/>
+                        		
+                        		<h:outputText value="Bairro:" />
+                        		<h:outputText value="#{novaReservaBean.buscarAgencia(novaReservaBean.selectedRent.enderecoReserva.idAgenciaDevolucao).endereco.bairro}" style="font-weight:bold"/>
+                        		
+                        		<h:outputText value="Rua:" />
+                        		<h:outputText value="#{novaReservaBean.buscarAgencia(novaReservaBean.selectedRent.enderecoReserva.idAgenciaDevolucao).endereco.rua}" style="font-weight:bold"/>
+                        		
+                        		<h:outputText value="Número:" />
+                        		<h:outputText value="#{novaReservaBean.buscarAgencia(novaReservaBean.selectedRent.enderecoReserva.idAgenciaDevolucao).endereco.numero}" style="font-weight:bold"/>
+                        		
+                        		<h:outputText value="CEP:" />
+                        		<h:outputText value="#{novaReservaBean.buscarAgencia(novaReservaBean.selectedRent.enderecoReserva.idAgenciaDevolucao).endereco.cep}" style="font-weight:bold"/>
+								
+							</p:panelGrid>
+							
+							</p:outputPanel>
+							
+						</div>
+						
+						<div class="modal-footer">
+							<a href="#!"
+								class="modal-close waves-effect waves-green btn-flat">Fechar</a>
+						</div>
+						
+					</div>
+
+					</section>
+				
+				</div>
+
+				</h:form>
+
+
+
+	<footer id="footer" class="page-footer indigo darken-4">
+		<div class="container">
+			<div class="row">
+				<div class="col l6 s12">
+					<h5 class="white-text">LS Customs - Locadora de Veículos</h5>
+					<p class="grey-text text-lighten-4">Este é um projeto da disciplina de 
+						Desenvolvimento de Aplicações Corporativas (DAC), do curso de ADS.</p>
+				</div>
+				<div class="col l4 offset-l2 s12">
+					<h5 class="white-text">Sobre</h5>
+					<ul>
+						<li><a class="grey-text text-lighten-3" href="../../publico/sobre.xhtml">Sobre o Sistema</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="footer-copyright">
+			<div class="container">
+				© 2020 ADS
+			</div>
+		</div>
+	</footer>
+	
+ 	</h:body>
+</html>

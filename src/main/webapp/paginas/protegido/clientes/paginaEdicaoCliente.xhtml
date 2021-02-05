@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<ui:composition>
+	
+	<ui:define name="metadata">	
+		<f:metadata>
+			<o:viewParam name="cliente" value="#{novoClienteBean.cliente}"/>
+			<f:viewAction action="#{novoClienteBean.iniciar()}"/>
+		</f:metadata>
+	</ui:define>
+	
+	 <h:head>
+		<title>Editar Cliente</title> 	
+		<h:outputScript name="locale-primefaces.js" library="js" />
+	</h:head> 
+	
+	
+	<h:body>
+	
+		<div id="content">
+		
+			<ui:include src="/WEB-INF/templates/growlMessages.xhtml" /> 
+	
+			<ui:insert name="content">
+
+				<h:form id="formEditClient">
+
+					<ui:include src="/WEB-INF/templates/camposEdicaoCliente.xhtml" />
+
+					<p:commandButton id="btSalvar" action="#{novoClienteBean.salvarCliente()}" value="Salvar" update="@form" />
+
+					<p:button id="btCancelar" outcome="/paginas/protegido/clientes/paginaPrincipalCliente.xhtml" value="Cancelar" style="margin-right:20px;" />
+			
+					<p:defaultCommand id="defaultCommandId" target="formEditClient:btSalvar" />
+
+				</h:form>
+
+			</ui:insert>
+		</div>
+	</h:body>
+</ui:composition>
+</html>

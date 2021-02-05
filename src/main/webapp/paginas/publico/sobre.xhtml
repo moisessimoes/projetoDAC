@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+	
+	 <h:head>
+		<title>Sobre o Sistema</title>
+		
+		<!-- Favicons-->
+  		<link rel="shortcut icon" href="../../imagens/logos/favicon (1).ico" />
+		
+		<!-- Compiled and minified CSS -->
+   		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"/>
+
+    	<!-- Compiled and minified JavaScript -->
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    	
+    	 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+      	<!--Import materialize.css-->
+      	<link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+      	
+      	<style>
+    	
+    	body {
+    		background-color: #f5f5f5;
+    	}
+    	
+    	/* @media only screen and (min-width: 993px) {
+  			.container {
+    			width: 90%;
+  			}
+		} */
+    	
+    	.brand-logo {
+    	
+    		height: 80px;
+    		padding: 15px;
+    	}
+    	
+    	.brand-logo img {
+    		height: 100%;
+    	}
+    	
+    	</style>
+		 	
+	</h:head> 
+	
+																			
+	<h:body>
+	
+		<header>
+
+		<nav class="indigo darken-4">
+			<div class="nav-wrapper">
+
+				<div class="brand-logo">
+					<a href="#!"> <img
+						src="../../imagens/logos/GTAV-LSCustoms-Logo.png" alt="logo" />
+					</a>
+				</div>
+				<ul class="right hide-on-med-and-down">
+				</ul>
+			</div>
+		</nav>
+	</header>
+	
+	
+	 <!--start container-->
+        <div class="container">
+          <div class="section">
+
+            <p class="caption">Tecnologias Usadas no Sistema.</p>
+            <div class="divider"></div>
+            <ul class="collection with-header" style="border-radius:10px;">
+            
+                <li class="collection-header"><h4>LS Customs - v 1.5</h4> <span class="ultra-small">Projeto DAC</span></li>
+                <li class="collection-item"> <strong>Back-end</strong>
+                    <ul class="collection" style="border-radius:10px;">
+                        <li class="collection-item"> <img src="../../imagens/logos/javaee-logo.png"/></li>
+                        <li class="collection-item"><b>- Java Server Faces</b> usado nas páginas web do sistema.</li>
+                        <li class="collection-item"><b>- Enterprise JavaBeans</b> usado em algumas classes da lógica de negócio.</li>
+                        <li class="collection-item"><b>- Java Persistence API + Hibernate</b> usado para a persistência dos dados no banco.</li>
+                        <li class="collection-item"><b>- Java Authentication and Authorization Service (API)</b> usado para a funcionalidade de autenticação do cliente e do administrador no sistema.</li>
+                        <li class="collection-item"><b>- Caelum Stella (API)</b> usada para validar e formatar CPFs e CNPJ.</li>
+                        <li class="collection-item"><b>- Joda Time (API)</b> usada para trabalhar com datas.</li>
+                        <li class="collection-item"><b>- Dependency Injection (CDI).</b></li>
+                        <li class="collection-item"><b>- Banco de Dados</b> usado foi o <b>Postgres</b>.</li>
+                    </ul>
+                </li>
+                
+                <li class="collection-item"> <strong>Front-end</strong>
+                    <ul class="collection" style="border-radius:10px;">
+                        <li class="collection-item"><b><a href="https://materializecss.com/" target="_blank">- Materialize</a></b> foi usado no Front-end do sistema.</li>
+                        <li class="collection-item"><b><a href="https://demo.geekslabs.com/materialize-v1.0/form-layouts.html" target="_blank">- Demo Materialize</a></b> foi usado no Front-end do sistema.</li>
+                        <li class="collection-item"><b><a href="https://www.primefaces.org/showcase/" target="_blank">- PRIMEFACES</a></b> foi usado no Front-end do sistema.</li>
+                    </ul>
+                </li>
+            </ul>
+            
+          </div>
+        </div>
+        <!-- end container -->
+		
+	</h:body>
+</html>

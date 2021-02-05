@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+      
+    <h:head></h:head>
+
+	<ui:composition>
+	
+		<div id= "menu">
+		
+			<h:form id= "formMenu">
+			
+				<p:menubar>
+					<!-- 1° submenu -->
+					<p:submenu label="Cadastrar">
+
+						<p:menuitem value="Administrador" outcome="/paginas/publico/admin/cadastroEdicaoAdmin.xhtml" icon="pi pi-user-plus"/>
+
+						<p:menuitem value="Agência" outcome="/paginas/protegido/agencias/cadastroEdicaoDeAgencias.xhtml" icon="pi pi-home"/>
+					
+						<p:menuitem value="Carro" outcome="/paginas/protegido/carros/cadastroEdicaoDeCarros.xhtml" icon="pi pi-star"/>
+
+					</p:submenu>
+
+
+					<!-- 2° submenu -->
+					<p:submenu label="Listar" icon="pi pi-table">
+
+						<p:menuitem value="Administradores" outcome="/paginas/protegido/admin/listarAdministradores.xhtml" icon="pi pi-users"/>
+
+						<p:menuitem value="Agências" outcome="/paginas/protegido/agencias/listarAgencias.xhtml" icon="pi pi-home"/> 
+					
+						<p:menuitem value="Carros" outcome="/paginas/protegido/carros/listarCarros.xhtml" icon="pi pi-star"/>
+					
+						<p:menuitem value="Clientes" outcome="/paginas/protegido/admin/listarClientes.xhtml" icon="pi pi-users"/> 
+						
+						<p:menuitem value="Reservas" outcome="/paginas/protegido/alugueis/listarReservas.xhtml" icon="pi pi-folder-open"/> 
+
+					</p:submenu>
+
+
+					<!-- 3° submenu -->
+					<p:submenu label="Editar" icon="pi pi-pencil">
+
+						<p:menuitem value="Suas Informações"  action="#{novoAdministradorBean.iniciar()}" oncomplete="if (!args.validationFailed) { PF('adminEditDialog').show() }" update=":adminEditDialogId" icon="fa fa-edit">
+							<f:setPropertyActionListener value="#{detalhesDoAdmin.contaAdmin.administrador}" target="#{novoAdministradorBean.admin}" />
+							<p:resetInput target="adminEditDialogId"/>
+						</p:menuitem>
+						
+						<p:menuitem value="Seu Email" icon="pi pi-envelope"
+							oncomplete="if (!args.validationFailed) { PF('adminEditEmailDialog').show() }" update=":adminEditEmailDialogId">
+							<f:setPropertyActionListener value="#{detalhesDoAdmin.contaAdmin.administrador}" target="#{editarEmailSenhaAdministradorBean.admin}" />
+							<p:resetInput target=":adminEditEmailDialogId" />
+						</p:menuitem>
+						
+						<p:menuitem value="Sua Senha" icon="pi pi-key" oncomplete="if (!args.validationFailed) { PF('adminPasswordEditDialog').show() }" update=":adminPasswordEditDialogId">
+							<f:setPropertyActionListener value="#{detalhesDoAdmin.contaAdmin.administrador}" target="#{editarEmailSenhaAdministradorBean.admin}" />
+							<p:resetInput target=":adminPasswordEditDialogId" />
+						</p:menuitem>
+
+					</p:submenu>
+					
+				</p:menubar>
+			</h:form>
+			
+			<p:dialog id="adminEditDialogId" widgetVar="adminEditDialog" header="Editar Administrador" modal="true" dynamic="true" closeOnEscape="true">
+		
+					<h:form id="formEditAdmin">
+				
+						<ui:include src="/WEB-INF/templates/camposEdicaoAdmin.xhtml" />
+				
+						<p:panelGrid columns="2" styleClass="ui-noborder">
+				
+						<p:commandButton id="btSalvar" action="#{novoAdministradorBean.salvarAdmin()}" value="Salvar" update="@form" oncomplete="if (!args.validationFailed) { PF('adminEditDialog').hide(); }" 
+							style="background:navy;"/>
+						<p:commandButton id="btCancelar" value="Cancelar" onclick="PF('adminEditDialog').hide();" process="@this" style="background:red;"/>
+					</p:panelGrid>
+				
+					<p:defaultCommand target="formEditAdmin:btSalvar" />
+			
+				</h:form>	
+			</p:dialog>
+			
+			
+			<p:dialog id="adminEditEmailDialogId" widgetVar="adminEditEmailDialog" header="Editar Email" modal="true" dynamic="true" closeOnEscape="true">
+				
+				<h:form id="formEditEmail">
+				
+					<p:panelGrid columns="2" styleClass="ui-noborder">
+					
+						<h:outputText value="Email Atual: " />
+						<p:inputText value="#{editarEmailSenhaAdministradorBean.emailAtual}" required="true" label="Email Atual" style="width:350px" />
+					
+						<h:outputText value="Novo Email: " />
+						<p:inputText value="#{editarEmailSenhaAdministradorBean.newEmail}" required="true" label="Novo Email" style="width:350px" />
+						
+						<p:commandButton id="botaoSubmeterEditEmail" action="#{editarEmailSenhaAdministradorBean.changeEmail()}" value="Salvar" update="@form"
+							oncomplete="if (!args.validationFailed) { PF('adminEditEmailDialog').hide(); }"  style="background:navy;"/>
+						<p:commandButton id="botaoCancelarEditEmail" onclick="PF('adminEditEmailDialog').hide();" value="Cancelar" process="@this" style="background:red;"/>
+					
+					</p:panelGrid>
+				</h:form>
+			
+			</p:dialog>
+			
+			
+			<p:dialog id="adminPasswordEditDialogId" widgetVar="adminPasswordEditDialog" header="Editar Senha" modal="true" dynamic="true" closeOnEscape="true">
+	    
+			<!-- Observação quanto a diálogos e h:form: Todo diálogo deve ter seu próprio h:form. Lembrando que não deve haver nunca h:forms aninhados:
+				 Referência: https://stackoverflow.com/questions/18958729/pcommandbutton-action-doesnt-work-inside-pdialog -->
+				<h:form id="formEditPassword">
+		
+					<p:panelGrid columns="2" styleClass="ui-noborder">
+		
+						<p:outputLabel for="currentPassword" value="Senha Atual:" />
+						<p:password id="currentPassword" value="#{editarEmailSenhaAdministradorBean.confirmacaoPasswordAtual}" label="Senha Atual" required="true" />
+		
+						<p:outputLabel for="password" value="Nova Senha:" />
+						<p:password id="password" value="#{editarEmailSenhaAdministradorBean.newPassword}" label="Nova Senha" required="true" match="confirmPassword" feedback="true" />
+		
+						<p:outputLabel for="confirmPassword" value="Confirmar Senha:" />
+						<p:password id="confirmPassword" value="#{editarEmailSenhaAdministradorBean.newPassword}" label="Confirmar Senha" required="true" feedback="true" />
+		
+						<p:commandButton id="botaoSubmeterEditPassword" action="#{editarEmailSenhaAdministradorBean.changePassword()}" value="Salvar" update="@form"
+							oncomplete="if (!args.validationFailed) { PF('adminPasswordEditDialog').hide(); }"  style="background:navy;"/>
+						<p:commandButton id="botaoCancelarEditPassword" onclick="PF('adminPasswordEditDialog').hide();" value="Cancelar" process="@this" style="background:red;"/>
+					</p:panelGrid>
+				</h:form>
+	    	</p:dialog>
+			
+		</div>
+	</ui:composition>
+</html>

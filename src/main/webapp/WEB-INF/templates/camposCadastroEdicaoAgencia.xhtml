@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<ui:composition>
+		
+		<p:growl id="growl" sticky="true" showDetail="true"/>
+ 
+    	<p:wizard id="info">
+        	<p:tab id="agency" title="Informações da Agência">
+            	<p:panel header="Informações Principais">
+                	<p:messages />
+                	<h:panelGrid columns="2" columnClasses="label, value" styleClass="ui-noborder" cellpadding="5">
+                		
+                		<p:outputLabel value="Id:" rendered="#{agenciaSaveAndEdit.edicaoAgencia}" />
+						<p:outputLabel value="#{agenciaSaveAndEdit.agencia.id}" rendered="#{agenciaSaveAndEdit.edicaoAgencia}" />
+                	
+                    	<h:outputText value="Nome: " />
+                    	<p:inputText value="#{agenciaSaveAndEdit.agencia.nome}" required="true" label="Nome" style="width:350px"/>
+                    	
+						<h:outputText value="Telefone Celular com DDD: " />
+                    	<p:inputText value="#{agenciaSaveAndEdit.agencia.telefone}" label="Telefone" placeholder="Somente números..." required="true"/>
+ 
+                    	<h:outputText value="Cidade: " />
+                    	<p:inputText value="#{agenciaSaveAndEdit.agencia.endereco.cidade}" required="true" label="Cidade" style="width:350px"/>
+                    	
+                    	<h:outputText value="Bairro: " />
+                    	<p:inputText value="#{agenciaSaveAndEdit.agencia.endereco.bairro}" required="true" label="Bairro" style="width:350px"/>
+                    	
+                    	<h:outputText value="Rua: " />
+                    	<p:inputText value="#{agenciaSaveAndEdit.agencia.endereco.rua}" required="true" label="Rua" style="width:350px"/>
+                    	
+                    	<h:outputText value="Número: " />
+                    	<p:inputText value="#{agenciaSaveAndEdit.agencia.endereco.numero}" required="true" label="Número"/>
+                    	
+                    	<h:outputText value="CEP: " />
+                    	<p:inputText value="#{agenciaSaveAndEdit.agencia.endereco.cep}" required="true" label="CEP"/>
+                    	
+                	</h:panelGrid>
+            	</p:panel>
+        	</p:tab>
+        	
+        	
+        	<p:tab id="features" title="Horários de Funcionamento">
+            	<p:panel header="Horários">
+                	<p:messages />
+                	<h:panelGrid columns="2" columnClasses="label, value" styleClass="ui-noborder" cellpadding="5">
+                		
+                    	<h:outputText value="De: " />
+                    	<p:selectOneMenu id="diaInicio" value="#{agenciaSaveAndEdit.agencia.horarios.diasDaSemanaInicio}" label="De" hideNoSelectionOption="true" required="true">
+						<f:selectItem itemLabel="Selecione" itemValue="#{null}" noSelectionOption="true" />
+						<f:selectItems value="#{agenciaSaveAndEdit.diasDaSemana}" var="d"
+							itemLabel="#{d.name()}" itemValue="#{d}" />
+						</p:selectOneMenu>
+                    	
+                    	<h:outputText value="À: " />
+                    	<p:selectOneMenu id="diaFim" value="#{agenciaSaveAndEdit.agencia.horarios.diaDaSemanaFim}" label="À" hideNoSelectionOption="true" required="true">
+						<f:selectItem itemLabel="Selecione" itemValue="#{null}" noSelectionOption="true" />
+						<f:selectItems value="#{agenciaSaveAndEdit.diasDaSemana}" var="f"
+							itemLabel="#{f.name()}" itemValue="#{f}" />
+						</p:selectOneMenu>
+                    	
+                    	<h:outputText value="Horário Abertura: " />
+                    	<p:selectOneMenu id="open" value="#{agenciaSaveAndEdit.agencia.horarios.horarioDeAbertura}" label="Horário Abertura" hideNoSelectionOption="true" required="true">
+						<f:selectItem itemLabel="Selecione" itemValue="#{null}" noSelectionOption="true" />
+						<f:selectItems value="#{agenciaSaveAndEdit.horarios}" var="o"
+							itemLabel="#{o.toString()}" itemValue="#{o}" />
+						</p:selectOneMenu>
+                    	
+                    	<h:outputText value="Horário Fechamento: " />
+                    	<p:selectOneMenu id="closed" value="#{agenciaSaveAndEdit.agencia.horarios.horarioDeFechamento}" label="Horário Fechamento" hideNoSelectionOption="true" required="true">
+						<f:selectItem itemLabel="Selecione" itemValue="#{null}" noSelectionOption="true" />
+						<f:selectItems value="#{agenciaSaveAndEdit.horarios}" var="c"
+							itemLabel="#{c.toString()}" itemValue="#{c}" />
+						</p:selectOneMenu>
+                    	
+                	</h:panelGrid>
+                	
+                	<p:commandButton id="botaoCadastrar" action="#{agenciaSaveAndEdit.salvarAgencia()}" value="Finalizar" update="@form" style="margin:10px 1px 1px 1px; background:navy;" icon="pi pi-check"/>
+					<p:button id="botaoCancelar" outcome="/paginas/protegido/admin/paginaPrincipalAdmin.xhtml" value="Cancelar" style="margin:10px 1px 1px 10px; background:red;" icon="pi pi-times"/>
+					<p:defaultCommand id="defaultCommandId" target="formAgency:botaoCadastrar" />
+                	
+            	</p:panel>
+        	</p:tab>
+        </p:wizard>
+	</ui:composition>
+</html>

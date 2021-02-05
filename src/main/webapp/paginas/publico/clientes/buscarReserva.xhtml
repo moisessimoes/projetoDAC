@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:jsf="http://xmlns.jcp.org/jsf">
+	
+	
+	 <h:head>
+		<title>Buscar Reserva</title> 	
+		<h:outputScript name="locale-primefaces.js" library="js" />
+		
+		<!-- Favicons-->
+  		<link rel="shortcut icon" href="../../../imagens/logos/favicon (1).ico" />
+		
+		<!-- Compiled and minified CSS -->
+    	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"/>
+    	
+    	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    	
+    	<!-- Compiled and minified JavaScript -->
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    	
+    	<!-- CORE CSS-->
+  
+  		<link href="css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  		<link href="css/style.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+   		 <!-- Custome CSS-->    
+    	<link href="css/custom/custom.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+		
+	</h:head> 
+	
+																			
+	<h:body>
+	
+		<style type="text/css"> 
+    		
+    		.brand-logo {
+    	
+    		height: 80px;
+    		padding: 15px;
+    		}
+    	
+    		.brand-logo img {
+    		 height: 100%;
+    		}
+    		
+		</style>
+		
+		
+		<ui:include src="/WEB-INF/templates/growlMessages.xhtml" />
+		
+		<!-- HEADER -->
+		<header>
+
+		<nav class="indigo darken-4">
+			<div class="nav-wrapper">
+
+				<div class="brand-logo">
+					<a href="#!"> <img
+						src="../../../imagens/logos/GTAV-LSCustoms-Logo.png" alt="logo" />
+					</a>
+				</div>
+				<ul class="right hide-on-med-and-down">
+					<!--<li><a href="../mostrarAgencias.xhtml"><i class="material-icons left">place</i>Agências</a></li>
+					 <li><a href="./paginas/publico/clientes/buscarReserva.xhtml"><i class="material-icons left">search</i>Buscar Reserva</a></li>
+					<li><a href="./paginas/publico/clientes/cadastroEdicaoDeCliente.xhtml"><i class="material-icons left">add_circle</i>Cadastre-se</a></li>
+					<li><a href="./paginas/protegido/fakePage.xhtml"><i class="material-icons left">account_circle</i>Login</a></li> -->
+
+				</ul>
+			</div>
+		</nav>
+	</header>
+	
+	<!-- CONTEUDO -->
+	
+	<!--LAYOUT -->
+    <div class="row">
+
+      <div class="col s3">
+        <!-- CARD DE BUSCA -->
+        
+        <h:form id="formBuscarReserva">
+
+
+		<div class="row">
+		<div class="col s12 m6 l12">
+			<div class="card-panel hoverable grey lighten-4" style="border-radius:10px; margin-top:25px;">
+				<div class="row">
+				
+						<h5 class="header2">Buscar Reserva</h5>
+						<div class="row">
+							<div class="input-field col s8">
+								<i class="material-icons prefix">lock_outline</i> 
+								<p:inputText id="icon_prefix" value="#{reservasDoClienteBean.codigoReserva}" required="true" requiredMessage="É necessário preencher este campo para prosseguir!"/>
+								<label for="icon_prefix">Código da Reserva</label>
+							</div>
+
+							<div class="input-field col s4">
+								<div class="input-field col s12">
+								
+									<p:commandButton id="btBuscar" value="" icon="pi pi-search"
+										action="#{reservasDoClienteBean.buscarReservaPeloCodigo()}"
+										update="formMostrarDados"
+										styleClass="btn-floating indigo darken-4 waves-effect waves-light" style="border-radius:30px;">
+									</p:commandButton>
+
+								</div>
+							</div>
+
+					</div>
+						
+						
+						<!-- ... -->
+						
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	</h:form>
+
+
+		</div> <!-- FIM DO CARD DE BUSCA -->
+
+
+
+
+      <div class="col s9">
+        <!-- CARD DE EXIBICAO  -->
+        
+        <h:form id="formMostrarDados">
+        
+        	<div id="basic-form" class="section">
+					<div class="row">
+						<div class="col s12 m12 l12">
+							<div class="card-panel hoverable grey lighten-4" style="border-radius:15px;">
+							
+								<h5 class="header2" jsf:rendered="#{reservasDoClienteBean.reservaExiste()}">RESERVA: #{reservasDoClienteBean.buscarReservaPeloCodigo().codigoDaReserva}</h5>
+								
+								
+								<h6 jsf:rendered="#{reservasDoClienteBean.reservaExiste()}">ID: #{reservasDoClienteBean.buscarReservaPeloCodigo().id}</h6>
+								<h6 jsf:rendered="#{reservasDoClienteBean.reservaExiste()}">Cliente: #{reservasDoClienteBean.buscarReservaPeloCodigo().cliente.nome}</h6>
+								<h6 jsf:rendered="#{reservasDoClienteBean.reservaExiste()}">Carro: #{reservasDoClienteBean.buscarReservaPeloCodigo().carro.nome}</h6>
+								<h6 jsf:rendered="#{reservasDoClienteBean.reservaExiste()}">Diárias: #{reservasDoClienteBean.buscarReservaPeloCodigo().quantidadeDeDiarias}</h6>
+								
+								<div class="divider"></div>
+								
+								<h5 jsf:rendered="#{reservasDoClienteBean.reservaExiste()}">Retirada</h5>
+								
+								<h6 jsf:rendered="#{reservasDoClienteBean.reservaExiste()}">Data de Retirada: #{novaReservaBean.formatarData(reservasDoClienteBean.buscarReservaPeloCodigo().enderecoReserva.dataRetirada)}</h6>
+								<h6 jsf:rendered="#{reservasDoClienteBean.reservaExiste()}">Hora da Retirada: #{reservasDoClienteBean.buscarReservaPeloCodigo().enderecoReserva.horaRetirada}</h6>
+								<h6 jsf:rendered="#{reservasDoClienteBean.reservaExiste()}">Local da Retirada: #{reservasDoClienteBean.buscarAgencia(reservasDoClienteBean.buscarReservaPeloCodigo().enderecoReserva.idAgenciaRetirada).nome} em #{reservasDoClienteBean.buscarAgencia(reservasDoClienteBean.buscarReservaPeloCodigo().enderecoReserva.idAgenciaRetirada).endereco.cidade}</h6>
+								
+								<div class="divider"></div>
+								
+								<h5 jsf:rendered="#{reservasDoClienteBean.reservaExiste()}">Devolução</h5>
+								
+								<h6 jsf:rendered="#{reservasDoClienteBean.reservaExiste()}">Data de Devolução: #{novaReservaBean.formatarData(reservasDoClienteBean.buscarReservaPeloCodigo().enderecoReserva.dataDevolucao)}</h6>
+								<h6 jsf:rendered="#{reservasDoClienteBean.reservaExiste()}">Hora da Devolução: #{reservasDoClienteBean.buscarReservaPeloCodigo().enderecoReserva.horaDevolucao}</h6>
+								<h6 jsf:rendered="#{reservasDoClienteBean.reservaExiste()}">Local da Devolução: #{reservasDoClienteBean.buscarAgencia(reservasDoClienteBean.buscarReservaPeloCodigo().enderecoReserva.idAgenciaDevolucao).nome} em #{reservasDoClienteBean.buscarAgencia(reservasDoClienteBean.buscarReservaPeloCodigo().enderecoReserva.idAgenciaDevolucao).endereco.cidade}</h6>
+								
+								<div class="divider"></div>
+								
+								<h5 jsf:rendered="#{reservasDoClienteBean.reservaExiste()}">Tarifas e Preço</h5>
+								
+								<h6 jsf:rendered="#{reservasDoClienteBean.reservaExiste()}">Tarifa Cobertura do Carro: #{reservasDoClienteBean.formatarValoresMonetarios(reservasDoClienteBean.buscarReservaPeloCodigo().tarifaCoberturaCarro)}</h6>
+								<h6 jsf:rendered="#{reservasDoClienteBean.reservaExiste()}">Tarifa Cobertura para Terceiros: #{reservasDoClienteBean.formatarValoresMonetarios(reservasDoClienteBean.buscarReservaPeloCodigo().tarifaCoberturaTerceiros)}</h6>
+								<h6 jsf:rendered="#{reservasDoClienteBean.reservaExiste()}">Tarifa GPS: #{reservasDoClienteBean.formatarValoresMonetarios(reservasDoClienteBean.buscarReservaPeloCodigo().tarifaGPS)}</h6>
+								<h6 jsf:rendered="#{reservasDoClienteBean.reservaExiste()}">Taxa (12%): #{reservasDoClienteBean.formatarValoresMonetarios(reservasDoClienteBean.buscarReservaPeloCodigo().taxa)}</h6>
+								<h6 jsf:rendered="#{reservasDoClienteBean.reservaExiste()}">Total Previsto: #{reservasDoClienteBean.formatarValoresMonetarios(reservasDoClienteBean.buscarReservaPeloCodigo().valorTotalPrevisto)}</h6>
+								
+							</div>
+							
+						</div>
+						
+					</div>
+			</div>
+        
+        </h:form>
+        
+        
+      </div> <!-- FIM DO CARD DE EXIBICAO -->
+
+    </div> <!-- FIM DO LAYOUT -->
+	
+
+	<!-- START FOOTER -->
+	<footer class="page-footer indigo darken-4">
+		<div class="footer-copyright">
+			<div class="container grey-text text-lighten-4 center">
+				Você pode apenas visualizar esta reserva, para alterar ou cancelar, você deve estar logado no sistema. 
+			</div>
+		</div>
+	</footer>
+	<!-- END FOOTER -->
+</h:body>
+</html> 

@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:o="http://omnifaces.org/ui"
+	xmlns:of="http://omnifaces.org/functions"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:jsf="http://xmlns.jcp.org/jsf">
+	
+	<f:metadata>
+		<o:viewParam name="agency" value="#{novaAgenciaBean.agencia}"/>
+		<f:viewAction action="#{novaAgenciaBean.iniciar()}"/>
+	</f:metadata>
+	
+	 <h:head>
+		<title>Nova Agência</title> 	
+		<h:outputScript name="locale-primefaces.js" library="js" />
+		
+		<!-- Favicons-->
+  		<link rel="shortcut icon" href="../../../imagens/logos/favicon (1).ico" />
+		
+		<!-- Compiled and minified CSS -->
+    	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"/>
+
+    	<!-- Compiled and minified JavaScript -->
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    
+    	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+		
+		<!-- CORE CSS-->
+
+		<link href="css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+	
+		<link href="css/style.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+		<!-- Custome CSS-->
+	
+		<link href="css/custom/custom.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+
+
+		<!-- INCLUDED PLUGIN CSS ON THIS PAGE -->
+	
+		<link href="js/plugins/prism/prism.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+	
+		<link href="js/plugins/perfect-scrollbar/perfect-scrollbar.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+	
+		<link href="js/plugins/chartist-js/chartist.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+		
+		<style>
+    	
+    	body {
+    		background-color: #f5f5f5;
+    	}
+    	
+    	@media only screen and (min-width: 993px) {
+  			.container {
+    			width: 90%;
+  			}
+		}
+    	
+    	.brand-logo {
+    	
+    		height: 80px;
+    		padding: 15px;
+    	}
+    	
+    	.brand-logo img {
+    		height: 100%;
+    	}
+    	
+    	</style>
+		
+	</h:head> 
+	
+	
+	<h:body>
+	
+		<ui:include src="/WEB-INF/templates/growlMessages.xhtml" />
+		
+		<!-- HEADER -->
+		<header>
+
+		<nav class="indigo darken-4" >
+			<div class="nav-wrapper">
+
+				<div class="brand-logo">
+					<a href="./index.xhtml"> <img
+						src="../../../imagens/logos/GTAV-LSCustoms-Logo.png" alt="logo" />
+					</a>
+				</div>
+				
+				<ul class="right hide-on-med-and-down">
+					
+					<li><a href="../mostrarAgencias.xhtml"><i class=" waves-effect waves-light material-icons left">place</i>Agências</a></li>
+					<li><a jsf:outcome="/paginas/publico/clientes/buscarReserva.xhtml"><i class="waves-effect waves-light material-icons left">search</i>Buscar Reserva</a></li>
+
+				</ul>
+			</div>
+		</nav>
+	</header>
+	
+	
+	<!-- Page Layout here -->
+	<div class="row">
+
+		<div class="col s3 ">
+		
+			<ul class="collection with-header">
+			
+        		<li class="collection-header" style="border-radius:20px;"><h4>Nossas Agências</h4></li>
+        		
+        		<ui:repeat var="agencia" value="#{novaAgenciaBean.listarAgencias()}">
+        		
+        			<li class="collection-item"><b>#{agencia.nome}</b></li>
+        		
+        		</ui:repeat>
+       			
+      		</ul>
+		
+		</div>
+		
+		
+		<div class="col s9">
+        	
+        	<div id="basic-form" class="section">
+		<div class="row">
+			<div class="col s12 m12 l12">
+				<div class="card-panel" style="border-radius:20px;">
+					<!-- <h4 class="header2">Nova Agência</h4> -->
+					<div class="card-panel indigo darken-4" style="border-radius:10px;"><h4 class="white-text">Nova Agência</h4></div>
+					<div class="row">
+						<h:form id="formNovaAgencia" styleClass="col s12">
+						
+							<div class="row">
+								<div class="input-field col s12">
+									<p:inputText id="id" disabled="true" rendered="#{novaAgenciaBean.edicaoAgencia}" value="#{novaAgenciaBean.agencia.id}"/>
+								</div> 
+							</div>
+							
+							<div class="row">
+								<div class="input-field col s12">
+									<p:inputText id="nome" value="#{novaAgenciaBean.agencia.nome}" required="true">
+									<i class="material-icons prefix">domain</i>
+									<label for="nome">Nome</label>
+									</p:inputText>
+								</div> 
+							</div>
+							
+							<div class="row">
+								<div class="input-field col s6">
+									<p:inputText id="rua" value="#{novaAgenciaBean.agencia.endereco.rua}" required="true">
+									<i class="material-icons prefix">streetview</i>
+									<label for="rua">Rua</label>
+									</p:inputText>
+								</div>
+							<!-- </div>
+							
+							<div class="row"> -->
+								<div class="input-field col s6">
+									<p:inputText id="bairro" value="#{novaAgenciaBean.agencia.endereco.bairro}" required="true">
+									<i class="material-icons prefix">edit_location</i>
+									<label for="bairro">Bairro</label>
+									</p:inputText>
+								</div>
+							</div>
+							
+							<div class="row">
+								<div class="input-field col s6">
+									<p:inputText id="cidade" value="#{novaAgenciaBean.agencia.endereco.cidade}" required="true">
+									<i class="material-icons prefix">place</i>
+									<label for="cidade">Cidade</label>
+									</p:inputText>
+								</div>
+							<!-- </div>
+							
+							<div class="row"> -->
+								<div class="input-field col s6">
+									<p:inputText id="cep" value="#{novaAgenciaBean.agencia.endereco.cep}" required="true">
+									<i class="material-icons prefix">map</i>
+									<label for="cep">CEP</label>
+									</p:inputText>
+								</div>
+							</div>
+							
+							<div class="row">
+								<div class="input-field col s6">
+									<p:inputText id="cnpj" value="#{novaAgenciaBean.agencia.cnpj}" required="true" placeholder="somente números">
+									<label for="cnpj">CNPJ</label>
+									<i class="material-icons prefix">domain</i>
+									</p:inputText>
+								</div> 
+							<!-- </div>
+							
+							<div class="row"> -->
+								<div class="input-field col s6">
+									<p:inputText id="telefone" value="#{novaAgenciaBean.agencia.telefone}" required="true" placeholder="somente números">
+									<label for="telefone">Telefone Celular com DDD</label>
+									<i class="material-icons prefix">phone</i>
+									</p:inputText>
+								</div>
+							</div>
+							
+							<div class="row">
+								<div class="input-field col s2">
+									<p:inputText id="numero" value="#{novaAgenciaBean.agencia.endereco.numero}" required="true">
+									<i class="material-icons prefix">edit_location</i>
+									<label for="numero">Número</label>
+									</p:inputText>
+								</div>
+							</div>
+							
+							
+							<div class="row">
+								<div>
+									<h5>Horários de Funcionamento</h5>
+								</div>
+							</div>
+							
+							<div class="row">
+								<div class="input-field col s6">
+									
+									<p:panelGrid columns="2" styleClass="ui-noborder">
+									
+                    				<h:outputText value="De: " style="font-weight:bold;"/>
+                    				<p:selectOneMenu id="diaInicio" value="#{novaAgenciaBean.agencia.horarios.diasDaSemanaInicio}" label="De" hideNoSelectionOption="true" required="true" style="width:200px;">
+									<f:selectItem itemLabel="Selecione" itemValue="#{null}" noSelectionOption="true" />
+									<f:selectItems value="#{novaAgenciaBean.diasDaSemana}" var="d"
+										itemLabel="#{d.name()}" itemValue="#{d}" />
+									</p:selectOneMenu>
+									
+									
+									<h:outputText value="À: " style="font-weight:bold;"/>
+                    				<p:selectOneMenu id="diaFim" value="#{novaAgenciaBean.agencia.horarios.diaDaSemanaFim}" label="À" hideNoSelectionOption="true" required="true" style="width:200px;">
+									<f:selectItem itemLabel="Selecione" itemValue="#{null}" noSelectionOption="true" />
+									<f:selectItems value="#{novaAgenciaBean.diasDaSemana}" var="f"
+										itemLabel="#{f.name()}" itemValue="#{f}" />
+									</p:selectOneMenu>
+									
+									<h:outputText value="Horário Abertura: " style="font-weight:bold;"/>
+                    				<p:selectOneMenu id="open" value="#{novaAgenciaBean.agencia.horarios.horarioDeAbertura}" label="Horário Abertura" hideNoSelectionOption="true" required="true" style="width:200px;">
+									<f:selectItem itemLabel="Selecione" itemValue="#{null}" noSelectionOption="true" />
+									<f:selectItems value="#{novaAgenciaBean.horarios}" var="o"
+										itemLabel="#{o.toString()}" itemValue="#{o}" />
+									</p:selectOneMenu>
+									
+									<h:outputText value="Horário Fechamento: " style="font-weight:bold;"/>
+                    				<p:selectOneMenu id="closed" value="#{novaAgenciaBean.agencia.horarios.horarioDeFechamento}" label="Horário Fechamento" hideNoSelectionOption="true" required="true" style="width:200px;">
+									<f:selectItem itemLabel="Selecione" itemValue="#{null}" noSelectionOption="true" />
+									<f:selectItems value="#{novaAgenciaBean.horarios}" var="c"
+										itemLabel="#{c.toString()}" itemValue="#{c}" />
+									</p:selectOneMenu>
+									
+									</p:panelGrid>
+									
+								</div>
+							</div>
+							
+							<div class="row">
+								<div class="input-field col s12">
+									
+									<p:commandButton value="Salvar" action="#{novaAgenciaBean.salvarAgencia()}" update="@form" styleClass="indigo darken-4 waves-effect waves-light right btn" style="border-radius:20px;"/>
+									
+								</div>
+							</div>
+								
+						</h:form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>	
+        	
+        	
+        </div>
+		
+	</div>
+	
+	
+	<!-- RODAPÉ -->
+
+		<footer class="page-footer indigo darken-4">
+			<div class="container">
+				<div class="row">
+					<div class="col l6 s12">
+						<h5 class="white-text">LS Customs - Locadora de Veículos</h5>
+						<p class="grey-text text-lighten-4">Este é um projeto da
+							disciplina de Desenvolvimento de Aplicações Corporativas (DAC),
+							do curso de ADS.</p>
+					</div>
+					<div class="col l4 offset-l2 s12">
+						<h5 class="white-text">Sobre</h5>
+						<ul>
+							<li><a class="grey-text text-lighten-3"
+								href="../../publico/sobre.xhtml">Sobre o Sistema</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="footer-copyright">
+				<div class="container">© 2020 ADS</div>
+			</div>
+		</footer>
+		
+	</h:body>
+</html>

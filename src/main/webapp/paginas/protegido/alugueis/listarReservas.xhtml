@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+	
+	 <h:head>
+		<title>Lista de Reservas</title> 	
+		<h:outputScript name="locale-primefaces.js" library="js" />
+		
+		<!-- Compiled and minified CSS -->
+    		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"/>
+    	
+    		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    	
+    		<!-- Compiled and minified JavaScript -->
+    		<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    		
+    		 <!-- INCLUDED PLUGIN CSS ON THIS PAGE -->
+  			<link href="js/plugins/prism/prism.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  			<link href="js/plugins/perfect-scrollbar/perfect-scrollbar.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  			<link href="js/plugins/chartist-js/chartist.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  			
+  			<!-- jQuery Library -->
+    		<script type="text/javascript" src="js/plugins/jquery-1.11.2.min.js"></script>
+    		
+    		
+    		<style>
+    		
+    			body {
+    				background-color: #f5f5f5;
+    			}
+    	
+    			/* @media only screen and (min-width: 993px) {
+  					.container {
+    					width: 90%;
+  					}
+				} */
+    	
+    			.brand-logo {
+    	
+    				height: 80px;
+    				padding: 15px;
+    			}
+    	
+    			.brand-logo img {
+    				height: 100%;
+    			}
+    	
+    		</style>
+	</h:head> 
+	
+																			<!-- Componente usado: DataTable -> ContextMenu -->
+	<h:body>
+		
+		<ui:include src="/WEB-INF/templates/growlMessages.xhtml" />
+		
+		<header>
+
+		<nav class="indigo darken-4">
+			<div class="nav-wrapper">
+
+				<div class="brand-logo">
+					<a href="#!"> <img
+						src="../../../imagens/logos/GTAV-LSCustoms-Logo.png" alt="logo" />
+					</a>
+				</div>
+				<ul class="right hide-on-med-and-down">
+
+				</ul>
+			</div>
+		</nav>
+	</header>
+	
+	<h:form id="formReservasRegistradas">
+	
+		<div class="row container">
+			
+				<section class="grey lighten-4 col s12 m12 l12">
+					<h5 class="light" style="margin-left: -200px;">Reservas Registradas: #{novaReservaBean.listarTodasAsReservas().size()}</h5>
+				
+    				<p:dataTable id="reservas" var="reserva" value="#{novaReservaBean.listarTodasAsReservas()}" rowKey="#{reserva.id}" widgetVar="reservationsTable" selection="#{novaReservaBean.selectedRent}" selectionMode="single" emptyMessage="Nenhuma reserva foi encontrada com os critérios passados."
+    				style="margin:1px -200px 1px -200px;">
+						
+						<f:facet name="header">Clique com botão direito para ver as opções</f:facet>
+						
+						<p:column headerText="Código" filterBy="#{reserva.codigoDaReserva}" sortBy="#{reserva.codigoDaReserva}" filterMatchMode="startsWith">
+            				<h:outputText value="#{reserva.codigoDaReserva}" />
+        				</p:column>
+        				
+        				<p:column headerText="Cliente" filterBy="#{reserva.cliente.nome}" sortBy="#{reserva.cliente.nome}" filterMatchMode="startsWith">
+							<h:outputText value="#{reserva.cliente.nome}" />            				
+        				</p:column>
+        				
+        				<p:column headerText="Carro">
+            				<h:outputText value="#{reserva.carro.nome}"/>
+        				</p:column>
+        				
+        				<p:column headerText="Data Retirada">
+        					<h:outputText id="dataRetirada" value="#{reserva.enderecoReserva.dataRetirada}">
+                        		<f:convertDateTime for="dataRetirada" pattern="dd/MM/yyyy"/>
+                        	</h:outputText>
+        				</p:column>
+        				
+        				<p:column headerText="Hora Retirada">
+            				<h:outputText value="#{reserva.enderecoReserva.horaRetirada}" />
+        				</p:column>
+        				
+        				<p:column headerText="Data Devolução">
+        					<h:outputText id="dataDevolucao" value="#{reserva.enderecoReserva.dataDevolucao}">
+                        		<f:convertDateTime for="dataDevolucao" pattern="dd/MM/yyyy"/>
+                        	</h:outputText>
+        				</p:column>
+        				
+        				<p:column headerText="Hora Devolução">
+            				<h:outputText value="#{reserva.enderecoReserva.horaDevolucao}" />
+        				</p:column>
+        				
+        				<p:column headerText="Diárias">
+            				<h:outputText value="#{reserva.quantidadeDeDiarias}" />
+        				</p:column>
+        				
+        				<p:column headerText="T. C. Carro">
+            				<h:outputText value="#{novaReservaBean.formatarValoresMonetarios(reserva.tarifaCoberturaCarro)}" />
+        				</p:column>
+        				
+        				<p:column headerText="T. C. Terceiros">
+            				<h:outputText value="#{novaReservaBean.formatarValoresMonetarios(reserva.tarifaCoberturaTerceiros)}" />
+        				</p:column>
+        				
+        				<p:column headerText="T. GPS">
+            				<h:outputText value="#{novaReservaBean.formatarValoresMonetarios(reserva.tarifaGPS)}" />
+        				</p:column>
+        				
+        				<p:column headerText="Taxa 12%">
+            				<h:outputText value="#{novaReservaBean.formatarValoresMonetarios(reserva.taxa)}" />
+        				</p:column>
+        				
+        				<p:column headerText="Total">
+            				<h:outputText value="#{novaReservaBean.formatarValoresMonetarios(reserva.valorTotalPrevisto)}" />
+        				</p:column>
+			
+					</p:dataTable>
+					
+					<p:contextMenu for="reservas">
+    				
+        				<p:menuitem value="Sobre o Cliente" update="clientDetail" oncomplete="PF('clientDetailsDialog').show()" icon="pi pi-user"/>
+        				
+        				<p:menuitem value="Sobre o Carro" update="carDetail" icon="pi pi-shopping-cart" oncomplete="PF('carDialog').show()"/>
+        				
+        				<p:menuitem value="Sobre o Endereço" update="reservaDetail" oncomplete="PF('reservaDialog').show()" icon="pi pi-map-marker"/>
+        				
+   	 				</p:contextMenu>
+					
+			</section>
+		</div>
+	
+	
+	</h:form>
+        				
+		
+			<p:dialog id="clientDetailsDialogId" widgetVar="clientDetailsDialog" header="Informações do Cliente" modal="true" dynamic="true" closeOnEscape="true">
+			
+					<p:outputPanel id="clientDetail" style="text-align:center;">
+			
+								<p:panelGrid columns="2" rendered="#{not empty novaReservaBean.selectedRent}" columnClasses="label,value">
+						
+									<h:outputText value="ID:" style="font-weight:bold"/>
+									<h:outputText value="#{novaReservaBean.selectedRent.cliente.id}"/>
+						
+									<h:outputText value="Nome:" style="font-weight:bold"/>
+									<h:outputText value="#{novaReservaBean.selectedRent.cliente.nome}"/>
+									
+									<h:outputText value="CPF:" style="font-weight:bold"/>
+									<h:outputText value="#{novaReservaBean.formatarCPF(novaReservaBean.selectedRent.cliente.cpf)}"/>
+									
+									<h:outputText value="RG:" style="font-weight:bold"/>
+									<h:outputText value="#{novaReservaBean.selectedRent.cliente.rg}"/>
+									
+									<h:outputText value="Sexo:" style="font-weight:bold"/>
+									<h:outputText value="#{novaReservaBean.selectedRent.cliente.sexo}"/>
+
+									<h:outputText value="Email:" style="font-weight:bold"/>
+									<h:outputText value="#{novaReservaBean.selectedRent.cliente.conta.email}" />
+									
+									<h:outputText value="Telefone:" style="font-weight:bold" />
+									<h:outputText value="#{novaReservaBean.formatarTelefone(novaReservaBean.selectedRent.cliente.telefone)}" />
+									
+									<h:outputText value="Grupo:" style="font-weight:bold"/>
+									<h:outputText value="#{novaReservaBean.selectedRent.cliente.conta.grupo}"/>
+					
+								</p:panelGrid>
+								
+							</p:outputPanel>
+						</p:dialog>
+    				
+    				
+    				
+    				<p:dialog id="reservaDialogId" header="Informações da Reserva" widgetVar="reservaDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+				
+						<p:outputPanel id="reservaDetail" style="text-align:center;">
+					
+						<p:panelGrid columns="2" rendered="#{not empty novaReservaBean.selectedRent}" columnClasses="label,value">
+								<f:facet name="header">
+									
+								</f:facet>
+
+                        		<h:outputText value="Agência Retirada:" style="font-weight:bold"/>
+                        		<h:outputText value="#{novaReservaBean.buscarAgencia(novaReservaBean.selectedRent.enderecoReserva.idAgenciaRetirada).nome}"/>
+                        		
+                        		<h:outputText value="Telefone:" style="font-weight:bold"/>
+                        		<h:outputText value="#{novaReservaBean.formatarTelefone(novaReservaBean.buscarAgencia(novaReservaBean.selectedRent.enderecoReserva.idAgenciaRetirada).telefone)}"/>
+                        		
+                        		<h:outputText value="Cidade:" style="font-weight:bold"/>
+                        		<h:outputText value="#{novaReservaBean.buscarAgencia(novaReservaBean.selectedRent.enderecoReserva.idAgenciaRetirada).endereco.cidade}"/>
+                        		
+                        		<h:outputText value="Bairro:" style="font-weight:bold"/>
+                        		<h:outputText value="#{novaReservaBean.buscarAgencia(novaReservaBean.selectedRent.enderecoReserva.idAgenciaRetirada).endereco.bairro}"/>
+                        		
+                        		<h:outputText value="Rua:" style="font-weight:bold"/>
+                        		<h:outputText value="#{novaReservaBean.buscarAgencia(novaReservaBean.selectedRent.enderecoReserva.idAgenciaRetirada).endereco.rua}"/>
+                        		
+                        		<h:outputText value="Número:" style="font-weight:bold"/>
+                        		<h:outputText value="#{novaReservaBean.buscarAgencia(novaReservaBean.selectedRent.enderecoReserva.idAgenciaRetirada).endereco.numero}"/>
+                        		
+                        		<h:outputText value="CEP:" style="font-weight:bold"/>
+                        		<h:outputText value="#{novaReservaBean.buscarAgencia(novaReservaBean.selectedRent.enderecoReserva.idAgenciaRetirada).endereco.cep}"/>
+                        		
+                        		<h:outputText value="Agência de Devolução:" style="font-weight:bold"/>
+                        		<h:outputText value="#{novaReservaBean.buscarAgencia(novaReservaBean.selectedRent.enderecoReserva.idAgenciaDevolucao).nome}"/>
+                        		
+                        		<h:outputText value="Telefone:" style="font-weight:bold"/>
+                        		<h:outputText value="#{novaReservaBean.formatarTelefone(novaReservaBean.buscarAgencia(novaReservaBean.selectedRent.enderecoReserva.idAgenciaDevolucao).telefone)}"/>
+                        		
+                        		<h:outputText value="Cidade:" style="font-weight:bold"/>
+                        		<h:outputText value="#{novaReservaBean.buscarAgencia(novaReservaBean.selectedRent.enderecoReserva.idAgenciaDevolucao).endereco.cidade}" />
+                        		
+                        		<h:outputText value="Bairro:" style="font-weight:bold"/>
+                        		<h:outputText value="#{novaReservaBean.buscarAgencia(novaReservaBean.selectedRent.enderecoReserva.idAgenciaDevolucao).endereco.bairro}"/>
+                        		
+                        		<h:outputText value="Rua:" style="font-weight:bold"/>
+                        		<h:outputText value="#{novaReservaBean.buscarAgencia(novaReservaBean.selectedRent.enderecoReserva.idAgenciaDevolucao).endereco.rua}"/>
+                        		
+                        		<h:outputText value="Número:" style="font-weight:bold"/>
+                        		<h:outputText value="#{novaReservaBean.buscarAgencia(novaReservaBean.selectedRent.enderecoReserva.idAgenciaDevolucao).endereco.numero}" />
+                        		
+                        		<h:outputText value="CEP:" style="font-weight:bold"/>
+                        		<h:outputText value="#{novaReservaBean.buscarAgencia(novaReservaBean.selectedRent.enderecoReserva.idAgenciaDevolucao).endereco.cep}"/>
+								
+							</p:panelGrid>
+						</p:outputPanel>
+					</p:dialog>
+    				
+    				
+    				<p:dialog id="carDetailsDialogId" header="Informações do Carro" widgetVar="carDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+				
+						<p:outputPanel id="carDetail" style="text-align:center;">
+					
+						<p:panelGrid columns="2" rendered="#{not empty novaReservaBean.selectedRent}" columnClasses="label,value">
+						
+								<h:outputText value="Placa:" style="font-weight:bold"/>
+								<h:outputText value="#{novaReservaBean.selectedRent.carro.placa}"/>
+								
+								<h:outputText value="Marca:" style="font-weight:bold"/>
+								<h:outputText value="#{novaReservaBean.selectedRent.carro.marca}"/>
+								
+								<h:outputText value="Ano:" style="font-weight:bold"/>
+								<h:outputText value="#{novaReservaBean.selectedRent.carro.ano}"/>
+								
+								<h:outputText value="Diária:" style="font-weight:bold"/>
+								<h:outputText value="#{novaReservaBean.formatarValoresMonetarios(novaReservaBean.selectedRent.carro.valorDaDiaria)}"/>
+								
+								<h:outputText value="Nº de Portas:" style="font-weight:bold"/>
+								<h:outputText value="#{novaReservaBean.selectedRent.carro.caracteristicas.numeroDePortas}"/>
+
+								<h:outputText value="Nº de Pessoas:" style="font-weight:bold"/>
+								<h:outputText value="#{novaReservaBean.selectedRent.carro.caracteristicas.quantidadeDePessoas}"/>
+
+								<h:outputText value="Transmissão:" style="font-weight:bold"/>
+								<h:outputText value="#{novaReservaBean.selectedRent.carro.caracteristicas.transmissao}"/>
+
+								<h:outputText value="Vidros Elétricos:" style="font-weight:bold"/>
+								<h:outputText value="#{novaReservaBean.selectedRent.carro.caracteristicas.vidroEletrico}"/>
+
+								<h:outputText value="Travas Elétricas :" style="font-weight:bold"/>
+								<h:outputText value="#{novaReservaBean.selectedRent.carro.caracteristicas.travaEletrica}"/>
+								
+								<h:outputText value="Ar Condicionado:" style="font-weight:bold"/>
+								<h:outputText value="#{novaReservaBean.selectedRent.carro.caracteristicas.arCondicionado}"/>
+								
+								<h:outputText value="Dir. Hidraúlica:" style="font-weight:bold"/>
+								<h:outputText value="#{novaReservaBean.selectedRent.carro.caracteristicas.direcaoHidraulica}"/>
+								
+								<h:outputText value="ABS:" style="font-weight:bold"/>
+								<h:outputText value="#{novaReservaBean.selectedRent.carro.caracteristicas.abs}"/>
+								
+								<h:outputText value="Air Bag:" style="font-weight:bold" />
+								<h:outputText value="#{novaReservaBean.selectedRent.carro.caracteristicas.airBag}"/>
+								
+								<h:outputText value="Mala Grande:" style="font-weight:bold"/>
+								<h:outputText value="#{novaReservaBean.selectedRent.carro.caracteristicas.malaGrande}"/>
+								
+								<h:outputText value="Mala Pequena:" style="font-weight:bold"/>
+								<h:outputText value="#{novaReservaBean.selectedRent.carro.caracteristicas.malaPequena}"/>
+								
+							</p:panelGrid>
+						</p:outputPanel>
+					</p:dialog>
+					
+					<!-- START FOOTER -->
+	<footer class="page-footer blue lighten-5">
+		<div class="footer-copyright">
+			<div class="container  center">
+				<a class="indigo darken-4 waves-effect waves-light btn" href="../admin/paginaPrincipalAdmin.xhtml" style="border-radius:5px;">Página Principal</a>
+			</div>
+		</div>
+	</footer>
+	<!-- END FOOTER -->
+		</h:body>
+</html>

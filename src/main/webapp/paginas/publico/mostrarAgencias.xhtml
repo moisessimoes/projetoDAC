@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:jsf="http://xmlns.jcp.org/jsf">
+	
+	
+	 <h:head>
+		<title>Nossas Agências</title> 	
+		<h:outputScript name="locale-primefaces.js" library="js" />
+		
+		<!-- Favicons-->
+  		<link rel="shortcut icon" href="./imagens/logos/favicon (1).ico" />
+		
+		<!-- Compiled and minified CSS -->
+    	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"/>
+    	
+    	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    	
+    	<!-- Compiled and minified JavaScript -->
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    		
+    	 <!-- INCLUDED PLUGIN CSS ON THIS PAGE -->
+  		<link href="js/plugins/prism/prism.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  			
+  		<!-- jQuery Library -->
+    	<script type="text/javascript" src="js/plugins/jquery-1.11.2.min.js"></script>
+    		
+    		
+    	<style>
+    		
+    		body {
+    			background-color: #f5f5f5;
+    		}
+    	
+    		@media only screen and (min-width: 993px) {
+  				.container {
+    				width: 90%;
+  				}
+			}
+    	
+    		.brand-logo {
+    	
+    			height: 80px;
+    			padding: 15px;
+    		}
+    	
+    		.brand-logo img {
+    			height: 100%;
+    		}
+    	
+    	</style>
+		
+	</h:head> 
+	
+																			
+	<h:body>
+	
+	
+		<!-- HEADER -->
+		<header>
+
+		<nav class="indigo darken-4">
+			<div class="nav-wrapper">
+
+				<div class="brand-logo">
+					<a href="#!"> <img
+						src="../../imagens/logos/GTAV-LSCustoms-Logo.png" alt="logo" />
+					</a>
+				</div>
+				<ul class="right hide-on-med-and-down">
+				</ul>
+			</div>
+		</nav>
+	</header>
+	
+	<!-- CONTEUDO -->
+			
+	<h:form id="formAgencias">
+		
+		<div class="row container">
+	
+		<section class="grey lighten-4 col s12 m6 l12">
+			<h5 class="light">Nossas Agências</h5>
+			
+			<ui:repeat var="agency" value="#{novaAgenciaBean.listarAgencias()}">
+			
+			<article class="col s12 l6 xl4">
+
+						<div class="card hoverable indigo darken-1" style="border-radius:20px;">
+							<div class="card-content white-text">
+								<span class="card-title">#{agency.nome}</span>
+								<p>
+									Telefone: #{novaAgenciaBean.formatarTelefone(agency.telefone)}<br/> 
+									Aberto de: #{agency.horarios.diasDaSemanaInicio} às #{agency.horarios.horarioDeAbertura} até #{agency.horarios.diaDaSemanaFim} às #{agency.horarios.horarioDeFechamento}
+								</p>
+							</div>
+							<div class="grey lighten-4 card-action" style="border-radius:20px;">
+								
+								<button class="blue btn waves-effect waves-light modal-trigger" jsf:value="#{agency}" jsf:target="#{novaAgenciaBean.selectedAgency}" style="border-radius:20px;"
+								data-target="modalInfo">Endereço 
+									<p:ajax update="formAgencias:agenciaDetail"/>
+									<f:setPropertyActionListener value="#{agency}" target="#{novaAgenciaBean.selectedAgency}"/>
+								</button>
+								
+							</div>
+
+						</div>
+					</article>
+			</ui:repeat>
+			
+		</section>
+		
+		
+			
+			<!-- INFORMAÇÕES DAS AGENCIAS -->
+			
+			<!-- Modal Structure -->
+		<div id="modalInfo" class="modal">
+		
+			<div class="modal-content">
+			
+				<h4>Endereço da Agência</h4>
+				
+				<p:outputPanel id="agenciaDetail" style="text-align:center;">
+
+					<p:panelGrid columns="2"
+						rendered="#{not empty novaAgenciaBean.selectedAgency}"
+						columnClasses="label,value">
+						<f:facet name="header">
+
+						</f:facet>
+
+						<h:outputText value="CNPJ:" />
+						<h:outputText value="#{novaAgenciaBean.formatarCNPJ(novaAgenciaBean.selectedAgency.cnpj)}" style="font-weight: bold" />
+						
+						<h:outputText value="Cidade:" />
+						<h:outputText value="#{novaAgenciaBean.selectedAgency.endereco.cidade}" style="font-weight: bold" />
+
+						<h:outputText value="Bairro:" />
+						<h:outputText value="#{novaAgenciaBean.selectedAgency.endereco.bairro}" style="font-weight: bold" />
+
+						<h:outputText value="Rua:" />
+						<h:outputText value="#{novaAgenciaBean.selectedAgency.endereco.rua}" style="font-weight: bold" />
+
+						<h:outputText value="Número:" />
+						<h:outputText value="#{novaAgenciaBean.selectedAgency.endereco.numero}" style="font-weight: bold" />
+
+						<h:outputText value="CEP:" />
+						<h:outputText value="#{novaAgenciaBean.selectedAgency.endereco.cep}" style="font-weight: bold" />
+
+					</p:panelGrid>
+				</p:outputPanel>
+				
+			</div>
+			
+			<div class="modal-footer">
+				<a href="#!" class="modal-close waves-effect waves-green btn-flat">Fechar</a>
+			</div>
+			
+			<script>
+				$(document).ready(function(){
+		    	$('.modal').modal();
+		  		});
+
+			</script>
+			
+		</div>
+			
+
+		</div>
+	</h:form>
+	
+	<!-- RODAPÉ -->
+
+	<footer class="page-footer indigo darken-4">
+		<div class="container">
+			<div class="row">
+				<div class="col l6 s12">
+					<h5 class="white-text">LS Customs - Locadora de Veículos</h5>
+					<p class="grey-text text-lighten-4">Este é um projeto da disciplina de 
+						Desenvolvimento de Aplicações Corporativas (DAC), do curso de ADS.</p>
+				</div>
+				<!-- <div class="col l4 offset-l2 s12">
+					<h5 class="white-text">Sobre</h5>
+					<ul>
+						<li><a class="grey-text text-lighten-3" href="../../publico/sobre.xhtml">Sobre o Sistema</a></li>
+					</ul>
+				</div> -->
+			</div>
+		</div>
+		<div class="footer-copyright">
+			<div class="container">
+				© 2020 ADS
+			</div>
+		</div>
+	</footer>
+		
+	</h:body>
+</html>
